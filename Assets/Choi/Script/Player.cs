@@ -33,14 +33,17 @@ namespace Choi
 
         void FixedUpdate()
         {
-            if (!GameManager.IsDeath)
-                MoveForward();
+            if (GameManager.State != GameState.Playing)
+                return;
+
+            MoveForward();
         }
 
-        // ★ Update에서 입력만 감지
+        // Update에서 입력만 감지
         void InputJump()
         {
-            if (GameManager.IsDeath) return;
+            if (GameManager.State != GameState.Playing)
+                return;
 
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             {
@@ -48,7 +51,7 @@ namespace Choi
             }
         }
 
-        // ★ Rigidbody로 점프
+        // Rigidbody로 점프
         void TryJump()
         {
             if (!isGrounded && jumpCount >= maxJumpCount) return;
@@ -63,7 +66,7 @@ namespace Choi
             isGrounded = false;
         }
 
-        // ★ Rigidbody 이동 (물리적으로 자연스러움)
+        // Rigidbody 이동 (물리적으로 자연스러움)
         void MoveForward()
         {
             rb2D.linearVelocity = new Vector2(moveSpeed, rb2D.linearVelocity.y);
@@ -85,11 +88,14 @@ namespace Choi
         public void GameOver()
         {
             GameManager.IsDeath = true;
-            rb2D.linearVelocity = Vector2.zero;  // 즉시 멈춤
-                                                 
-            rb2D.bodyType = RigidbodyType2D.Kinematic; // 충돌되고 벽에 끼는 거 방지
 
-            // 필요하면 애니메이션이나 SFX 추가 가능
+            // 물리 정지
+            rb2D.linearVelocity = Vector2.zero;
+            rb2D.bodyType = RigidbodyType2D.Kinematic;
+
+            // GameManager에 GameOver 상태 전달
+            GameManager.SetState(GameState.GameOver);
+
             Debug.Log("Player Died");
         }
     }
