@@ -4,18 +4,23 @@ namespace Choi
 {
     public class UIManager : MonoBehaviour
     {
+        #region Variables
         public GameObject readyUI;
         public GameObject pauseUI;
         public GameObject gameOverUI;
 
         private static UIManager instance;
         public static UIManager Instance => instance;
+        #endregion
 
+        #region Unity Event Method
         private void Awake()
         {
             instance = this;
         }
+        #endregion
 
+        #region Custom Method
         public void ShowReady()
         {
             readyUI.SetActive(true);
@@ -42,5 +47,6 @@ namespace Choi
         {
             gameOverUI.SetActive(false);
         }
+        #endregion
     }
 }
