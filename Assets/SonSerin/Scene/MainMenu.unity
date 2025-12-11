@@ -1257,12 +1257,12 @@ GameObject:
   - component: {fileID: 1073700233}
   - component: {fileID: 1073700232}
   m_Layer: 5
-  m_Name: CollectionButton
+  m_Name: DiaryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1073700231
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1377,7 +1377,7 @@ GameObject:
   - component: {fileID: 1498915157}
   - component: {fileID: 1498915156}
   m_Layer: 5
-  m_Name: OptionText
+  m_Name: DiaryText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1422,7 +1422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: COLLECTION
+  m_text: DIARY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: adc012de5568747488bc88b43ca64475, type: 2}
   m_sharedMaterial: {fileID: -5549579081243945813, guid: adc012de5568747488bc88b43ca64475, type: 2}
@@ -1759,7 +1759,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1908867303
 RectTransform:
   m_ObjectHideFlags: 0

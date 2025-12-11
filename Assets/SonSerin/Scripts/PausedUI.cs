@@ -28,7 +28,7 @@ namespace Serin
         private void Update()
         {
             //esc 버튼으로 토글
-            if (Input.GetKeyDown(KeyCode.Escape) && thePlayer.activeSelf == true)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Toggle();
             }
