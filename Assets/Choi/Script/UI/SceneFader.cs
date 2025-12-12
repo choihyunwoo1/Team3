@@ -47,13 +47,6 @@ namespace Choi
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             FadeStart();
-
-            // 씬이 재로드될 때마다 GameManager 상태를 Ready로 강제 초기화하여
-            // 항상 Ready UI를 띄우고 키 입력을 기다리도록 합니다.
-            if (GameManager.State != GameState.Ready)
-            {
-                GameManager.SetState(GameState.Ready);
-            }
         }
         //페이드인 시작
         public void FadeStart(float delayTime = 0f)

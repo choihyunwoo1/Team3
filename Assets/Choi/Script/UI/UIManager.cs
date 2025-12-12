@@ -17,6 +17,7 @@ namespace Choi
         #region Unity Event Method
         private void Awake()
         {
+          
             instance = this;
 
             GameManager.SetState(GameState.Ready);
