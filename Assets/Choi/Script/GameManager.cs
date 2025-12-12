@@ -41,10 +41,6 @@ namespace Choi
         #endregion
 
         #region Unity Event Method
-        void Awake()
-        {
-            DontDestroyOnLoad(gameObject);
-        }
         void Start()
         {
             //초기화
