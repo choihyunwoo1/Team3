@@ -53,10 +53,13 @@ namespace Choi
         }
         public void GoToMainMenu()
         {
-            GameManager.IsDeath = false;
-            GameManager.SetState(GameState.Ready);
+            // Pause UI 끄기
+            HidePause();
 
-            SceneFader.Instance.FadeTo("MainMenu");
+            // 게임 다시 진행
+            GameManager.SetState(GameState.Playing);
+
+            SceneFader.FadeTo("MainMenu");
         }
         public void Retry()
         {
@@ -64,7 +67,7 @@ namespace Choi
             GameManager.SetState(GameState.Playing);
 
             string sceneName = SceneManager.GetActiveScene().name;
-            SceneFader.Instance.FadeTo(sceneName);
+            SceneFader.FadeTo(sceneName);
         }
         public void Continue()
         {

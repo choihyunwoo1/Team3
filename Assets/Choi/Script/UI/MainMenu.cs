@@ -21,7 +21,7 @@ namespace Choi
         #region Custom Method
         public void OnPlayButton()
         {
-            fader.FadeTo(loadToScene);
+            SceneFader.FadeTo(loadToScene);
         }
 
         public void OnQuitButton()
