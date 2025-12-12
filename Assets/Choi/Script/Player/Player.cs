@@ -21,6 +21,7 @@ namespace Choi
 
         [SerializeField]private bool isFrontBlocked = false;
         [SerializeField]private bool isGrounded = false;
+        [SerializeField]private bool jumpPressed = false;
         #endregion
 
         #region Unity Event Method
@@ -35,7 +36,8 @@ namespace Choi
 
         void Update()
         {
-            InputJump();
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+                jumpPressed = true;
         }
 
         void FixedUpdate()
@@ -44,6 +46,12 @@ namespace Choi
                 return;
 
             MoveForward();
+
+            if (jumpPressed)
+            {
+                TryJump();
+                jumpPressed = false;
+            }
         }
         private void OnCollisionEnter2D(Collision2D collision)
         {
@@ -56,31 +64,23 @@ namespace Choi
         #endregion
 
         #region Custom Method
-        // Update에서 입력만 감지
-        void InputJump()
-        {
-            if (GameManager.State != GameState.Playing)
-                return;
-
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-            {
-                TryJump();
-            }
-        }
-
         // Rigidbody로 점프
         void TryJump()
         {
-            if (!isGrounded && jumpCount >= maxJumpCount) return;
+            // jumpCount가 maxJumpCount (2) 이상이면 점프 금지 (0, 1은 허용)
+            if (jumpCount >= maxJumpCount)
+            {
+                // 땅에 닿아 있으면 SetGrounded에서 jumpCount=0이 되었을 것이므로 이 조건문을 통과할 것입니다.
+                return;
+            }
 
-            // 점프 초기화
-            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, 0f);
-
-            // 위로 힘 주기
-            rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-
+            // 점프 실행 및 횟수 증가
             jumpCount++;
-            isGrounded = false;
+            isGrounded = false; // 점프하면 무조건 공중
+
+            // 점프 초기화 및 힘 가하기
+            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, 0f);
+            rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
         // Rigidbody 이동 (물리적으로 자연스러움)
@@ -90,7 +90,6 @@ namespace Choi
             if (!isGrounded && isFrontBlocked)
             {
                 rb2D.linearVelocity = new Vector2(0f, rb2D.linearVelocity.y);
-                Debug.Log(">>> Front Blocked & Airborne! Movement Stopped.");
                 return;
             }
 
@@ -108,13 +107,23 @@ namespace Choi
 
             // GameManager에 GameOver 상태 전달
             GameManager.SetState(GameState.GameOver);
+            Destroy(gameObject);
 
             Debug.Log("Player Died");
         }
         public void SetGrounded(bool grounded)
         {
-            isGrounded = grounded;
-            if (grounded) jumpCount = 0;
+            // 공중에서 Collider가 스쳐서 grounded 신호가 들어오더라도
+            // 아래로 떨어지고 있을 때만 진짜 착지로 인정
+            if (grounded && rb2D.linearVelocity.y <= 0.01f)
+            {
+                isGrounded = true;
+                jumpCount = 0;
+            }
+            else if (!grounded)
+            {
+                isGrounded = false;
+            }
         }
 
         public void SetFrontBlocked(bool blocked)

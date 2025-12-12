@@ -39,18 +39,6 @@ namespace Choi
         #endregion
 
         #region Custom Method
-        private void FollowPlayer()
-        {
-            // 플레이어를 향해 x축만 따라가기
-            Vector3 targetPos = new Vector3(player.position.x, transform.position.y, transform.position.z);
-
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                targetPos,
-                speed * Time.deltaTime
-            );
-        }
-
         private void CatchUpIfTooFar()
         {
             // Enemy가 너무 뒤쳐졌으면 순간이동
@@ -69,13 +57,13 @@ namespace Choi
             float offsetY = Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
 
             // Y방향은 플레이어 쪽으로 더 강하게 당기기
-            float yTarget = Mathf.Lerp(transform.position.y, player.position.y, 0.15f);
+            float yTarget = Mathf.Lerp(transform.position.y, player.position.y, 0.15f); // float 키워드 확인
 
             // 약간의 부유효과 추가
             yTarget += offsetY;
 
             // X는 많이 따라오면 바로 잡아버리므로 느리게
-            float xTarget = Mathf.Lerp(transform.position.x, player.position.x, 0.02f);
+            float xTarget = Mathf.Lerp(transform.position.x, player.position.x, 0.02f); // float 키워드 확인
 
             Vector3 target = new Vector3(
                 xTarget,
@@ -86,7 +74,7 @@ namespace Choi
             transform.position = Vector3.Lerp(
                 transform.position,
                 target,
-                0.1f   // 전체 이동 부드럽게
+                0.1f    // 전체 이동 부드럽게
             );
         }
         #endregion
