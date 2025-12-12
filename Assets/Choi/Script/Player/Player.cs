@@ -19,8 +19,8 @@ namespace Choi
         public Collider2D groundCollider;
         public Collider2D frontCollider;
 
-        private bool isFrontBlocked = false;
-        private bool isGrounded = false;
+        [SerializeField]private bool isFrontBlocked = false;
+        [SerializeField]private bool isGrounded = false;
         #endregion
 
         #region Unity Event Method
@@ -45,6 +45,14 @@ namespace Choi
 
             MoveForward();
         }
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.collider.CompareTag("Obstacle"))
+            {
+                GameOver();
+            }
+        }
+
         #endregion
 
         #region Custom Method
@@ -78,28 +86,16 @@ namespace Choi
         // Rigidbody 이동 (물리적으로 자연스러움)
         void MoveForward()
         {
-            // 공중 + 앞 막힘 → 이동 중지
+            // 공중 + 앞이 막힘 → 이동 완전 정지
             if (!isGrounded && isFrontBlocked)
             {
-                rb2D.linearVelocity = new Vector2(0, rb2D.linearVelocity.y);
+                rb2D.linearVelocity = new Vector2(0f, rb2D.linearVelocity.y);
+                Debug.Log(">>> Front Blocked & Airborne! Movement Stopped.");
                 return;
             }
 
-            // 정상 이동
+            // 정상적인 전진 이동
             rb2D.linearVelocity = new Vector2(moveSpeed, rb2D.linearVelocity.y);
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.collider.CompareTag("Ground"))
-            {
-                isGrounded = true;
-                jumpCount = 0;
-            }
-            else if (collision.collider.CompareTag("Obstacle"))
-            {
-                GameOver();
-            }
         }
 
         public void GameOver()

@@ -33,6 +33,7 @@ namespace Choi
             get { return isDeath; }
             set { isDeath = value; }
         }
+
         //현재 상태
         public static GameState State { get; private set; }
         //컷인
@@ -49,9 +50,8 @@ namespace Choi
             //초기화
             isStart = false;
             isDeath = false;
-            //IsCutscenePlaying = false;
+            //IsCutscenePlaying = false
 
-            SetState(GameState.Ready);
         }
         void Update()
         {

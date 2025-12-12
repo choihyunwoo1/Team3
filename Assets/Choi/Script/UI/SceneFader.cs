@@ -14,12 +14,26 @@ namespace Choi
         #region Variables
         public Image img;
         public AnimationCurve curve;
+
+        private static SceneFader instance;
+        public static SceneFader Instance => instance;
         #endregion
 
         #region Unity Event Method
         void Awake()
         {
-            DontDestroyOnLoad(gameObject);
+            if (Instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+
+                // 새 씬 로드될 때마다 FadeIn 자동 실행
+                SceneManager.sceneLoaded += OnSceneLoaded;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
         private void Start()
         {
@@ -29,6 +43,18 @@ namespace Choi
         #endregion
 
         #region Custom Method
+        // 씬 로드 직후 페이드인 호출
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            FadeStart();
+
+            // 씬이 재로드될 때마다 GameManager 상태를 Ready로 강제 초기화하여
+            // 항상 Ready UI를 띄우고 키 입력을 기다리도록 합니다.
+            if (GameManager.State != GameState.Ready)
+            {
+                GameManager.SetState(GameState.Ready);
+            }
+        }
         //페이드인 시작
         public void FadeStart(float delayTime = 0f)
         {

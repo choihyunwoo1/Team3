@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Choi
 {
@@ -17,6 +18,8 @@ namespace Choi
         private void Awake()
         {
             instance = this;
+
+            GameManager.SetState(GameState.Ready);
         }
         #endregion
 
@@ -46,6 +49,31 @@ namespace Choi
         public void HideGameOver()
         {
             gameOverUI.SetActive(false);
+        }
+        public void GoToMainMenu()
+        {
+            GameManager.IsDeath = false;
+            GameManager.SetState(GameState.Ready);
+
+            SceneFader.Instance.FadeTo("MainMenu");
+        }
+        public void Retry()
+        {
+            GameManager.IsDeath = false;
+            GameManager.SetState(GameState.Playing);
+
+            string sceneName = SceneManager.GetActiveScene().name;
+            SceneFader.Instance.FadeTo(sceneName);
+        }
+        public void Continue()
+        {
+            // Pause UI 끄기
+            HidePause();
+
+            // 게임 다시 진행
+            GameManager.SetState(GameState.Playing);
+
+            GameManager.IsDeath = false;  // 혹시 죽은 상태였다면 클리어
         }
         #endregion
     }

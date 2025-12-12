@@ -10,7 +10,7 @@ namespace Choi
     {
         #region Variables
         public SceneFader fader;
-        public string loadToScene = "PlaySceneCopy";
+        public string loadToScene = "PlayScene";
 
         #endregion
 
