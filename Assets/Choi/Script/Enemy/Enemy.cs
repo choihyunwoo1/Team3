@@ -63,7 +63,7 @@ namespace Choi
             yTarget += offsetY;
 
             // X는 많이 따라오면 바로 잡아버리므로 느리게
-            float xTarget = Mathf.Lerp(transform.position.x, player.position.x, 0.02f); // float 키워드 확인
+            float xTarget = Mathf.Lerp(transform.position.x, player.position.x, 0.033f); // float 키워드 확인
 
             Vector3 target = new Vector3(
                 xTarget,
