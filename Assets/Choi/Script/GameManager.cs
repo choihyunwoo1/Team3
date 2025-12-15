@@ -1,140 +1,76 @@
+using Choi;
+using System;
+using System.Collections;
 using UnityEngine;
 
-namespace Choi
+public class GameManager : MonoBehaviour, IGameStateProvider
 {
-    public enum GameState
+    public GameState State { get; private set; } = GameState.Ready;
+    public GameState CurrentState => State;
+
+    public event Action<GameState> OnStateChanged;
+    public event Action<DeathCause> OnGameOver;
+
+    private void Start()
     {
-        Ready,   
-        Playing,
-        Paused,
-        Cutscene,
-        GameOver
+        SetState(GameState.Ready);
+    }
+    private void Update()
+    {
+        // GameOver / Cutscene 중에는 입력 처리 금지
+        if (State == GameState.GameOver ||
+            State == GameState.GameOverCutscene)
+            return; ;
+
+        switch (State)
+        {
+            case GameState.Ready:
+                if (Input.anyKeyDown)
+                    SetState(GameState.Playing);
+                break;
+
+            case GameState.Playing:
+                if (Input.GetKeyDown(KeyCode.Escape))
+                    SetState(GameState.Paused);
+                break;
+
+            case GameState.Paused:
+                if (Input.GetKeyDown(KeyCode.Escape))
+                    SetState(GameState.Playing);
+                break;
+        }
     }
 
-    /// <summary>
-    /// 게임 전체의 흐름을 관리하는 클래스
-    /// </summary>
-    public class GameManager : MonoBehaviour
+    public void SetState(GameState newState)
     {
-        #region Variables
-        //게임오버 체크
-        static bool isStart;
-        static bool isDeath;
-        #endregion
+        if (State == newState)
+            return;
 
-        #region Property
-        public static bool IsStart
-        {
-            get { return isStart; }
-            set {isStart = value;}
-        }
-        public static bool IsDeath
-        {
-            get { return isDeath; }
-            set { isDeath = value; }
-        }
+        State = newState;
+        Time.timeScale = newState == GameState.Playing ? 1f : 0f;
+        OnStateChanged?.Invoke(State);
+    }
 
-        //현재 상태
-        public static GameState State { get; private set; }
-        //컷인
-        //public static bool IsCutscenePlaying { get; private set; }
-        #endregion
+    public void RequestGameOver(DeathCause cause)
+    {
+        Debug.Log("1");
+        Debug.Log($"state:{State}");
+        if (State == GameState.GameOver)
+            return;
 
-        #region Unity Event Method
-        void Start()
-        {
-            //초기화
-            isStart = false;
-            isDeath = false;
-            //IsCutscenePlaying = false
+        Debug.Log("2");
+        SetState(GameState.GameOverCutscene);
+        OnGameOver?.Invoke(cause);
+    }
 
-        }
-        void Update()
-        {
-            if (State == GameState.Ready)
-            {
-                if (Input.anyKeyDown)
-                {
-                    SetState(GameState.Playing);
-                }
-            }
-
-            if (State == GameState.Playing)
-            {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    SetState(GameState.Paused);
-                }
-            }
-            else if (State == GameState.Paused)
-            {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    SetState(GameState.Playing);
-                }
-            }
-
-#if UNITY_EDITOR //유니티 에디터 안에서만 사용가능
-
-            //치팅 - 저장 데이터 삭제
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                PlayerPrefs.DeleteAll();
-            }
-#endif
-        }
-        #endregion
-
-        #region Custom Method
-         public static void SetState(GameState newState)
-         {
-             State = newState;
-
-            // 모든 UI를 초기 비활성화
-            UIManager.Instance.HideReady();
-            UIManager.Instance.HidePause();
-            UIManager.Instance.HideGameOver();
-
-            switch (newState)
-            {
-                case GameState.Ready:
-                    Time.timeScale = 0f;
-                    UIManager.Instance.ShowReady();
-                    break;
-
-                case GameState.Playing:
-                    Time.timeScale = 1f;
-                    UIManager.Instance.HideReady();
-                    break;
-
-                case GameState.Paused:
-                    Time.timeScale = 0f;
-                    UIManager.Instance.ShowPause();
-                    break;
-
-                case GameState.GameOver:
-                    Time.timeScale = 0f;
-                    UIManager.Instance.ShowGameOver();
-                    break;
-            }
-         }
-
-
-        //컷씬중 PAUSE
-        /* public IEnumerator PlayCutscene(System.Action action, float time)
-         {
-             IsCutscenePlaying = true;
-
-             Time.timeScale = 0f; // 전체 정지
-
-             action?.Invoke();    // 컷씬 실행(애니메이션, UI 등)
-
-             yield return new WaitForSecondsRealtime(time);
-
-             Time.timeScale = 1f; // 재개
-             IsCutscenePlaying = false;
-         }*/
-        #endregion
-
+    public void NotifyGameOverCutsceneFinished()
+    {
+        Debug.Log("3");
+        Debug.Log($"state:{State}");
+        if (State != GameState.GameOverCutscene)
+            return;
+        Debug.Log("4");
+        Debug.Log($"state:{State}");
+        SetState(GameState.GameOver);
     }
 }

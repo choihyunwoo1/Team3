@@ -6,43 +6,45 @@ namespace Choi
     {
         #region Variables
         [Header("점프 설정")]
-        public float jumpForce = 7f;
-        private int jumpCount = 0;
-        private int maxJumpCount = 2;
+        [SerializeField] private float jumpForce = 7f;
+        [SerializeField] private int maxJumpCount = 2;
+        private int jumpCount;
 
         [Header("이동 설정")]
-        public float moveSpeed = 5f;
+        [SerializeField] private float moveSpeed = 5f;
 
         private Rigidbody2D rb2D;
         private AudioSource audioSource;
 
-        public Collider2D groundCollider;
-        public Collider2D frontCollider;
+        [SerializeField] private bool isFrontBlocked;
+        [SerializeField] private bool isGrounded;
+        private bool jumpPressed;
 
-        [SerializeField]private bool isFrontBlocked = false;
-        [SerializeField]private bool isGrounded = false;
-        [SerializeField]private bool jumpPressed = false;
+        [SerializeField] private GameManager gameManager;
+        [SerializeField] private CutsceneManager cutsceneManager;
         #endregion
 
         #region Unity Event Method
-        void Start()
+        private void Start()
         {
             rb2D = GetComponent<Rigidbody2D>();
             audioSource = GetComponent<AudioSource>();
 
-            // 최신 물리엔진에서 Sleep 방지
             rb2D.sleepMode = RigidbodySleepMode2D.NeverSleep;
         }
 
-        void Update()
+        private void Update()
         {
+            if (gameManager.State != GameState.Playing)
+                return;
+
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
                 jumpPressed = true;
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
-            if (GameManager.State != GameState.Playing)
+            if (gameManager.State != GameState.Playing)
                 return;
 
             MoveForward();
@@ -53,68 +55,58 @@ namespace Choi
                 jumpPressed = false;
             }
         }
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.collider.CompareTag("Obstacle"))
-            {
-                GameOver();
-            }
-        }
+            if (!collision.collider.CompareTag("Obstacle"))
+                return;
 
+            Die(DeathCause.Trap);
+        }
         #endregion
 
         #region Custom Method
-        // Rigidbody로 점프
-        void TryJump()
+        private void TryJump()
         {
-            // jumpCount가 maxJumpCount (2) 이상이면 점프 금지 (0, 1은 허용)
             if (jumpCount >= maxJumpCount)
-            {
-                // 땅에 닿아 있으면 SetGrounded에서 jumpCount=0이 되었을 것이므로 이 조건문을 통과할 것입니다.
                 return;
-            }
 
-            // 점프 실행 및 횟수 증가
             jumpCount++;
-            isGrounded = false; // 점프하면 무조건 공중
+            isGrounded = false;
 
-            // 점프 초기화 및 힘 가하기
             rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, 0f);
             rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
-        // Rigidbody 이동 (물리적으로 자연스러움)
-        void MoveForward()
+        private void MoveForward()
         {
-            // 공중 + 앞이 막힘 → 이동 완전 정지
             if (!isGrounded && isFrontBlocked)
             {
                 rb2D.linearVelocity = new Vector2(0f, rb2D.linearVelocity.y);
                 return;
             }
 
-            // 정상적인 전진 이동
             rb2D.linearVelocity = new Vector2(moveSpeed, rb2D.linearVelocity.y);
         }
 
-        public void GameOver()
+        public void Die(DeathCause cause)
         {
-            GameManager.IsDeath = true;
+            // 이미 게임 오버 프로세스가 진행 중인 경우 중복 호출 방지 (선택적)
+            if (gameManager.CurrentState != GameState.Playing)
+                return;
 
             // 물리 정지
             rb2D.linearVelocity = Vector2.zero;
             rb2D.bodyType = RigidbodyType2D.Kinematic;
 
-            // GameManager에 GameOver 상태 전달
-            GameManager.SetState(GameState.GameOver);
-            Destroy(gameObject);
+            gameManager.RequestGameOver(cause);
 
-            Debug.Log("Player Died");
+            // 입력 및 중복 처리 방지
+            enabled = false;
         }
+
         public void SetGrounded(bool grounded)
         {
-            // 공중에서 Collider가 스쳐서 grounded 신호가 들어오더라도
-            // 아래로 떨어지고 있을 때만 진짜 착지로 인정
             if (grounded && rb2D.linearVelocity.y <= 0.01f)
             {
                 isGrounded = true;

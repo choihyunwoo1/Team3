@@ -5,43 +5,57 @@ namespace Choi
     public class Enemy : MonoBehaviour
     {
         #region Variables
+        [SerializeField] private float speed = 3f;
 
-        public float speed = 3f;           // 플레이어를 쫓는 속도
-        private Transform player;          // 플레이어 트랜스폼
+        private Transform player;
 
         [SerializeField] private float floatAmplitude = 0.3f;
         [SerializeField] private float floatFrequency = 3f;
+
+        [SerializeField] private GameManager gameManager;
+        [SerializeField] private CutsceneManager cutsceneManager;
         #endregion
 
         #region Unity Event Method
         private void Start()
         {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+            player = GameObject.FindGameObjectWithTag("Player")?.transform;
         }
 
         private void Update()
         {
-            if (GameManager.State != GameState.Playing) return;
+            if (gameManager.State != GameState.Playing)
+                return;
 
             FollowPlayerGhostStyle();
             CatchUpIfTooFar();
         }
 
-        // 트리거 충돌 처리
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
-            {
-                GameManager.SetState(GameState.GameOver);
-                Debug.Log("Enemy caught the Player!");
-            }
+            // 1. 충돌한 오브젝트에서 Player 컴포넌트 가져오기
+            Player playerComponent = other.GetComponent<Player>();
+
+            if (playerComponent == null)
+                return;
+
+            // 2. Player 인스턴스에서 Die 메서드 호출 및 DeathCause 전달
+            // 적(Enemy)에 의한 사망이므로 DeathCause.EnemyA를 사용합니다.
+            playerComponent.Die(DeathCause.EnemyA); // <--- 이 부분이 핵심!
+
+            Debug.Log("Enemy caught the Player!");
+
+            // (선택 사항: Enemy도 파괴 또는 비활성화 처리)
+            gameObject.SetActive(false);
         }
         #endregion
 
         #region Custom Method
         private void CatchUpIfTooFar()
         {
-            // Enemy가 너무 뒤쳐졌으면 순간이동
+            if (player == null)
+                return;
+
             if (player.position.x - transform.position.x > 10f)
             {
                 transform.position = new Vector3(
@@ -51,30 +65,32 @@ namespace Choi
                 );
             }
         }
+
         private void FollowPlayerGhostStyle()
         {
-            // 부유하는 Y 오프셋 그대로 사용
+            if (player == null)
+                return;
+
             float offsetY = Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
 
-            // Y방향은 플레이어 쪽으로 더 강하게 당기기
-            float yTarget = Mathf.Lerp(transform.position.y, player.position.y, 0.15f); // float 키워드 확인
+            float yTarget = Mathf.Lerp(
+                transform.position.y,
+                player.position.y,
+                0.15f
+            ) + offsetY;
 
-            // 약간의 부유효과 추가
-            yTarget += offsetY;
-
-            // X는 많이 따라오면 바로 잡아버리므로 느리게
-            float xTarget = Mathf.Lerp(transform.position.x, player.position.x, 0.033f); // float 키워드 확인
-
-            Vector3 target = new Vector3(
-                xTarget,
-                yTarget,
-                transform.position.z
+            float xTarget = Mathf.Lerp(
+                transform.position.x,
+                player.position.x,
+                0.033f
             );
+
+            Vector3 target = new Vector3(xTarget, yTarget, transform.position.z);
 
             transform.position = Vector3.Lerp(
                 transform.position,
                 target,
-                0.1f    // 전체 이동 부드럽게
+                0.1f
             );
         }
         #endregion

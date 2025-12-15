@@ -5,80 +5,63 @@ namespace Choi
 {
     public class UIManager : MonoBehaviour
     {
-        #region Variables
-        public GameObject readyUI;
-        public GameObject pauseUI;
-        public GameObject gameOverUI;
+        [SerializeField] private GameManager gameManager;
 
-        private static UIManager instance;
-        public static UIManager Instance => instance;
-        #endregion
+        [Header("UI")]
+        [SerializeField] private GameObject readyUI;
+        [SerializeField] private GameObject pauseUI;
+        [SerializeField] private GameObject gameOverUI;
 
-        #region Unity Event Method
-        private void Awake()
+        private void OnEnable()
         {
-          
-            instance = this;
+            gameManager.OnStateChanged += HandleState;
 
-            GameManager.SetState(GameState.Ready);
+            // 현재 상태 즉시 반영 (중요)
+            HandleState(gameManager.State);
         }
-        #endregion
 
-        #region Custom Method
-        public void ShowReady()
+        private void OnDisable()
         {
-            readyUI.SetActive(true);
+            gameManager.OnStateChanged -= HandleState;
         }
-        public void HideReady()
+
+        private void HandleState(GameState state)
         {
             readyUI.SetActive(false);
-        }
-
-        public void ShowPause()
-        {
-            pauseUI.SetActive(true);
-        }
-        public void HidePause()
-        {
             pauseUI.SetActive(false);
-        }
-
-        public void ShowGameOver()
-        {
-            gameOverUI.SetActive(true);
-        }
-        public void HideGameOver()
-        {
             gameOverUI.SetActive(false);
-        }
-        public void GoToMainMenu()
-        {
-            // Pause UI 끄기
-            HidePause();
 
-            // 게임 다시 진행
-            GameManager.SetState(GameState.Playing);
+            switch (state)
+            {
+                case GameState.Ready:
+                    readyUI.SetActive(true);
+                    break;
 
-            SceneFader.FadeTo("MainMenu");
+                case GameState.Paused:
+                    pauseUI.SetActive(true);
+                    break;
+
+                case GameState.GameOver:
+                    gameOverUI.SetActive(true);
+                    break;
+            }
         }
+
         public void Retry()
         {
-            GameManager.IsDeath = false;
-            GameManager.SetState(GameState.Playing);
-
-            string sceneName = SceneManager.GetActiveScene().name;
-            SceneFader.FadeTo(sceneName);
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("PlayScene");
         }
+
+        public void GoToMainMenu()
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("MainMenu");
+        }
+
         public void Continue()
         {
-            // Pause UI 끄기
-            HidePause();
-
-            // 게임 다시 진행
-            GameManager.SetState(GameState.Playing);
-
-            GameManager.IsDeath = false;  // 혹시 죽은 상태였다면 클리어
+            gameManager.SetState(GameState.Playing);
         }
-        #endregion
     }
 }
