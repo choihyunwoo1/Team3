@@ -10,7 +10,7 @@ namespace Team3
         {
             if (other.CompareTag("Player"))
             {
-                animator.SetTrigger("BTrigger");
+                animator.SetTrigger("OnTrigger");
 
                 Destroy(gameObject);
             }
