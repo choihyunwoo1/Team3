@@ -2,10 +2,17 @@ using UnityEngine;
 
 namespace Choi
 {
+    public enum EnemyBuffType
+    {
+        SpeedUp,
+        ScaleUp,
+        LaserBeam,
+    }
     public class Enemy : MonoBehaviour
     {
         #region Variables
         [SerializeField] private float speed = 3f;
+        [SerializeField] private float maxScale = 4f;
 
         private Transform player;
 
@@ -14,6 +21,10 @@ namespace Choi
 
         [SerializeField] private GameManager gameManager;
         [SerializeField] private CutsceneManager cutsceneManager;
+
+        [Header("보스 강화 상태")]
+        private bool isSpeedBuffed;
+        private bool isScaleBuffed;
         #endregion
 
         #region Unity Event Method
@@ -82,16 +93,46 @@ namespace Choi
             float xTarget = Mathf.Lerp(
                 transform.position.x,
                 player.position.x,
-                0.033f
+                speed * Time.deltaTime
             );
 
             Vector3 target = new Vector3(xTarget, yTarget, transform.position.z);
 
             transform.position = Vector3.Lerp(
-                transform.position,
-                target,
-                0.1f
+             transform.position,
+             target,
+             speed * Time.deltaTime
             );
+        }
+        public void ApplyBuff(EnemyBuffType type, float value)
+        {
+            switch (type)
+            {
+                case EnemyBuffType.SpeedUp:
+                    if (isSpeedBuffed)
+                        return;
+
+                    speed *= value;
+                    isSpeedBuffed = true;
+                    break;
+
+                case EnemyBuffType.ScaleUp:
+                    if (isScaleBuffed)
+                        return;
+
+                    IncreaseScale(value);
+                    isScaleBuffed = true;
+                    break;
+            }
+        }
+        public void IncreaseScale(float scaleMultiplier)
+        {
+            Vector3 newScale = transform.localScale * scaleMultiplier;
+
+            if (newScale.x > maxScale)
+                newScale = Vector3.one * maxScale;
+
+            transform.localScale = newScale;
         }
         #endregion
     }

@@ -1,76 +1,89 @@
-using Choi;
 using System;
 using System.Collections;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour, IGameStateProvider
+namespace Choi
 {
-    public GameState State { get; private set; } = GameState.Ready;
-    public GameState CurrentState => State;
-
-    public event Action<GameState> OnStateChanged;
-    public event Action<DeathCause> OnGameOver;
-
-    private void Start()
+    public class GameManager : MonoBehaviour, IGameStateProvider
     {
-        SetState(GameState.Ready);
-    }
-    private void Update()
-    {
-        // GameOver / Cutscene 중에는 입력 처리 금지
-        if (State == GameState.GameOver ||
-            State == GameState.GameOverCutscene)
-            return; ;
+        #region Variables
+        public GameState State { get; private set; } = GameState.Ready;
+        public GameState CurrentState => State;
 
-        switch (State)
+        public event Action<GameState> OnStateChanged;
+        public event Action<DeathCause> OnGameOver;
+        [SerializeField] private Enemy enemy;
+        #endregion
+
+        #region Unity Event Method
+        private void Start()
         {
-            case GameState.Ready:
-                if (Input.anyKeyDown)
-                    SetState(GameState.Playing);
-                break;
-
-            case GameState.Playing:
-                if (Input.GetKeyDown(KeyCode.Escape))
-                    SetState(GameState.Paused);
-                break;
-
-            case GameState.Paused:
-                if (Input.GetKeyDown(KeyCode.Escape))
-                    SetState(GameState.Playing);
-                break;
+            SetState(GameState.Ready);
         }
-    }
+        private void Update()
+        {
+            // GameOver / Cutscene 중에는 입력 처리 금지
+            if (State == GameState.GameOver ||
+                State == GameState.GameOverCutscene)
+                return; ;
 
-    public void SetState(GameState newState)
-    {
-        if (State == newState)
-            return;
+            switch (State)
+            {
+                case GameState.Ready:
+                    if (Input.anyKeyDown)
+                        SetState(GameState.Playing);
+                    break;
 
-        State = newState;
-        Time.timeScale = newState == GameState.Playing ? 1f : 0f;
-        OnStateChanged?.Invoke(State);
-    }
+                case GameState.Playing:
+                    if (Input.GetKeyDown(KeyCode.Escape))
+                        SetState(GameState.Paused);
+                    break;
 
-    public void RequestGameOver(DeathCause cause)
-    {
-        Debug.Log("1");
-        Debug.Log($"state:{State}");
-        if (State == GameState.GameOver)
-            return;
+                case GameState.Paused:
+                    if (Input.GetKeyDown(KeyCode.Escape))
+                        SetState(GameState.Playing);
+                    break;
+            }
+        }
+        #endregion
 
-        Debug.Log("2");
-        SetState(GameState.GameOverCutscene);
-        OnGameOver?.Invoke(cause);
-    }
+        #region Custom Method
+        public void SetState(GameState newState)
+        {
+            if (State == newState)
+                return;
 
-    public void NotifyGameOverCutsceneFinished()
-    {
-        Debug.Log("3");
-        Debug.Log($"state:{State}");
-        if (State != GameState.GameOverCutscene)
-            return;
-        Debug.Log("4");
-        Debug.Log($"state:{State}");
-        SetState(GameState.GameOver);
+            State = newState;
+            Time.timeScale = newState == GameState.Playing ? 1f : 0f;
+            OnStateChanged?.Invoke(State);
+        }
+
+        public void RequestGameOver(DeathCause cause)
+        {
+            Debug.Log("1");
+            Debug.Log($"state:{State}");
+            if (State == GameState.GameOver)
+                return;
+
+            Debug.Log("2");
+            SetState(GameState.GameOverCutscene);
+            OnGameOver?.Invoke(cause);
+        }
+
+        public void NotifyGameOverCutsceneFinished()
+        {
+            Debug.Log("3");
+            Debug.Log($"state:{State}");
+            if (State != GameState.GameOverCutscene)
+                return;
+            Debug.Log("4");
+            Debug.Log($"state:{State}");
+            SetState(GameState.GameOver);
+        }
+        public void BuffEnemy(EnemyBuffType type, float value)
+        {
+            enemy.ApplyBuff(type, value);
+        }
+        #endregion
     }
 }

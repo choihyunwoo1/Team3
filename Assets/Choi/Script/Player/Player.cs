@@ -22,6 +22,7 @@ namespace Choi
 
         [SerializeField] private GameManager gameManager;
         [SerializeField] private CutsceneManager cutsceneManager;
+        [SerializeField] private int moveDirection = 1;
         #endregion
 
         #region Unity Event Method
@@ -86,9 +87,12 @@ namespace Choi
                 return;
             }
 
-            rb2D.linearVelocity = new Vector2(moveSpeed, rb2D.linearVelocity.y);
+            rb2D.linearVelocity = new Vector2(moveSpeed * moveDirection, rb2D.linearVelocity.y);
         }
-
+        public void ReverseDirection()
+        {
+            moveDirection = -1;
+        }
         public void Die(DeathCause cause)
         {
             // 이미 게임 오버 프로세스가 진행 중인 경우 중복 호출 방지 (선택적)

@@ -1,45 +1,55 @@
 using UnityEngine;
-using Choi;
 
-public abstract class PickupItem : MonoBehaviour
+namespace Choi
 {
-    [SerializeField] private MonoBehaviour stateProvider;
-
-    private IGameStateProvider gameState;
-    private bool isConsumed;
-
-    protected virtual void Awake()
+    public abstract class PickupItem : MonoBehaviour
     {
-        gameState = stateProvider as IGameStateProvider;
+        #region Variables
+        [SerializeField] private MonoBehaviour stateProvider;
+        [SerializeField] private GameManager gameManager;
+        protected GameManager GameManager => gameManager;
 
-        if (gameState == null)
+        private IGameStateProvider gameState;
+        private bool isConsumed;
+        #endregion
+
+        #region Unity Event Method
+        protected virtual void Awake()
         {
-            Debug.LogError(
-                $"{name} : stateProvider does not implement IGameStateProvider",
-                this
-            );
+            gameState = stateProvider as IGameStateProvider;
+
+            if (gameState == null)
+            {
+                Debug.LogError(
+                    $"{name} : stateProvider does not implement IGameStateProvider",
+                    this
+                );
+            }
         }
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (isConsumed)
-            return;
-
-        if (gameState != null &&
-            gameState.CurrentState != GameState.Playing)
-            return;
-
-        Player player = collision.GetComponent<Player>();
-        if (player == null)
-            return;
-
-        if (PickUp(player))
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            isConsumed = true;
-            Destroy(gameObject);
-        }
-    }
+            if (isConsumed)
+                return;
 
-    protected abstract bool PickUp(Player player);
+            if (gameState != null &&
+                gameState.CurrentState != GameState.Playing)
+                return;
+
+            Player player = collision.GetComponent<Player>();
+            if (player == null)
+                return;
+
+            if (PickUp(player))
+            {
+                isConsumed = true;
+                Destroy(gameObject);
+            }
+        }
+        #endregion
+
+        #region custom Method
+        protected abstract bool PickUp(Player player);
+        #endregion
+    }
 }
