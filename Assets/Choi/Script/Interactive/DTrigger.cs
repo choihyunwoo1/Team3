@@ -4,7 +4,10 @@ namespace Choi
 {
     public class DTrigger : MonoBehaviour
     {
-        private bool triggered = false;
+        [SerializeField] private Enemy enemy;
+        [SerializeField] private Transform waypoint;
+
+        private bool triggered;
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -15,10 +18,10 @@ namespace Choi
             if (player == null)
                 return;
 
-            player.ReverseDirection();
             triggered = true;
 
-            // 필요하면 트리거 제거
+            enemy.GoToWaypoint(waypoint);
+
             gameObject.SetActive(false);
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Choi
@@ -8,6 +9,11 @@ namespace Choi
         SpeedUp,
         ScaleUp,
         LaserBeam,
+    }
+    public enum EnemyMoveState
+    {
+        Chasing,
+        MovingToWaypoint
     }
     public class Enemy : MonoBehaviour
     {
@@ -23,10 +29,21 @@ namespace Choi
         [SerializeField] private GameManager gameManager;
         [SerializeField] private CutsceneManager cutsceneManager;
 
+        private EnemyMoveState moveState = EnemyMoveState.Chasing;
+        private Transform waypointTarget;
+
         [Header("보스 원래 상태")]
         private float baseSpeed;
         private Vector3 baseScale;
         private EnemyBuffType currentBuff = EnemyBuffType.None;
+
+        [Header("Laser Beam")]
+        [SerializeField] private LaserBeam laserBeam;
+        [SerializeField] private Transform firePoint;
+        [SerializeField] private float laserDuration = 3f;
+
+        private float laserTimer;
+        private bool isFiringLaser;
         #endregion
 
         #region Unity Event Method
@@ -46,8 +63,17 @@ namespace Choi
             if (gameManager.State != GameState.Playing)
                 return;
 
-            FollowPlayerGhostStyle();
-            CatchUpIfTooFar();
+            switch (moveState)
+            {
+                case EnemyMoveState.MovingToWaypoint:
+                    MoveToWaypoint();
+                    break;
+
+                case EnemyMoveState.Chasing:
+                    FollowPlayerGhostStyle();
+                    CatchUpIfTooFar();
+                    break;
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -128,6 +154,10 @@ namespace Choi
                 case EnemyBuffType.ScaleUp:
                     IncreaseScale(value);
                     break;
+
+                case EnemyBuffType.LaserBeam:
+                    StartLaser();
+                    break;
             }
 
             currentBuff = type;
@@ -143,6 +173,10 @@ namespace Choi
                 case EnemyBuffType.ScaleUp:
                     transform.localScale = baseScale;
                     break;
+
+                case EnemyBuffType.LaserBeam:
+                    StopLaser();
+                    break;
             }
 
             currentBuff = EnemyBuffType.None;
@@ -156,6 +190,65 @@ namespace Choi
 
             transform.localScale = newScale;
         }
+     
+        private void HandleLaserDuration()
+        {
+            laserTimer += Time.deltaTime;
+
+            if (laserTimer >= laserDuration)
+            {
+                StopLaser();
+            }
+        }
+        private void StartLaser()
+        {
+            if (laserBeam == null || firePoint == null)
+                return;
+
+            isFiringLaser = true;
+            laserTimer = 0f;
+
+            laserBeam.transform.position = firePoint.position;
+            laserBeam.transform.rotation = firePoint.rotation;
+            laserBeam.gameObject.SetActive(true);
+        }
+        
+        private void StopLaser()
+        {
+            isFiringLaser = false;
+            laserBeam.gameObject.SetActive(false);
+        }
+        public void GoToWaypoint(Transform waypoint)
+        {
+            if (waypoint == null)
+                return;
+
+            waypointTarget = waypoint;
+            moveState = EnemyMoveState.MovingToWaypoint;
+        }
+        private void MoveToWaypoint()
+        {
+            if (waypointTarget == null)
+            {
+                moveState = EnemyMoveState.Chasing;
+                return;
+            }
+
+            float step = speed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                waypointTarget.position,
+                step
+            );
+
+            float distance = Vector3.Distance(transform.position, waypointTarget.position);
+            if (distance < 0.1f)
+            {
+                waypointTarget = null;
+                moveState = EnemyMoveState.Chasing;
+            }
+        }
+
         #endregion
     }
 }
