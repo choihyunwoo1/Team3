@@ -4,6 +4,7 @@ namespace Choi
 {
     public enum EnemyBuffType
     {
+        None,
         SpeedUp,
         ScaleUp,
         LaserBeam,
@@ -22,12 +23,19 @@ namespace Choi
         [SerializeField] private GameManager gameManager;
         [SerializeField] private CutsceneManager cutsceneManager;
 
-        [Header("보스 강화 상태")]
-        private bool isSpeedBuffed;
-        private bool isScaleBuffed;
+        [Header("보스 원래 상태")]
+        private float baseSpeed;
+        private Vector3 baseScale;
+        private EnemyBuffType currentBuff = EnemyBuffType.None;
         #endregion
 
         #region Unity Event Method
+        private void Awake()
+        {
+            //초기화
+            baseSpeed = speed;
+            baseScale = transform.localScale;
+        }
         private void Start()
         {
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
@@ -106,24 +114,38 @@ namespace Choi
         }
         public void ApplyBuff(EnemyBuffType type, float value)
         {
+            if (currentBuff == type)
+                return;
+
+            RemoveCurrentBuff();
+
             switch (type)
             {
                 case EnemyBuffType.SpeedUp:
-                    if (isSpeedBuffed)
-                        return;
-
                     speed *= value;
-                    isSpeedBuffed = true;
                     break;
 
                 case EnemyBuffType.ScaleUp:
-                    if (isScaleBuffed)
-                        return;
-
                     IncreaseScale(value);
-                    isScaleBuffed = true;
                     break;
             }
+
+            currentBuff = type;
+        }
+        private void RemoveCurrentBuff()
+        {
+            switch (currentBuff)
+            {
+                case EnemyBuffType.SpeedUp:
+                    speed = baseSpeed;
+                    break;
+
+                case EnemyBuffType.ScaleUp:
+                    transform.localScale = baseScale;
+                    break;
+            }
+
+            currentBuff = EnemyBuffType.None;
         }
         public void IncreaseScale(float scaleMultiplier)
         {

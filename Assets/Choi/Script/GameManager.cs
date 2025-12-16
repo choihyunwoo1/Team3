@@ -60,24 +60,17 @@ namespace Choi
 
         public void RequestGameOver(DeathCause cause)
         {
-            Debug.Log("1");
-            Debug.Log($"state:{State}");
             if (State == GameState.GameOver)
                 return;
 
-            Debug.Log("2");
             SetState(GameState.GameOverCutscene);
             OnGameOver?.Invoke(cause);
         }
 
         public void NotifyGameOverCutsceneFinished()
         {
-            Debug.Log("3");
-            Debug.Log($"state:{State}");
             if (State != GameState.GameOverCutscene)
                 return;
-            Debug.Log("4");
-            Debug.Log($"state:{State}");
             SetState(GameState.GameOver);
         }
         public void BuffEnemy(EnemyBuffType type, float value)
