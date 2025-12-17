@@ -9,6 +9,8 @@ namespace JS
         SpeedUp,
         ScaleUp,
         LaserBeam,
+        Punch,
+
     }
     public enum EnemyMoveState
     {
@@ -44,6 +46,12 @@ namespace JS
 
         private float laserTimer;
         private bool isFiringLaser;
+
+        [Header("Punch")]
+        //펀치 프리팹
+        public GameObject punchPrefab;
+        //펀치 지점
+        public Transform punchPoint;
         #endregion
 
         #region Unity Event Method
@@ -247,6 +255,12 @@ namespace JS
                 waypointTarget = null;
                 moveState = EnemyMoveState.Chasing;
             }
+        }
+
+        //펀치 발사
+        public void PunchDown()
+        {
+            GameObject punchGo = Instantiate(punchPrefab, punchPoint.position, punchPrefab.transform.rotation);
         }
 
         #endregion
