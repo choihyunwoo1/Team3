@@ -7,6 +7,7 @@ namespace Choi
         public Player player;
         [SerializeField] bool isWall = false;
 
+
         private void OnTriggerStay2D(Collider2D other)
         {
             isWall = true;

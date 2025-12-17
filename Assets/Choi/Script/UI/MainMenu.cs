@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Choi
 {
@@ -12,6 +11,7 @@ namespace Choi
         public SceneFader fader;
         public string loadToScene = "PlayScene";
 
+        public GameObject diaryUI;
         #endregion
 
         #region Unity Event Method
@@ -22,6 +22,15 @@ namespace Choi
         public void OnPlayButton()
         {
             SceneFader.FadeTo(loadToScene);
+        }
+
+        public void OpenDiary()
+        {
+            diaryUI.SetActive(true);
+        }
+        public void CloseDiary()
+        {
+            diaryUI.SetActive(false);
         }
 
         public void OnQuitButton()
