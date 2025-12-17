@@ -91,7 +91,7 @@ namespace Choi
         }
         public void ReverseDirection()
         {
-            moveDirection = -1;
+            moveDirection *= -1;
         }
         public void Die(DeathCause cause)
         {

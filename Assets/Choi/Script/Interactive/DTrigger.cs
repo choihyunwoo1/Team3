@@ -20,8 +20,13 @@ namespace Choi
 
             triggered = true;
 
+            // 플레이어 방향 반전
+            player.ReverseDirection();
+
+            // 적 이동 수행
             enemy.GoToWaypoint(waypoint);
 
+            // 트리거 비활성화
             gameObject.SetActive(false);
         }
     }
