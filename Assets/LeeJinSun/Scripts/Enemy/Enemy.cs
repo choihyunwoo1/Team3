@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace JS
@@ -47,11 +46,16 @@ namespace JS
         private float laserTimer;
         private bool isFiringLaser;
 
-        [Header("Punch")]
-        //펀치 프리팹
-        public GameObject punchPrefab;
-        //펀치 지점
-        public Transform punchPoint;
+        [Header("Punch Settings")]
+        public GameObject punchPrefab;     // 떨어뜨릴 펀치 프리팹
+        public Transform punchPoint;       // 보스의 자식 또는 별도 오브젝트
+        [SerializeField] private float punchFollowSmoothness = 10f;
+        [SerializeField] private float minWaitTime = 1.5f;
+        [SerializeField] private float maxWaitTime = 3f;
+        [SerializeField] private float punchHeight = 6f; // 펀치가 생성될 높이
+
+        private float punchTimer;
+        private bool isPunchingMode = true; // 현재 펀치 버프 중인지
         #endregion
 
         #region Unity Event Method
@@ -60,10 +64,15 @@ namespace JS
             //초기화
             baseSpeed = speed;
             baseScale = transform.localScale;
+
+            // 테스트용 치트키
+            ApplyBuff(EnemyBuffType.Punch, 0);
         }
         private void Start()
         {
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
+            //펀치 랜덤 타이머 세팅
+            SetRandomPunchTimer();
         }
 
         private void Update()
@@ -77,10 +86,18 @@ namespace JS
                     MoveToWaypoint();
                     break;
 
-                case EnemyMoveState.Chasing:
+                case EnemyMoveState.Chasing:                    
                     FollowPlayerGhostStyle();
                     CatchUpIfTooFar();
                     break;
+
+            }
+
+            //펀치 타이머 처리
+            if (isPunchingMode)
+            {
+                UpdatePunchPointPosition();
+                HandlePunchCycle();
             }
         }
 
@@ -166,6 +183,9 @@ namespace JS
                 case EnemyBuffType.LaserBeam:
                     StartLaser();
                     break;
+                case EnemyBuffType.Punch:
+                    StartPunch();
+                    break;
             }
 
             currentBuff = type;
@@ -184,6 +204,9 @@ namespace JS
 
                 case EnemyBuffType.LaserBeam:
                     StopLaser();
+                    break;
+                case EnemyBuffType.Punch:
+                    StopPunch();
                     break;
             }
 
@@ -258,11 +281,51 @@ namespace JS
         }
 
         //펀치 발사
-        public void PunchDown()
+        private void StartPunch()
         {
-            GameObject punchGo = Instantiate(punchPrefab, punchPoint.position, punchPrefab.transform.rotation);
+            isPunchingMode = true;
+            SetRandomPunchTimer(); // 첫 타이머 설정
+
         }
 
+        private void StopPunch()
+        {
+            isPunchingMode = false;
+            punchPoint.gameObject.SetActive(false);
+        }
+
+        // 매 프레임 타이머 계산 및 발사
+        private void UpdatePunchPointPosition()
+        {
+            if (player == null || punchPoint == null) return;
+
+            // PunchPoint는 Enemy의 위치와 상관없이 플레이어의 X값만 부드럽게 추적
+            float targetX = Mathf.Lerp(punchPoint.position.x, player.position.x, Time.deltaTime * punchFollowSmoothness);
+
+            // Y값은 맵의 상단(플레이어 위쪽 일정 높이)에 고정
+            punchPoint.position = new Vector3(targetX, punchHeight, 0f);
+        }
+
+        private void HandlePunchCycle()
+        {
+            punchTimer -= Time.deltaTime;
+            if (punchTimer <= 0f)
+            {
+                ExecutePunch();
+                SetRandomPunchTimer();
+            }
+        }
+
+        private void SetRandomPunchTimer() => punchTimer = Random.Range(minWaitTime, maxWaitTime);
+
+        private void ExecutePunch()
+        {
+            if (punchPrefab != null && punchPoint != null)
+            {
+                // PunchPoint의 현재 위치에서 펀치 생성
+                Instantiate(punchPrefab, punchPoint.position, Quaternion.identity);
+            }
+        }
         #endregion
     }
 }
