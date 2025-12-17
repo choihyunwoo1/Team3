@@ -10,7 +10,7 @@ namespace JS
     {
         #region Variables
         public SceneFader fader;
-        public string loadToScene = "PlaySceneCopy";
+        public string loadToScene = "PlayScene";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace JS
         #region Custom Method
         public void OnPlayButton()
         {
-            fader.FadeTo(loadToScene);
+            SceneFader.FadeTo(loadToScene);
         }
 
         public void OnQuitButton()

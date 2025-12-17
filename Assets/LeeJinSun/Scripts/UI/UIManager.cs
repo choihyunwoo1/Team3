@@ -1,46 +1,67 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace JS
 {
     public class UIManager : MonoBehaviour
     {
-        public GameObject readyUI;
-        public GameObject pauseUI;
-        public GameObject gameOverUI;
+        [SerializeField] private GameManager gameManager;
 
-        private static UIManager instance;
-        public static UIManager Instance => instance;
+        [Header("UI")]
+        [SerializeField] private GameObject readyUI;
+        [SerializeField] private GameObject pauseUI;
+        [SerializeField] private GameObject gameOverUI;
 
-        private void Awake()
+        private void OnEnable()
         {
-            instance = this;
+            gameManager.OnStateChanged += HandleState;
+
+            // 현재 상태 즉시 반영 (중요)
+            HandleState(gameManager.State);
         }
 
-        public void ShowReady()
+        private void OnDisable()
         {
-            readyUI.SetActive(true);
+            gameManager.OnStateChanged -= HandleState;
         }
-        public void HideReady()
+
+        private void HandleState(GameState state)
         {
             readyUI.SetActive(false);
-        }
-
-        public void ShowPause()
-        {
-            pauseUI.SetActive(true);
-        }
-        public void HidePause()
-        {
             pauseUI.SetActive(false);
+            gameOverUI.SetActive(false);
+
+            switch (state)
+            {
+                case GameState.Ready:
+                    readyUI.SetActive(true);
+                    break;
+
+                case GameState.Paused:
+                    pauseUI.SetActive(true);
+                    break;
+
+                case GameState.GameOver:
+                    gameOverUI.SetActive(true);
+                    break;
+            }
         }
 
-        public void ShowGameOver()
+        public void Retry()
         {
-            gameOverUI.SetActive(true);
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("PlayScene");
         }
-        public void HideGameOver()
+
+        public void GoToMainMenu()
         {
-            gameOverUI.SetActive(false);
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("MainMenu");
+        }
+
+        public void Continue()
+        {
+            gameManager.SetState(GameState.Playing);
         }
     }
 }

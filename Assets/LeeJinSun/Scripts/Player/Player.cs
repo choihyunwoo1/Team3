@@ -6,115 +6,120 @@ namespace JS
     {
         #region Variables
         [Header("점프 설정")]
-        public float jumpForce = 7f;
-        private int jumpCount = 0;
-        private int maxJumpCount = 2;
+        [SerializeField] private float jumpForce = 7f;
+        [SerializeField] private int maxJumpCount = 2;
+        private int jumpCount;
 
         [Header("이동 설정")]
-        public float moveSpeed = 5f;
+        [SerializeField] private float moveSpeed = 5f;
 
         private Rigidbody2D rb2D;
         private AudioSource audioSource;
 
-        public Collider2D groundCollider;
-        public Collider2D frontCollider;
+        [SerializeField] private bool isFrontBlocked;
+        [SerializeField] private bool isGrounded;
+        private bool jumpPressed;
 
-        [SerializeField]private bool isFrontBlocked = false;
-        [SerializeField]private bool isGrounded = false;
+        [SerializeField] private GameManager gameManager;
+        [SerializeField] private CutsceneManager cutsceneManager;
+        [SerializeField] private int moveDirection = 1;
         #endregion
 
         #region Unity Event Method
-        void Start()
+        private void Start()
         {
             rb2D = GetComponent<Rigidbody2D>();
             audioSource = GetComponent<AudioSource>();
 
-            // 최신 물리엔진에서 Sleep 방지
             rb2D.sleepMode = RigidbodySleepMode2D.NeverSleep;
         }
 
-        void Update()
+        private void Update()
         {
-            InputJump();
-        }
-
-        void FixedUpdate()
-        {
-            if (GameManager.State != GameState.Playing)
-                return;
-
-            MoveForward();
-        }
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.collider.CompareTag("Obstacle"))
-            {
-                GameOver();
-            }
-        }
-
-        #endregion
-
-        #region Custom Method
-        // Update에서 입력만 감지
-        void InputJump()
-        {
-            if (GameManager.State != GameState.Playing)
+            if (gameManager.State != GameState.Playing)
                 return;
 
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+                jumpPressed = true;
+        }
+
+        private void FixedUpdate()
+        {
+            if (gameManager.State != GameState.Playing)
+                return;
+
+            MoveForward();
+
+            if (jumpPressed)
             {
                 TryJump();
+                jumpPressed = false;
             }
         }
 
-        // Rigidbody로 점프
-        void TryJump()
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (!isGrounded && jumpCount >= maxJumpCount) return;
+            if (!collision.collider.CompareTag("Obstacle"))
+                return;
 
-            // 점프 초기화
-            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, 0f);
+            Die(DeathCause.Trap);
+        }
+        #endregion
 
-            // 위로 힘 주기
-            rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        #region Custom Method
+        private void TryJump()
+        {
+            if (jumpCount >= maxJumpCount)
+                return;
 
             jumpCount++;
             isGrounded = false;
+
+            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, 0f);
+            rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
-        // Rigidbody 이동 (물리적으로 자연스러움)
-        void MoveForward()
+        private void MoveForward()
         {
-            // 공중 + 앞이 막힘 → 이동 완전 정지
             if (!isGrounded && isFrontBlocked)
             {
                 rb2D.linearVelocity = new Vector2(0f, rb2D.linearVelocity.y);
-                Debug.Log(">>> Front Blocked & Airborne! Movement Stopped.");
                 return;
             }
 
-            // 정상적인 전진 이동
-            rb2D.linearVelocity = new Vector2(moveSpeed, rb2D.linearVelocity.y);
+            rb2D.linearVelocity = new Vector2(moveSpeed * moveDirection, rb2D.linearVelocity.y);
         }
-
-        public void GameOver()
+        public void ReverseDirection()
         {
-            GameManager.IsDeath = true;
+            moveDirection = -1;
+        }
+        public void Die(DeathCause cause)
+        {
+            // 이미 게임 오버 프로세스가 진행 중인 경우 중복 호출 방지 (선택적)
+            if (gameManager.CurrentState != GameState.Playing)
+                return;
 
             // 물리 정지
             rb2D.linearVelocity = Vector2.zero;
             rb2D.bodyType = RigidbodyType2D.Kinematic;
 
-            // GameManager에 GameOver 상태 전달
-            GameManager.SetState(GameState.GameOver);
+            gameManager.RequestGameOver(cause);
 
-            Debug.Log("Player Died");
+            // 입력 및 중복 처리 방지
+            enabled = false;
         }
+
         public void SetGrounded(bool grounded)
         {
-            isGrounded = grounded;
-            if (grounded) jumpCount = 0;
+            if (grounded && rb2D.linearVelocity.y <= 0.01f)
+            {
+                isGrounded = true;
+                jumpCount = 0;
+            }
+            else if (!grounded)
+            {
+                isGrounded = false;
+            }
         }
 
         public void SetFrontBlocked(bool blocked)

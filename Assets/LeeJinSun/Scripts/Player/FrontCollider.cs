@@ -1,7 +1,6 @@
 using UnityEngine;
 
 namespace JS
-
 {
     public class FrontCollider : MonoBehaviour
     {
