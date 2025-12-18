@@ -27,22 +27,21 @@ namespace Team3
             Rigidbody2D rb = playerCol.GetComponent<Rigidbody2D>();
             Animator anim = playerCol.GetComponent<Animator>();
 
-            // 이동 락
+            // 이동 잠금
             rb.linearVelocity = Vector2.zero;
-            rb.simulated = false;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
             // 애니메이션
             if (anim != null)
                 anim.SetTrigger(teleportAnim);
 
-            
             yield return new WaitForSeconds(delay);
 
             // 텔레포트
             rb.position = end.position;
 
             // 이동 복구
-            rb.simulated = true;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
             isTeleporting = false;
         }
