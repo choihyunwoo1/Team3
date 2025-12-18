@@ -11,7 +11,7 @@ namespace JS
         #region Custom Method
         protected override bool PickUp(Player player)
         {
-            GameManager.BuffEnemy(EnemyBuffType.SpeedUp, multiplier);
+            GameManager.BuffEnemy(EnemyBuffType.Red, multiplier);
             return true;
 
         }
