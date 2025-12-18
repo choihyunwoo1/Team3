@@ -3,7 +3,7 @@ using UnityEngine;
 namespace JS
 {
     /// <summary>
-    /// 펀치 공격하는 클래스
+    /// 하늘에서 펀치 공격하는 클래스
     /// </summary>
     public class Punch : MonoBehaviour
     {

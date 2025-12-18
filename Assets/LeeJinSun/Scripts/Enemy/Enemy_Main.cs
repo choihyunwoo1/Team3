@@ -10,7 +10,8 @@ namespace JS
         ScaleUp,
         LaserBeam,
         Red,
-        // 여기에 새로운 상태(예: SkullMode)를 추가하기만 하면 됩니다.
+        Blue,
+        // 여기에 새로운 상태 추가
     }
 
     public enum EnemyMoveState
@@ -62,6 +63,7 @@ namespace JS
 
                 // 클래스 이름을 기준으로 매핑하거나, 각 클래스에 Type 프로퍼티를 두어 매핑 가능
                 if (ability is PunchAbility) abilityMap[EnemyBuffType.Red] = ability;
+                else if (ability is SlimeAbility) abilityMap[EnemyBuffType.Blue] = ability;
                 //else if (ability is LaserAbility) abilityMap[EnemyBuffType.LaserBeam] = ability;
                 // 새로운 능력이 추가될 때마다 여기에 등록 로직 추가
             }
@@ -133,7 +135,7 @@ namespace JS
         }
 
         // 속도나 크기 같은 단순 수치 버프 처리
-        private void HandleStatBuffs(EnemyBuffType type, float value)
+        public void HandleStatBuffs(EnemyBuffType type, float value)
         {
             // 리셋
             speed = baseSpeed;

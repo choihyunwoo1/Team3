@@ -3,11 +3,14 @@ using System.Collections;
 
 namespace JS
 {
+    /// <summary>
+    /// Enemy 외형: 손, 능력: 플레이어에게 주먹 공격
+    /// </summary>
     public class PunchAbility : MonoBehaviour, IEnemyAbility
     {
         #region Variables
         private Enemy_Main owner; // Enemy 본체 참조
-        //private Animator animator; // 애니메이터 참조
+        private Animator animator; // 애니메이터 참조
 
         [Header("Visuals")]
         [SerializeField] private GameObject punchVisual; // 자식으로 넣은 '손 모양' 오브젝트
@@ -29,10 +32,6 @@ namespace JS
         [SerializeField] private float offSet = -0.5f;
 
         private float punchTimer;
-
-        #endregion
-
-        #region Unity Event Method
 
         #endregion
 
@@ -76,8 +75,8 @@ namespace JS
         // 4. 능력 종료: 외형을 끄고 상태 정리
         public void OnExit()
         {
-            /*if (punchVisual != null) punchVisual.SetActive(false);
-            if (punchPoint != null) punchPoint.gameObject.SetActive(false);*/
+            if (punchVisual != null) punchVisual.SetActive(false);
+            if (punchPoint != null) punchPoint.gameObject.SetActive(false);
 
             StopAllCoroutines();
             // 종료 시 다시 손 모양으로 복구
