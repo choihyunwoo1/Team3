@@ -2,20 +2,7 @@ using UnityEngine;
 
 namespace JS
 {
-    public enum EnemyBuffType
-    {
-        None,
-        SpeedUp,
-        ScaleUp,
-        LaserBeam,
-        Punch,
-
-    }
-    public enum EnemyMoveState
-    {
-        Chasing,
-        MovingToWaypoint
-    }
+    
     public class Enemy : MonoBehaviour
     {
         #region Variables
@@ -66,7 +53,7 @@ namespace JS
             baseScale = transform.localScale;
 
             // 테스트용 치트키
-            ApplyBuff(EnemyBuffType.Punch, 0);
+            //ApplyBuff(EnemyBuffType.Punch, 0);
         }
         private void Start()
         {
@@ -183,9 +170,9 @@ namespace JS
                 case EnemyBuffType.LaserBeam:
                     StartLaser();
                     break;
-                case EnemyBuffType.Punch:
+                /*case EnemyBuffType.Punch:
                     StartPunch();
-                    break;
+                    break;*/
             }
 
             currentBuff = type;
@@ -205,9 +192,9 @@ namespace JS
                 case EnemyBuffType.LaserBeam:
                     StopLaser();
                     break;
-                case EnemyBuffType.Punch:
+                /*case EnemyBuffType.Punch:
                     StopPunch();
-                    break;
+                    break;*/
             }
 
             currentBuff = EnemyBuffType.None;
