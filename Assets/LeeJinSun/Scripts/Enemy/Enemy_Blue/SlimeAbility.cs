@@ -10,6 +10,7 @@ namespace JS
     {
         #region Variables
         private Enemy_Main owner; // Enemy 본체 참조
+        private GameManager gameManager;
 
         [Header("Visuals")]
         [SerializeField] private GameObject slimeVisual;        // 자식으로 넣은 '슬라임 모양' 오브젝트
@@ -30,6 +31,7 @@ namespace JS
         public void Setup(Enemy_Main enemy)
         {
             owner = enemy;
+            gameManager = FindAnyObjectByType<GameManager>();
         }
 
         // 2. 능력 시작: 외형을 바꾸고 타이머 초기화
@@ -37,6 +39,11 @@ namespace JS
         {
             //혹시 진행되는 코루틴들 멈추게 하기
             StopAllCoroutines();
+
+            if(gameManager != null)
+            {
+                gameManager.OnGameOver += HandleGameOver;
+            }
 
             //슬라임 코루틴 시작
             StartCoroutine(SlimeSpitRoutine());
@@ -53,9 +60,25 @@ namespace JS
         public void OnExit()
         {
             StopAllCoroutines();
+
+            if (gameManager != null)
+            {
+                gameManager.OnGameOver -= HandleGameOver;
+            }
+
             if (slimeVisual != null)
             {
-                slimeVisual.SetActive(false);
+                slimeVisual.SetActive(true);
+            }
+            slimeScreen.gameObject.SetActive(false);
+
+        }
+
+        private void HandleGameOver(DeathCause cause)
+        {
+            if (slimeScreen != null)
+            {
+                slimeScreen.gameObject.SetActive(false);
             }
         }
 
@@ -85,7 +108,6 @@ namespace JS
                 }
             }
         }
-
 
         #endregion
     }
