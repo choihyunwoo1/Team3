@@ -11,6 +11,7 @@ namespace JS
         LaserBeam,
         Red,
         Blue,
+        Green,
         // 여기에 새로운 상태 추가
     }
 
@@ -64,6 +65,7 @@ namespace JS
                 // 클래스 이름을 기준으로 매핑하거나, 각 클래스에 Type 프로퍼티를 두어 매핑 가능
                 if (ability is PunchAbility) abilityMap[EnemyBuffType.Red] = ability;
                 else if (ability is SlimeAbility) abilityMap[EnemyBuffType.Blue] = ability;
+                else if (ability is LaughAbility) abilityMap[EnemyBuffType.Green] = ability;
                 //else if (ability is LaserAbility) abilityMap[EnemyBuffType.LaserBeam] = ability;
                 // 새로운 능력이 추가될 때마다 여기에 등록 로직 추가
             }
