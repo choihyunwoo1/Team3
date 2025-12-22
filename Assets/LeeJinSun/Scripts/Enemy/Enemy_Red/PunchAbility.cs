@@ -52,6 +52,8 @@ namespace JS
             //펀치 코루틴 시작
             StartCoroutine(PunchSequenceRoutine());
 
+            owner.speed *= 0.5f;
+
             /*if (punchVisual != null)
             {
                 punchVisual.SetActive(true);                
@@ -79,6 +81,8 @@ namespace JS
             if (punchPoint != null) punchPoint.gameObject.SetActive(false);
 
             StopAllCoroutines();
+            owner.speed *= 2f;
+
             // 종료 시 다시 손 모양으로 복구
             //if (animator != null) animator.SetBool("isPunchMode", false);
         }

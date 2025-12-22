@@ -47,6 +47,7 @@ namespace JS
 
             //슬라임 코루틴 시작
             StartCoroutine(SlimeSpitRoutine());
+            owner.speed *= 0.5f;
             Debug.Log("SlimeAbility: 루틴 시작");
         }
 
@@ -60,6 +61,7 @@ namespace JS
         public void OnExit()
         {
             StopAllCoroutines();
+            owner.speed *= 2f;
 
             if (gameManager != null)
             {
@@ -68,7 +70,7 @@ namespace JS
 
             if (slimeVisual != null)
             {
-                slimeVisual.SetActive(true);
+                slimeVisual.SetActive(false);
             }
             slimeScreen.gameObject.SetActive(false);
 

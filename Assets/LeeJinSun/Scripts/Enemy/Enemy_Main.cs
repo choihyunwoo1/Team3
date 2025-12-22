@@ -12,6 +12,8 @@ namespace JS
         Red,
         Blue,
         Green,
+        Yellow,
+        Purple,
         // 여기에 새로운 상태 추가
     }
 
@@ -30,7 +32,7 @@ namespace JS
         public Transform player;
 
         [Header("Movement Settings")]
-        [SerializeField] private float speed = 3f;
+        [SerializeField] public float speed = 3f;
         [SerializeField] private float floatAmplitude = 0.3f;
         [SerializeField] private float floatFrequency = 3f;
 
@@ -66,6 +68,8 @@ namespace JS
                 if (ability is PunchAbility) abilityMap[EnemyBuffType.Red] = ability;
                 else if (ability is SlimeAbility) abilityMap[EnemyBuffType.Blue] = ability;
                 else if (ability is LaughAbility) abilityMap[EnemyBuffType.Green] = ability;
+                else if (ability is CloneAbility) abilityMap[EnemyBuffType.Yellow] = ability;
+                else if (ability is EyeBounceAbility) abilityMap[EnemyBuffType.Purple] = ability;
                 //else if (ability is LaserAbility) abilityMap[EnemyBuffType.LaserBeam] = ability;
                 // 새로운 능력이 추가될 때마다 여기에 등록 로직 추가
             }
