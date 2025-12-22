@@ -81,9 +81,10 @@ namespace JS
                 gameManager.OnGameOver -= HandleGameOver;
             }
 
+            if (maskVisual != null) maskVisual.SetActive(false);
+
             // 2. 모든 동작 정지 및 리셋
             StopAllCoroutines();
-            if (maskVisual != null) maskVisual.SetActive(false);
             ResetShake();
         }
 
