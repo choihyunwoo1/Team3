@@ -4,7 +4,7 @@ namespace Choi
 {
     public class DTrigger : MonoBehaviour
     {
-        [SerializeField] private Enemy enemy;
+        [SerializeField] private Enemy_Main enemy;
         [SerializeField] private Transform waypoint;
 
         private bool triggered;
