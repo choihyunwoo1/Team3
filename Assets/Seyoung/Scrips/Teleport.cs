@@ -41,7 +41,9 @@ namespace Team3
             rb.position = end.position;
 
             // 이동 복구
+            rb.constraints = RigidbodyConstraints2D.None;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
 
             isTeleporting = false;
         }

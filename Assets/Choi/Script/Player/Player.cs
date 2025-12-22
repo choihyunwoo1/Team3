@@ -62,6 +62,7 @@ namespace Choi
                 TryJump();
                 jumpPressed = false;
             }
+
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
