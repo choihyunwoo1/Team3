@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Choi
@@ -12,7 +11,7 @@ namespace Choi
 
         public event Action<GameState> OnStateChanged;
         public event Action<DeathCause> OnGameOver;
-        [SerializeField] private Enemy enemy;
+        [SerializeField] private Enemy_Main enemy;
         #endregion
 
         #region Unity Event Method

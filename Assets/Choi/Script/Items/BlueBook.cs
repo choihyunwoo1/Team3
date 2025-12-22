@@ -11,7 +11,7 @@ namespace Choi
         #region Custom Method
         protected override bool PickUp(Player player)
         {
-            GameManager.BuffEnemy(EnemyBuffType.ScaleUp, scaleMultiplier);
+            GameManager.BuffEnemy(EnemyBuffType.Blue, scaleMultiplier);
             return true;
         }
         #endregion
