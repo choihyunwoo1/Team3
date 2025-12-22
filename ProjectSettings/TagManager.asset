@@ -44,10 +44,19 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Enemy
+  - name: Sky
+    uniqueID: 87740151
+    locked: 0
+  - name: Ground
     uniqueID: 901984479
     locked: 0
-  - name: EnemyHead
+  - name: Building
+    uniqueID: 1923181457
+    locked: 0
+  - name: Object
+    uniqueID: 1137262795
+    locked: 0
+  - name: Player
     uniqueID: 2801388123
     locked: 0
   m_RenderingLayers:
