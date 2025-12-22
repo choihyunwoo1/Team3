@@ -10,7 +10,7 @@ namespace JS
     {
         #region Variables
         private Enemy_Main owner; // Enemy 본체 참조
-        private Animator animator; // 애니메이터 참조
+        [SerializeField] private Animator animator; // 애니메이터 참조
 
         [Header("Visuals")]
         [SerializeField] private GameObject punchVisual; // 자식으로 넣은 '손 모양' 오브젝트
@@ -31,6 +31,9 @@ namespace JS
         [SerializeField] private float punchHeight = 6f;
         [SerializeField] private float offSet = -0.5f;
 
+        [Header("Animator Override")]
+        [SerializeField] private RuntimeAnimatorController punchController; // 여기에 HandEnemy 할당
+
         private float punchTimer;
 
         #endregion
@@ -41,7 +44,7 @@ namespace JS
         {
             owner = enemy;
             // Enemy 본체나 자식에 있는 애니메이터를 가져옵니다.
-            //animator = GetComponentInChildren<Animator>();
+            animator = GetComponentInChildren<Animator>(true);
         }
 
         // 2. 능력 시작: 외형을 바꾸고 타이머 초기화
@@ -49,22 +52,17 @@ namespace JS
         {
             //혹시 진행되는 코루틴들 멈추게 하기
             StopAllCoroutines();
+
+            // 강제로 애니메이터 컨트롤러를 교체
+            if (animator != null && punchController != null)
+            {
+                animator.runtimeAnimatorController = punchController;
+            }
+
             //펀치 코루틴 시작
             StartCoroutine(PunchSequenceRoutine());
 
             owner.speed *= 0.5f;
-
-            /*if (punchVisual != null)
-            {
-                punchVisual.SetActive(true);                
-            }
-
-            if (punchPoint != null)
-            {
-                punchPoint.gameObject.SetActive(true);
-            }
-
-            SetRandomPunchTimer();*/
         }
 
         // 3. 실행: Enemy의 Update에서 매 프레임 호출됨
@@ -83,19 +81,23 @@ namespace JS
             StopAllCoroutines();
             owner.speed *= 2f;
 
-            // 종료 시 다시 손 모양으로 복구
-            //if (animator != null) animator.SetBool("isPunchMode", false);
         }
 
         private IEnumerator PunchSequenceRoutine()
         {
             while (true)
             {
+                // 0. 안전 장치: 애니메이터가 없다면 다시 한번 찾기 시도
+                if (animator == null)
+                {
+                    animator = GetComponentInChildren<Animator>(true);
+                }
+
                 // 1. [추격 단계] 애니메이션을 '손' 상태로
-                //animator.SetBool("isPunchMode", false);
                 if (punchVisual != null)
                 {
                     punchVisual.SetActive(true);
+                    animator.SetBool("IsAttack", false);
                 }
                 if (punchPoint != null)
                 {
@@ -106,8 +108,21 @@ namespace JS
                 yield return new WaitForSeconds(chasingTime);
 
                 // 2. [공격 준비 단계] 애니메이션을 '주먹' 상태로
-                //animator.SetBool("isPunchMode", true);
-                yield return new WaitForSeconds(0.7f); // 변신 후 딜레이
+                if (animator != null)
+                {
+                    // 여기서 다시 한번 오브젝트가 켜져 있는지 확인
+                    if (!punchVisual.activeSelf) punchVisual.SetActive(true);
+
+                    animator.SetBool("IsAttack", true);
+                    Debug.Log("IsAttack true 명령 전송 완료!");
+                }
+                else
+                {
+                    Debug.LogError("여전히 애니메이터를 찾을 수 없습니다. 인스펙터를 확인하세요.");
+                }
+
+                yield return new WaitForSeconds(1.5f); // 변신 후 딜레이
+
 
                 // 3. [연속 발사 단계]
                 int shootCount = Random.Range(minPunchCount, maxPunchCount + 1);
