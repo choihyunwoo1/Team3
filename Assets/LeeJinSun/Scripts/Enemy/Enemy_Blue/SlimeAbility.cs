@@ -11,6 +11,7 @@ namespace JS
         #region Variables
         private Enemy_Main owner; // Enemy 본체 참조
         private GameManager gameManager;
+        [SerializeField] private Animator animator;
 
         [Header("Visuals")]
         [SerializeField] private GameObject slimeVisual;        // 자식으로 넣은 '슬라임 모양' 오브젝트
@@ -32,6 +33,8 @@ namespace JS
         {
             owner = enemy;
             gameManager = FindAnyObjectByType<GameManager>();
+
+            animator = slimeVisual.GetComponent<Animator>();
         }
 
         // 2. 능력 시작: 외형을 바꾸고 타이머 초기화
@@ -88,26 +91,32 @@ namespace JS
         {
             while (true)
             {
-                // 1. 대기 단계 (슬라임 모드 외형 유지)
-                //animator.SetBool("isSlimeMode", true);
-                if (slimeVisual != null)
+                // [수정] 1. 화면이 이미 가려져 있다면, 꺼질 때까지 여기서 무한 대기합니다.
+                // 이렇게 해야 화면이 사라진 시점부터 정확하게 다음 쿨타임이 계산됩니다.
+                while (slimeScreen != null && slimeScreen.activeSelf)
                 {
-                    slimeVisual.SetActive(true);
+                    yield return null;
                 }
+
+                // 2. 대기 단계 (화면이 깨끗할 때)
+                if (slimeVisual != null) slimeVisual.SetActive(true);
 
                 float waitTime = Random.Range(minWaitTime, maxWaitTime);
                 yield return new WaitForSeconds(waitTime);
 
-                // 2. 발사 전조 (입을 크게 벌리는 애니메이션 등)
-                //animator.SetTrigger("doSpit");
+                // 3. 발사 전조 (애니메이션 시작)
+                animator.SetTrigger("IsAttack");
+
+                // 중요: spitDelay는 애니메이션에서 슬라임이 입 밖으로 튀어나오는 '그 찰나'의 시간이어야 합니다.
                 yield return new WaitForSeconds(spitDelay);
 
-                // 3. 실제 UI 가리기 실행
+                // 4. 실제 UI 가리기 실행 (애니메이션과 싱크가 맞는 지점)
                 if (slimeScreen != null)
                 {
                     slimeScreen.SetActive(true);
                     Debug.Log("슬라임 발사! 화면을 가립니다.");
                 }
+
             }
         }
 

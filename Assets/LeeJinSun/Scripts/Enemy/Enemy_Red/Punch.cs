@@ -86,7 +86,7 @@ namespace JS
             {
                 player.Die(DeathCause.EnemyA);
             }
-            Destroy(gameObject, 2f); // 충돌 후 소멸
+            Destroy(gameObject, 1f); // 충돌 후 소멸
         }
 
         #endregion
@@ -108,7 +108,7 @@ namespace JS
             // 4. 바닥에 닿은 후 일정 시간 뒤에 삭제 (애니메이션 재생 시간을 고려)
             // 기존 Start의 Destroy를 취소하고 새로 설정하거나, 유지합니다.
             CancelInvoke(); // 기존 파괴 예약 취소 (선택)
-            Destroy(gameObject, 1.5f);
+            Destroy(gameObject, 0.6f);
         }
         #endregion
     }

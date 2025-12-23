@@ -31,9 +31,6 @@ namespace JS
         [SerializeField] private float punchHeight = 6f;
         [SerializeField] private float offSet = -0.5f;
 
-        [Header("Animator Override")]
-        [SerializeField] private RuntimeAnimatorController punchController; // 여기에 HandEnemy 할당
-
         private float punchTimer;
 
         #endregion
@@ -43,8 +40,8 @@ namespace JS
         public void Setup(Enemy_Main enemy)
         {
             owner = enemy;
-            // Enemy 본체나 자식에 있는 애니메이터를 가져옵니다.
-            animator = GetComponentInChildren<Animator>(true);
+            // punchVisual이나 자식에 있는 애니메이터를 가져옵니다.
+            animator = punchVisual.GetComponentInChildren<Animator>(true);
         }
 
         // 2. 능력 시작: 외형을 바꾸고 타이머 초기화
@@ -52,12 +49,6 @@ namespace JS
         {
             //혹시 진행되는 코루틴들 멈추게 하기
             StopAllCoroutines();
-
-            // 강제로 애니메이터 컨트롤러를 교체
-            if (animator != null && punchController != null)
-            {
-                animator.runtimeAnimatorController = punchController;
-            }
 
             //펀치 코루틴 시작
             StartCoroutine(PunchSequenceRoutine());
@@ -69,7 +60,6 @@ namespace JS
         public void OnTick()
         {
             UpdatePunchPointPosition();
-            //HandlePunchCycle();
         }
 
         // 4. 능력 종료: 외형을 끄고 상태 정리
@@ -87,12 +77,6 @@ namespace JS
         {
             while (true)
             {
-                // 0. 안전 장치: 애니메이터가 없다면 다시 한번 찾기 시도
-                if (animator == null)
-                {
-                    animator = GetComponentInChildren<Animator>(true);
-                }
-
                 // 1. [추격 단계] 애니메이션을 '손' 상태로
                 if (punchVisual != null)
                 {
@@ -114,14 +98,9 @@ namespace JS
                     if (!punchVisual.activeSelf) punchVisual.SetActive(true);
 
                     animator.SetBool("IsAttack", true);
-                    Debug.Log("IsAttack true 명령 전송 완료!");
-                }
-                else
-                {
-                    Debug.LogError("여전히 애니메이터를 찾을 수 없습니다. 인스펙터를 확인하세요.");
                 }
 
-                yield return new WaitForSeconds(1.5f); // 변신 후 딜레이
+                yield return new WaitForSeconds(1.75f); // 변신 후 딜레이
 
 
                 // 3. [연속 발사 단계]
@@ -155,16 +134,6 @@ namespace JS
             punchPoint.position = new Vector3(targetX, punchHeight, 0f);
         }
 
-        private void HandlePunchCycle()
-        {
-            punchTimer -= Time.deltaTime;
-            if (punchTimer <= 0f)
-            {
-                ExecutePunch();
-                SetRandomPunchTimer();
-            }
-        }
-
         private void ExecutePunch()
         {
             if (punchPrefab != null && punchPoint != null)
@@ -172,8 +141,6 @@ namespace JS
                 Instantiate(punchPrefab, punchPoint.position, Quaternion.identity);
             }
         }
-
-        private void SetRandomPunchTimer() => punchTimer = Random.Range(minWaitTime, maxWaitTime);
         #endregion
     }
 }

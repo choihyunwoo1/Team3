@@ -8,7 +8,8 @@ namespace JS
         #region Variables
         private Enemy_Main owner;
         private GameManager gameManager;
-
+        [SerializeField] Animator animator;
+ 
         [Header("Visuals")]
         [SerializeField] private GameObject eyeVisual;
 
@@ -31,6 +32,7 @@ namespace JS
             owner = enemy;
             gameManager = Object.FindAnyObjectByType<GameManager>();
             mainCam = Camera.main;
+            animator = eyeVisual.GetComponent<Animator>();
         }
 
         public void OnEnter()
@@ -70,9 +72,13 @@ namespace JS
                 // 1. 일반 추적 상태 (Enemy_Main의 로직이 작동함)
                 SetBouncingState(false);
                 yield return new WaitForSeconds(Random.Range(minWaitTime, maxWaitTime));
+                animator.SetTrigger("IsJump");
+                yield return new WaitForSeconds(2f);
+
 
                 // 2. 튕기기 상태로 전환 (Enemy_Main의 로직을 잠시 멈춤)
                 SetBouncingState(true);
+                animator.SetTrigger("IsBounce");
                 yield return new WaitForSeconds(bounceDuration);
             }
         }
@@ -83,9 +89,8 @@ namespace JS
 
             if (isBouncing)
             {
-                // [중요] 튕기기 시작할 때 Enemy_Main의 기본 추적 기능을 멈춥니다.
-                // 만약 Enemy_Main에 추적 활성화/비활성화 변수가 있다면 여기서 조절하세요.
-                // 예: owner.isTracking = false; 
+                // 튕기기 시작할 때 Enemy_Main의 기본 추적 기능을 멈춥니다.
+                // 만약 Enemy_Main에 추적 활성화/비활성화 변수가 있다면 여기서 조절
 
                 // 초기 튕김 방향 설정
                 float randomX = Random.value > 0.5f ? 1f : -1f;
