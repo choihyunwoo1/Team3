@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Choi
 {
-    public class TriggerController : MonoBehaviour
+    public class TriggerController1 : MonoBehaviour
     {
         public Animator animator;
         public GameObject triggerObject;
