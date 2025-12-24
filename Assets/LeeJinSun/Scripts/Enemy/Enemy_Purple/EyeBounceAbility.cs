@@ -57,7 +57,8 @@ namespace JS
             isBouncing = false;
             if (gameManager != null) gameManager.OnGameOver -= HandleGameOver;
             if (eyeVisual != null) eyeVisual.SetActive(false);
-            //SetBouncingState(false); // 종료 시 추적 모드로 복구
+            // 종료 시 원래 회전으로 복구
+            owner.transform.rotation = Quaternion.identity;
         }
 
         public void OnTick()
@@ -72,7 +73,6 @@ namespace JS
             else
             {
                 // [해결 3] 준비 애니메이션 중에는 위치를 고정시켜서 이동을 막음
-                // Enemy_Main이 Update에서 이동시키더라도 여기서 강제로 멈춤
                 owner.transform.position = owner.transform.position;
             }
         }
@@ -89,7 +89,6 @@ namespace JS
                 // 복귀 시 회전 초기화 (똑바로 서게 함)
                 owner.transform.rotation = Quaternion.identity;
 
-                //if (owner != null) owner.enabled = true;
                 yield return new WaitForSeconds(Random.Range(minWaitTime, maxWaitTime));
                 originalPosition = owner.transform.position;
 
@@ -97,21 +96,15 @@ namespace JS
                 // 바로 튕기면 플레이어가 대응하기 힘드므로, 준비 애니메이션을 먼저 보여줍니다.
                 isAbilityActive = true;
                 if (animator != null) animator.SetTrigger("IsJump");
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.8f);
 
                 // 3. 튕기기 상태로 전환
-                animator.SetBool("IsBounce", true);
+                if (animator != null) animator.SetBool("IsBounce", true);
 
                 // [중요] SetBouncingState 내부의 랜덤 방향 로직이 실행되기 전에 
                 // 방향을 강제로 위(Vector2.up)로 고정합니다.
                 isBouncing = true;
                 bounceDirection = Vector2.up;
-
-                //SetBouncingState(true);
-
-               /* // 플레이어 반대 방향으로 초기 방향 설정
-                Vector3 playerPos = owner.player.transform.position;
-                bounceDirection = (owner.transform.position - playerPos).normalized;*/
 
                 // 튕기는 지속 시간 동안 대기
                 yield return new WaitForSeconds(bounceDuration);
@@ -120,18 +113,8 @@ namespace JS
                 isBouncing = false;
                 animator.SetBool("IsBounce", false);
 
-                /*// [해결 2] 튕기기 종료 후 플레이어와 너무 가까우면 뒤로 살짝 밀어냄
-                float dist = Vector2.Distance(owner.transform.position, playerPos);
-                if (dist < 3f)
-                {
-                    Vector3 pushDir = (owner.transform.position - playerPos).normalized;
-                    owner.transform.position += pushDir * 2f;
-                }*/
-
                 owner.transform.position = originalPosition;
                 owner.transform.rotation = Quaternion.identity; // 회전 초기화
-
-                ReturnToOriginalPosition();
 
                 // 잠시 숨을 고른 뒤 다시 루프 시작
                 yield return new WaitForSeconds(1f);
@@ -150,51 +133,21 @@ namespace JS
             // 현재는 논리적 오류를 줄이기 위해 순간이동 방식을 추천합니다.
 
             Debug.Log("원래 위치로 복귀 완료!");
-        }
-
-        private void SetBouncingState(bool bouncing)
-        {
-            isBouncing = bouncing;
-
-            /*if (isBouncing)
-            {
-                // [핵심] 튕기는 동안 본체의 추격 로직을 완전히 끕니다.
-                // 이게 켜져 있으면 튕기면서도 계속 플레이어 쪽으로 몸이 쏠립니다.
-                //if (owner != null) owner.enabled = false;
-
-                // [플레이어 회피 로직]
-                // 초기 방향 설정: 플레이어 반대 방향
-                if (owner.player != null)
-                {
-                    Vector3 playerPos = owner.player.transform.position;
-                    Vector3 awayFromPlayer = (owner.transform.position - playerPos).normalized;
-
-                    // 약간의 랜덤성 추가 (완전 직선이 아니게)
-                    float randomAngle = Random.Range(-30f, 30f);
-                    bounceDirection = Quaternion.Euler(0, 0, randomAngle) * awayFromPlayer;
-                }
-                else
-                {
-                    // 플레이어를 못 찾을 경우 랜덤 방향
-                    bounceDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-                }
-            }*/
-        }
+        }        
 
         private void BounceMovement()
         {
             // 위치 이동
             owner.transform.position += (Vector3)(bounceDirection * bounceSpeed * Time.deltaTime);
 
-            // [추가] 2. 이동 방향을 바라보도록 회전 (자연스러운 방향 전환)
+            // [추가] 2. 이동 방향을 바라보도록 회전 (당구공 회전 로직)
             if (bounceDirection != Vector2.zero)
             {
-                // Vector2.up(0, 1)이 기본 정면일 때를 기준으로 각도 계산
                 float angle = Mathf.Atan2(bounceDirection.y, bounceDirection.x) * Mathf.Rad2Deg;
 
-                // 눈알의 기본 이미지가 위를 보고 있다면 -90도, 오른쪽을 보고 있다면 0도 등으로 보정 필요
-                // 아래는 눈알이 오른쪽(Right)을 바라보는 이미지일 때 기준입니다.
-                owner.transform.rotation = Quaternion.Euler(0, 0, angle);
+                // 보정값: 눈알 정면이 위를 향하고 있다면 -90, 오른쪽을 향하고 있다면 0을 넣으세요.
+                float angleOffset = -90f;
+                owner.transform.rotation = Quaternion.Euler(0, 0, angle + angleOffset);
             }
 
             // 화면 경계 체크 (Viewport: 0~1 사이 값)
