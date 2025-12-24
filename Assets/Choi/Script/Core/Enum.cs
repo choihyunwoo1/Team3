@@ -11,8 +11,12 @@ namespace Choi
 
     public enum DeathCause
     {
+        None,
         EnemyA,
+        EnemyB,
+        Fall,
         Trap,
-        Fall
+        Laser,
     }
 }
+

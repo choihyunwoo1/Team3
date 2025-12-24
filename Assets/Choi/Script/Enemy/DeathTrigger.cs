@@ -7,19 +7,14 @@ namespace Choi
     /// </summary>
     public class DeathTrigger : MonoBehaviour
     {
-        #region Variables
-        [SerializeField] private DeathCause deathCause = DeathCause.Trap;
-        #endregion
+        [SerializeField] private DeathCause deathCause;
 
-        #region Unity Event Method
         private void OnTriggerEnter2D(Collider2D other)
         {
-            Player player = other.GetComponent<Player>();
-            if (player == null)
-                return;
+            Player p = other.GetComponent<Player>();
+            if (p == null) return;
 
-            player.Die(deathCause);
+            p.Die(deathCause);
         }
-        #endregion
     }
 }

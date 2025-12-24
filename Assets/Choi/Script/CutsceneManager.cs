@@ -1,29 +1,31 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Choi
 {
     public class CutsceneManager : MonoBehaviour
     {
-        #region Variables
-        [SerializeField] private GameManager gameManager;
+        public static CutsceneManager Instance;
 
-        [Header("Death Cutscenes")]
-        [SerializeField] private GameObject enemyACutscene;
-        [SerializeField] private GameObject fallCutscene;
+        public UnityEvent<DeathCause> OnCutsceneFinished = new UnityEvent<DeathCause>();
 
-        // 컷씬 종료 신호 → DiarySystem에서 수집
-        public UnityEvent<DeathCause> OnCutsceneFinished;
+        [System.Serializable]
+        public class DeathCutsceneData
+        {
+            public DeathCause cause;
+            public GameObject cutsceneObj;
+            public float duration = 2.5f;
+        }
 
-        private bool isPlaying;
-        #endregion
+        [SerializeField]
+        private List<DeathCutsceneData> cutsceneList = new List<DeathCutsceneData>();
 
-        #region Property
-        public static CutsceneManager Instance { get; private set; }
-        #endregion
+        private Dictionary<DeathCause, DeathCutsceneData> cutsceneDict;
 
-        #region Unity Event Method
+        private bool isPlaying = false;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -32,58 +34,55 @@ namespace Choi
                 return;
             }
             Instance = this;
-        }
-        void Start()
-        {
-            Player player = FindObjectOfType<Player>();
-            player.OnPlayerDied += PlayDeathCutscene;
+
+            cutsceneDict = new Dictionary<DeathCause, DeathCutsceneData>();
+            foreach (var data in cutsceneList)
+            {
+                if (!cutsceneDict.ContainsKey(data.cause))
+                    cutsceneDict.Add(data.cause, data);
+            }
         }
 
-        private void OnEnable()
-        {
-            gameManager.OnGameOver += PlayDeathCutscene;
-        }
-
-        private void OnDisable()
-        {
-            gameManager.OnGameOver -= PlayDeathCutscene;
-        }
-        #endregion
-
-        #region Custom Method
         public void PlayDeathCutscene(DeathCause cause)
         {
             if (isPlaying)
                 return;
 
-            switch (cause)
-            {
-                case DeathCause.EnemyA:
-                    StartCoroutine(Play(enemyACutscene, 2.5f, cause));
-                    break;
+            // 게임 매니저에게 먼저 죽음 알림
+            GameManager gm = FindObjectOfType<GameManager>();
+            if (gm != null)
+                gm.RequestGameOver(cause);
 
-                case DeathCause.Fall:
-                    StartCoroutine(Play(fallCutscene, 3.0f, cause));
-                    break;
+            if (cutsceneDict.TryGetValue(cause, out var data))
+            {
+                StartCoroutine(Play(data.cutsceneObj, data.duration, cause));
             }
         }
 
-        private IEnumerator Play(GameObject cutscene, float duration, DeathCause cause)
+        private IEnumerator Play(GameObject obj, float duration, DeathCause cause)
         {
             isPlaying = true;
+            obj.SetActive(true);
 
-            cutscene.SetActive(true);
+            // Animator 강제 실행
+            Animator anim = obj.GetComponentInChildren<Animator>();
+            if (anim != null)
+            {
+                anim.Rebind();     // 상태 초기화
+                anim.Update(0f);   // 강제 반영
+                anim.Play(0);      // 첫 스테이트 재생
+            }
+
             yield return new WaitForSecondsRealtime(duration);
-            cutscene.SetActive(false);
 
+            obj.SetActive(false);
             isPlaying = false;
 
-            // 컷씬 종료 → 게임 상태 변경
-            gameManager.NotifyGameOverCutsceneFinished();
+            GameManager gm = FindObjectOfType<GameManager>();
+            if (gm != null)
+                gm.NotifyGameOverCutsceneFinished();
 
-            // 컷씬 종료 → Diary 기록 신호
             OnCutsceneFinished?.Invoke(cause);
         }
-        #endregion
     }
 }

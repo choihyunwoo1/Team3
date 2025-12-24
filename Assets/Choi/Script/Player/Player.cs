@@ -23,6 +23,7 @@ namespace Choi
 
         [SerializeField] private bool isFrontBlocked;
         [SerializeField] private bool isGrounded;
+        private bool isDead = false;
         private bool jumpPressed;
 
         [SerializeField] private GameManager gameManager;
@@ -126,18 +127,13 @@ namespace Choi
 
         public void Die(DeathCause cause)
         {
-            if (gameManager.CurrentState != GameState.Playing)
+            if (isDead)
                 return;
 
-            rb2D.linearVelocity = Vector2.zero;
-            rb2D.bodyType = RigidbodyType2D.Kinematic;
+            isDead = true;
 
-            // ------------- 핵심 추가 --------------
-            OnPlayerDied?.Invoke(cause);
-            // -------------------------------------
-
-            gameManager.RequestGameOver(cause);
-            enabled = false;
+            // 애니메이션, 사운드 등 필요하면 추가
+            CutsceneManager.Instance.PlayDeathCutscene(cause);
         }
 
         public void SetGrounded(bool grounded)
