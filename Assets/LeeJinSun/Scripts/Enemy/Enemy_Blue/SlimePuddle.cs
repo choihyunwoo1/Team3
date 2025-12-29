@@ -123,6 +123,13 @@ namespace JS
                 yield return null;
             }
 
+            // 부모 매니저에게 내가 꺼짐을 알림
+            SlimePuddleParent manager = transform.parent.GetComponent<SlimePuddleParent>();
+            if (manager != null)
+            {
+                manager.CheckAndDisableParent();
+            }
+
             gameObject.SetActive(false);
         }
         #endregion

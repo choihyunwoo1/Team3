@@ -1,11 +1,14 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace JS
 {
     /// <summary>
-    /// Enemy의 기믹 연출, 플레이어에게 가깝게 다가가기, 분신술
+    /// Enemy의 기믹 연출, 플레이어에게 가깝게 다가가기, 분신술, 화면 색 반전 추가
     /// </summary>
     public class CloneAbility : MonoBehaviour, IEnemyAbility
     {
@@ -33,6 +36,10 @@ namespace JS
         [SerializeField] private float minWaitTime = 4f;
         [SerializeField] private float maxWaitTime = 8f;
 
+        [Header("Jumpscare Renderer Feature")]
+        [SerializeField] private string featureName = "FullScreenPassRendererFeature"; // Renderer2D에 설정한 Name과 동일해야 함
+        private FullScreenPassRendererFeature invertFeature;
+
         private List<GameObject> activeClones = new List<GameObject>();
         private Vector3 originalScale; // 본체의 원래 크기 저장용
         #endregion
@@ -44,6 +51,16 @@ namespace JS
             gameManager = Object.FindAnyObjectByType<GameManager>();
 
             originalScale = owner.transform.localScale;
+
+            // 렌더러 에셋에서 Full Screen Pass Feature 찾아오기
+            var pipeline = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+            if (pipeline != null)
+            {
+                // Renderer List 중 현재 사용 중인 0번(Renderer2D)에서 Feature 검색
+                // 유니티 6에서는 좀 더 직관적인 접근이 필요할 수 있습니다.
+                invertFeature = GetRendererFeature(featureName);
+            }
+
         }
 
         public void OnEnter()
@@ -67,6 +84,9 @@ namespace JS
 
             // 혹시 본체가 숨겨진 상태에서 종료되면 다시 보이게 설정
             StopAllCoroutines();
+
+            SetFeatureActive(false); // 종료 시 반드시 꺼줌
+            //invertFeature.SetActive(false);
         }
 
         public void OnTick() { }
@@ -82,8 +102,16 @@ namespace JS
 
                 // 2. 분신 소환 시작
                 Debug.Log("이너미 분신술 발동!");
+                //색 반전 켜기
+                //if (invertFeature != null) invertFeature.SetActive(true);
+                SetFeatureActive(true);
+
                 int randomCount = Random.Range(minCloneCount, maxCloneCount + 1);
+                yield return new WaitForSeconds(0.5f);
                 SpawnClones(randomCount);
+
+                //invertFeature.SetActive(false);
+                SetFeatureActive(false);
 
                 // 3. 본체는 잠시 투명하게 하거나 판정을 끔 (선택 사항)
                 // owner.GetComponent<SpriteRenderer>().enabled = false; 
@@ -98,6 +126,40 @@ namespace JS
                 // 분신술 시간이 끝나면 본체 크기를 원래대로 돌려놓습니다.
                 owner.transform.localScale = originalScale;
             }
+        }
+
+        private void SetFeatureActive(bool active)
+        {
+            if (invertFeature != null)
+            {
+                invertFeature.SetActive(active);
+            }
+        }
+
+        // 렌더러 피처를 찾는 헬퍼 함수
+        private FullScreenPassRendererFeature GetRendererFeature(string name)
+        {
+            // 1. 현재 사용 중인 URP 에셋 가져오기
+            var pipeline = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+            if (pipeline == null) return null;
+
+            // 2. 리플렉션을 이용해 내부의 rendererDataList에 접근
+            // 유니티 6에서 접근 제한이 걸린 필드에 접근하는 가장 확실한 방법입니다.
+            FieldInfo propertyInfo = pipeline.GetType().GetField("m_RendererDataList", BindingFlags.Instance | BindingFlags.NonPublic);
+            var rendererDataList = (ScriptableRendererData[])propertyInfo?.GetValue(pipeline);
+
+            if (rendererDataList != null && rendererDataList.Length > 0)
+            {
+                // 3. 0번 렌더러(Renderer2D)에서 이름으로 Feature 찾기
+                foreach (var feature in rendererDataList[0].rendererFeatures)
+                {
+                    if (feature.name == name && feature is FullScreenPassRendererFeature fullScreenFeature)
+                    {
+                        return fullScreenFeature;
+                    }
+                }
+            }
+            return null;
         }
 
         private void SpawnClones(int count)

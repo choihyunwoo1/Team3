@@ -18,7 +18,7 @@ namespace JS
 
         [Header("Slime Settings")]
         [SerializeField] private GameObject slimeScreen;            //화면 가릴 슬라임
-        [SerializeField] private GameObject slimePuddle;            //슬라임 바닥 게임오브젝트
+        [SerializeField] public GameObject slimePuddles;            //슬라임 바닥 게임오브젝트
 
         [Header("Cycle Settings")]
         [SerializeField] private float minWaitTime = 2f;
@@ -115,6 +115,7 @@ namespace JS
                 if (slimeScreen != null)
                 {
                     slimeScreen.SetActive(true);
+                    slimePuddles.SetActive(true);
                     Debug.Log("슬라임 발사! 화면을 가립니다.");
                 }
 
