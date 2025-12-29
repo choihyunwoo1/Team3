@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b27db766e518f8c4caf311b7cb481956
+guid: 187e7e117af52b5429d48bed99d8c5ed
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -14,15 +14,6 @@ TextureImporter:
   - first:
       213: -2037333140315399488
     second: YL_5_3
-  - first:
-      213: 4132986757770764135
-    second: YL_5_4
-  - first:
-      213: 8058864802802437697
-    second: YL_5_5
-  - first:
-      213: 4193642587360322612
-    second: YL_5_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -134,10 +125,10 @@ TextureImporter:
       name: YL_5_0
       rect:
         serializedVersion: 2
-        x: 49
-        y: 0
-        width: 87
-        height: 89
+        x: 97
+        y: 20
+        width: 44
+        height: 144
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,10 +147,10 @@ TextureImporter:
       name: YL_5_1
       rect:
         serializedVersion: 2
-        x: 60
-        y: 69
-        width: 35
-        height: 69
+        x: 136
+        y: 93
+        width: 6
+        height: 71
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,10 +169,10 @@ TextureImporter:
       name: YL_5_2
       rect:
         serializedVersion: 2
-        x: 63
-        y: 61
-        width: 191
-        height: 110
+        x: 142
+        y: 76
+        width: 7
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,10 +191,10 @@ TextureImporter:
       name: YL_5_3
       rect:
         serializedVersion: 2
-        x: 96
-        y: 29
-        width: 82
-        height: 94
+        x: 138
+        y: 21
+        width: 6
+        height: 53
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -214,72 +205,6 @@ TextureImporter:
       bones: []
       spriteID: 0ca9e5a9d40f9b3e0800000000000000
       internalID: -2037333140315399488
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: YL_5_4
-      rect:
-        serializedVersion: 2
-        x: 177
-        y: 2
-        width: 53
-        height: 62
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 76fd1560f815b5930800000000000000
-      internalID: 4132986757770764135
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: YL_5_5
-      rect:
-        serializedVersion: 2
-        x: 219
-        y: 47
-        width: 27
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 14e00f727d6d6df60800000000000000
-      internalID: 8058864802802437697
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: YL_5_6
-      rect:
-        serializedVersion: 2
-        x: 135
-        y: 0
-        width: 27
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 434ef8ed6bfc23a30800000000000000
-      internalID: 4193642587360322612
       vertices: []
       indices: 
       edges: []
@@ -302,9 +227,6 @@ TextureImporter:
       YL_5_1: 8278875908129829840
       YL_5_2: -2116638319897588490
       YL_5_3: -2037333140315399488
-      YL_5_4: 4132986757770764135
-      YL_5_5: 8058864802802437697
-      YL_5_6: 4193642587360322612
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 71871146b79e8b44e89b813c4227efe8
+guid: b82e0fb2525bb9148b9d5d708f06ac38
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -122,10 +122,10 @@ TextureImporter:
       name: YL_8_0
       rect:
         serializedVersion: 2
-        x: 71
-        y: 14
-        width: 139
-        height: 120
+        x: 101
+        y: 28
+        width: 22
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,10 +144,10 @@ TextureImporter:
       name: YL_8_1
       rect:
         serializedVersion: 2
-        x: 71
-        y: 0
-        width: 123
-        height: 113
+        x: 124
+        y: 24
+        width: 6
+        height: 137
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,10 +166,10 @@ TextureImporter:
       name: YL_8_2
       rect:
         serializedVersion: 2
-        x: 178
-        y: 0
-        width: 18
-        height: 27
+        x: 128
+        y: 78
+        width: 6
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
