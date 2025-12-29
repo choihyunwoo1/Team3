@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Choi
@@ -14,7 +15,6 @@ namespace Choi
         Green,
         Yellow,
         Purple,
-        // 여기에 새로운 상태 추가
     }
 
     public enum EnemyMoveState
@@ -28,7 +28,7 @@ namespace Choi
         #region Variables - 공통 설정
         [Header("References")]
         [SerializeField] private GameManager gameManager;
-        [SerializeField] private GameObject defaultVisual; // 기본 스프라이트 오브젝트
+        [SerializeField] private GameObject defaultVisual;
         public Transform player;
 
         [Header("Movement Settings")]
@@ -40,57 +40,48 @@ namespace Choi
         private Vector3 baseScale;
         private EnemyMoveState moveState = EnemyMoveState.Chasing;
         private Transform waypointTarget;
+
+        // 🔥 추가: 정지 상태 플래그
+        private bool isFrozen = false;
         #endregion
 
-        #region Ability Management - 인터페이스 관리
+        #region Ability Management
         private IEnemyAbility currentAbility;
         private EnemyBuffType currentBuff = EnemyBuffType.None;
-
-        // 타입별 능력을 빠르게 찾기 위한 딕셔너리
         private Dictionary<EnemyBuffType, IEnemyAbility> abilityMap = new Dictionary<EnemyBuffType, IEnemyAbility>();
         #endregion
 
         #region Unity Event Methods
         private void Awake()
         {
-            // 초기 상태 저장
             baseSpeed = speed;
             baseScale = transform.localScale;
 
-            // 본체에 붙어있는 모든 IEnemyAbility 구현체들을 찾아 딕셔너리에 등록
-            // (PunchAbility, LaserAbility 등이 이 오브젝트에 같이 붙어있어야 함)
             IEnemyAbility[] abilities = GetComponents<IEnemyAbility>();
             foreach (var ability in abilities)
             {
                 ability.Setup(this);
 
-                // 클래스 이름을 기준으로 매핑하거나, 각 클래스에 Type 프로퍼티를 두어 매핑 가능
                 if (ability is PunchAbility) abilityMap[EnemyBuffType.Red] = ability;
                 else if (ability is SlimeAbility) abilityMap[EnemyBuffType.Blue] = ability;
                 else if (ability is LaughAbility) abilityMap[EnemyBuffType.Green] = ability;
                 else if (ability is CloneAbility) abilityMap[EnemyBuffType.Yellow] = ability;
                 else if (ability is EyeBounceAbility) abilityMap[EnemyBuffType.Purple] = ability;
-                //else if (ability is LaserAbility) abilityMap[EnemyBuffType.LaserBeam] = ability;
-                // 새로운 능력이 추가될 때마다 여기에 등록 로직 추가
             }
         }
 
         private void Start()
         {
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
-
-            // 테스트용: 처음 시작 시 펀치 버프 적용
-            //ApplyBuff(EnemyBuffType.Red, 0);
         }
 
         private void Update()
         {
+            // 🔥 핵심: 정지 상태면 아무 것도 하지 않음
+            if (isFrozen) return;
             if (gameManager.State != GameState.Playing) return;
 
-            // 1. 기본 이동 시스템 (어떤 버프든 공통으로 작동)
             HandleBaseMovement();
-
-            // 2. 능력 시스템 (현재 장착된 능력의 로직 실행)
             currentAbility?.OnTick();
         }
 
@@ -105,26 +96,36 @@ namespace Choi
         }
         #endregion
 
+        #region Public Methods - Freeze 제어
+        public void Freeze(float duration)
+        {
+            StartCoroutine(FreezeRoutine(duration));
+        }
+
+        private IEnumerator FreezeRoutine(float duration)
+        {
+            isFrozen = true;
+            yield return new WaitForSeconds(duration);
+            isFrozen = false;
+        }
+        #endregion
+
         #region Public Methods - 상태 제어
         public void ApplyBuff(EnemyBuffType type, float value)
         {
             if (currentBuff == type) return;
 
-            // 1. 기존 능력 종료 (Clean Up)
             if (currentAbility != null)
             {
                 currentAbility.OnExit();
             }
             else
             {
-                // 이전 능력이 없었다면 기본 외형을 꺼줌
                 defaultVisual.SetActive(false);
             }
 
-            // 특수 처리: SpeedUp이나 ScaleUp처럼 외형 교체가 아닌 수치 변화인 경우
             HandleStatBuffs(type, value);
 
-            // 2. 새 능력 활성화
             if (abilityMap.TryGetValue(type, out IEnemyAbility newAbility))
             {
                 currentAbility = newAbility;
@@ -133,17 +134,14 @@ namespace Choi
             }
             else
             {
-                // 적용할 능력이 None이거나 없는 경우 기본 상태로 복구
                 currentAbility = null;
                 currentBuff = EnemyBuffType.None;
                 defaultVisual.SetActive(true);
             }
         }
 
-        // 속도나 크기 같은 단순 수치 버프 처리
         public void HandleStatBuffs(EnemyBuffType type, float value)
         {
-            // 리셋
             speed = baseSpeed;
             transform.localScale = baseScale;
 
@@ -194,7 +192,11 @@ namespace Choi
                 return;
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, waypointTarget.position, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                waypointTarget.position,
+                speed * Time.deltaTime
+            );
 
             if (Vector3.Distance(transform.position, waypointTarget.position) < 0.1f)
             {
@@ -206,9 +208,14 @@ namespace Choi
         private void CatchUpIfTooFar()
         {
             if (player == null) return;
+
             if (player.position.x - transform.position.x > 10f)
             {
-                transform.position = new Vector3(player.position.x - 8f, transform.position.y, transform.position.z);
+                transform.position = new Vector3(
+                    player.position.x - 8f,
+                    transform.position.y,
+                    transform.position.z
+                );
             }
         }
         #endregion
