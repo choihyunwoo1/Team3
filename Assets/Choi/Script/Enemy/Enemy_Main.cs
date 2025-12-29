@@ -92,6 +92,7 @@ namespace Choi
 
             // 2. 능력 시스템 (현재 장착된 능력의 로직 실행)
             currentAbility?.OnTick();
+
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -194,14 +195,24 @@ namespace Choi
                 return;
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, waypointTarget.position, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                waypointTarget.position,
+                speed * Time.deltaTime
+            );
 
+            // 도착 체크
             if (Vector3.Distance(transform.position, waypointTarget.position) < 0.1f)
             {
+                // 도착 순간 뒤집기
+                Flip();
+
+                // 다음 동작을 위해 초기화
                 waypointTarget = null;
                 moveState = EnemyMoveState.Chasing;
             }
         }
+
 
         private void CatchUpIfTooFar()
         {
@@ -210,6 +221,11 @@ namespace Choi
             {
                 transform.position = new Vector3(player.position.x - 8f, transform.position.y, transform.position.z);
             }
+        }
+        public void Flip()
+        {
+            float newY = transform.eulerAngles.y == 0 ? 180 : 0;
+            transform.eulerAngles = new Vector3(0, newY, 0);
         }
         #endregion
     }

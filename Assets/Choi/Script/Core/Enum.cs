@@ -6,7 +6,9 @@ namespace Choi
         Playing,
         Paused,
         GameOverCutscene,
-        GameOver
+        GameOver,
+        StageClearCutscene,   
+        StageClear            
     }
 
     public enum DeathCause

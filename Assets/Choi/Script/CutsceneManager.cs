@@ -9,6 +9,7 @@ namespace Choi
     {
         public static CutsceneManager Instance;
 
+        // 기존 DeathCutscene 전용 이벤트
         public UnityEvent<DeathCause> OnCutsceneFinished = new UnityEvent<DeathCause>();
 
         [System.Serializable]
@@ -19,10 +20,20 @@ namespace Choi
             public float duration = 2.5f;
         }
 
-        [SerializeField]
-        private List<DeathCutsceneData> cutsceneList = new List<DeathCutsceneData>();
+        // NEW ------------------------------
+        [System.Serializable]
+        public class FinishCutsceneData
+        {
+            public GameObject cutsceneObj;
+            public float duration = 2.0f;
+        }
+        // ----------------------------------
 
+        [SerializeField] private List<DeathCutsceneData> cutsceneList = new List<DeathCutsceneData>();
         private Dictionary<DeathCause, DeathCutsceneData> cutsceneDict;
+
+        [Header("Finish Cutscene")]
+        [SerializeField] private FinishCutsceneData finishCutscene;  // NEW
 
         private bool isPlaying = false;
 
@@ -35,6 +46,7 @@ namespace Choi
             }
             Instance = this;
 
+            // DeathCutscene 초기화
             cutsceneDict = new Dictionary<DeathCause, DeathCutsceneData>();
             foreach (var data in cutsceneList)
             {
@@ -43,34 +55,35 @@ namespace Choi
             }
         }
 
+        // -------------------------
+        // 기존 Death 컷씬 재생
+        // -------------------------
         public void PlayDeathCutscene(DeathCause cause)
         {
             if (isPlaying)
                 return;
 
-            // 게임 매니저에게 먼저 죽음 알림
             GameManager gm = FindObjectOfType<GameManager>();
-            if (gm != null)
-                gm.RequestGameOver(cause);
+            gm?.RequestGameOver(cause);
 
             if (cutsceneDict.TryGetValue(cause, out var data))
             {
-                StartCoroutine(Play(data.cutsceneObj, data.duration, cause));
+                StartCoroutine(PlayDeath(data.cutsceneObj, data.duration, cause));
             }
         }
 
-        private IEnumerator Play(GameObject obj, float duration, DeathCause cause)
+        private IEnumerator PlayDeath(GameObject obj, float duration, DeathCause cause)
         {
             isPlaying = true;
             obj.SetActive(true);
 
-            // Animator 강제 실행
+            // Animator 강제 초기화
             Animator anim = obj.GetComponentInChildren<Animator>();
             if (anim != null)
             {
-                anim.Rebind();     // 상태 초기화
-                anim.Update(0f);   // 강제 반영
-                anim.Play(0);      // 첫 스테이트 재생
+                anim.Rebind();
+                anim.Update(0f);
+                anim.Play(0);
             }
 
             yield return new WaitForSecondsRealtime(duration);
@@ -79,10 +92,45 @@ namespace Choi
             isPlaying = false;
 
             GameManager gm = FindObjectOfType<GameManager>();
-            if (gm != null)
-                gm.NotifyGameOverCutsceneFinished();
+            gm?.NotifyGameOverCutsceneFinished();
 
             OnCutsceneFinished?.Invoke(cause);
+        }
+
+        // -------------------------
+        // NEW: Finish 컷씬 재생
+        // -------------------------
+        public void PlayFinishCutscene()
+        {
+            if (isPlaying)
+                return;
+
+            StartCoroutine(PlayFinish());
+        }
+
+        private IEnumerator PlayFinish()
+        {
+            isPlaying = true;
+
+            GameObject obj = finishCutscene.cutsceneObj;
+            obj.SetActive(true);
+
+            Animator anim = obj.GetComponentInChildren<Animator>();
+            if (anim != null)
+            {
+                anim.Rebind();
+                anim.Update(0f);
+                anim.Play(0);
+            }
+
+            yield return new WaitForSecondsRealtime(finishCutscene.duration);
+
+            obj.SetActive(false);
+            isPlaying = false;
+
+            // GameManager에 Finish 종료 알림
+            GameManager gm = FindObjectOfType<GameManager>();
+            gm?.NotifyFinishCutsceneFinished();
         }
     }
 }

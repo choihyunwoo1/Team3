@@ -19,12 +19,14 @@ namespace Choi
         {
             SetState(GameState.Ready);
         }
+
         private void Update()
         {
-            // GameOver / Cutscene 중에는 입력 처리 금지
+            // GameOver / Cutscene / StageClearCutscene 중 입력 금지
             if (State == GameState.GameOver ||
-                State == GameState.GameOverCutscene)
-                return; ;
+                State == GameState.GameOverCutscene ||
+                State == GameState.StageClearCutscene)
+                return;
 
             switch (State)
             {
@@ -53,10 +55,15 @@ namespace Choi
                 return;
 
             State = newState;
+
+            // 플레이 중만 timeScale = 1
+            // 나머지는 모두 멈춤
             Time.timeScale = newState == GameState.Playing ? 1f : 0f;
+
             OnStateChanged?.Invoke(State);
         }
 
+        // Death (기존)
         public void RequestGameOver(DeathCause cause)
         {
             if (State == GameState.GameOver)
@@ -70,8 +77,31 @@ namespace Choi
         {
             if (State != GameState.GameOverCutscene)
                 return;
+
             SetState(GameState.GameOver);
         }
+
+        // NEW --------------------------
+        // Stage Clear 요청 시
+        public void RequestStageClear()
+        {
+            if (State == GameState.StageClear ||
+                State == GameState.StageClearCutscene)
+                return;
+
+            SetState(GameState.StageClearCutscene);
+        }
+
+        // NEW: FinishCutscene 종료 알림
+        public void NotifyFinishCutsceneFinished()
+        {
+            if (State != GameState.StageClearCutscene)
+                return;
+
+            SetState(GameState.StageClear);
+        }
+        // --------------------------------
+
         public void BuffEnemy(EnemyBuffType type, float value)
         {
             enemy.ApplyBuff(type, value);
