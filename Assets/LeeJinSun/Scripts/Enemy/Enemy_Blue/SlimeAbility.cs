@@ -18,6 +18,7 @@ namespace JS
 
         [Header("Slime Settings")]
         [SerializeField] private GameObject slimeScreen;            //화면 가릴 슬라임
+        [SerializeField] private GameObject slimePuddle;            //슬라임 바닥 게임오브젝트
 
         [Header("Cycle Settings")]
         [SerializeField] private float minWaitTime = 2f;
