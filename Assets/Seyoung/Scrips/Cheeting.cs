@@ -5,6 +5,9 @@ namespace Team3
 
     public class Cheeting : MonoBehaviour
     {
+
+        public bool isCheating = false;
+
         [Header("Teleport Points")]
         public Transform point1;
         public Transform point2;
@@ -21,6 +24,9 @@ namespace Team3
 
         private void Update()
         {
+            if (!isCheating) return;
+
+
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 TeleportTo(point1);

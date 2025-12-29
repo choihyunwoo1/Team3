@@ -12,6 +12,7 @@ namespace Choi
         public string loadToScene = "PlayScene";
 
         public GameObject diaryUI;
+        public GameObject optionUI;
         #endregion
 
         #region Unity Event Method
@@ -36,6 +37,15 @@ namespace Choi
         public void OnQuitButton()
         {
             Application.Quit();
+        }
+
+        public void OnOpitonButton()
+        {
+            optionUI.SetActive(true);
+        }
+        public void CloseOpitonButton()
+        {
+            optionUI.SetActive(false);
         }
         #endregion
     }
