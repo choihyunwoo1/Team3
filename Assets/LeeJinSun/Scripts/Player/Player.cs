@@ -11,7 +11,7 @@ namespace JS
         private int jumpCount;
 
         [Header("이동 설정")]
-        [SerializeField] private float moveSpeed = 5f;
+        [SerializeField] public float moveSpeed = 5f;
 
         private Rigidbody2D rb2D;
         private AudioSource audioSource;
