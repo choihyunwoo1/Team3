@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 9d7fd6816667dad4f88c70c7a10a0880
+guid: ea53f8a790b0e0d4abb06d47a8cb5a67
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: 3358853167023515314
     second: YL_7_0
-  - first:
-      213: 1951010022652929386
-    second: YL_7_1
-  - first:
-      213: -1239531734194424574
-    second: YL_7_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -122,10 +116,10 @@ TextureImporter:
       name: YL_7_0
       rect:
         serializedVersion: 2
-        x: 62
-        y: 0
-        width: 148
-        height: 134
+        x: 100
+        y: 25
+        width: 40
+        height: 139
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,50 +130,6 @@ TextureImporter:
       bones: []
       spriteID: 2b6e121d82b0d9e20800000000000000
       internalID: 3358853167023515314
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: YL_7_1
-      rect:
-        serializedVersion: 2
-        x: 73
-        y: 86
-        width: 138
-        height: 58
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a6564795741631b10800000000000000
-      internalID: 1951010022652929386
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: YL_7_2
-      rect:
-        serializedVersion: 2
-        x: 210
-        y: 0
-        width: 15
-        height: 88
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 205748f747c4ccee0800000000000000
-      internalID: -1239531734194424574
       vertices: []
       indices: 
       edges: []
@@ -199,8 +149,6 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       YL_7_0: 3358853167023515314
-      YL_7_1: 1951010022652929386
-      YL_7_2: -1239531734194424574
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

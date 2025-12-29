@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: c7796aa56fa169d488ecb93178353dbe
+guid: 8909ee06eb1d5f3459552da76437545e
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: -210301259414196585
     second: YL_14_0
+  - first:
+      213: 936304237336876868
+    second: YL_14_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -116,10 +119,10 @@ TextureImporter:
       name: YL_14_0
       rect:
         serializedVersion: 2
-        x: 106
-        y: 62
-        width: 38
-        height: 29
+        x: 97
+        y: 33
+        width: 8
+        height: 129
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,6 +133,28 @@ TextureImporter:
       bones: []
       spriteID: 79eacc86e1cd41df0800000000000000
       internalID: -210301259414196585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YL_14_1
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 81
+        width: 7
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 447582c3ebb6efc00800000000000000
+      internalID: 936304237336876868
       vertices: []
       indices: 
       edges: []
@@ -149,6 +174,7 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       YL_14_0: -210301259414196585
+      YL_14_1: 936304237336876868
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
