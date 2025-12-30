@@ -50,33 +50,6 @@ TextureImporter:
   - first:
       213: -6675724472072172523
     second: Bad_1_3_15
-  - first:
-      213: 577962444105909264
-    second: Bad_1_3_16
-  - first:
-      213: 3120648388588648580
-    second: Bad_1_3_17
-  - first:
-      213: -1589417454726438313
-    second: Bad_1_3_18
-  - first:
-      213: 5167696835734693663
-    second: Bad_1_3_19
-  - first:
-      213: -1535691154733202968
-    second: Bad_1_3_20
-  - first:
-      213: 7185494124111428091
-    second: Bad_1_3_21
-  - first:
-      213: -4708140722038058827
-    second: Bad_1_3_22
-  - first:
-      213: -3989557324178794734
-    second: Bad_1_3_23
-  - first:
-      213: -8337399926110066923
-    second: Bad_1_3_24
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -188,10 +161,10 @@ TextureImporter:
       name: Bad_1_3_0
       rect:
         serializedVersion: 2
-        x: 78
-        y: 136
-        width: 17
-        height: 9
+        x: 59
+        y: 109
+        width: 18
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,10 +183,10 @@ TextureImporter:
       name: Bad_1_3_1
       rect:
         serializedVersion: 2
-        x: 89
-        y: 121
-        width: 91
-        height: 55
+        x: 78
+        y: 136
+        width: 17
+        height: 9
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -232,10 +205,10 @@ TextureImporter:
       name: Bad_1_3_2
       rect:
         serializedVersion: 2
-        x: 184
-        y: 133
-        width: 14
-        height: 13
+        x: 89
+        y: 121
+        width: 91
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -254,10 +227,10 @@ TextureImporter:
       name: Bad_1_3_3
       rect:
         serializedVersion: 2
-        x: 197
-        y: 141
-        width: 57
-        height: 14
+        x: 160
+        y: 117
+        width: 74
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -276,10 +249,10 @@ TextureImporter:
       name: Bad_1_3_4
       rect:
         serializedVersion: 2
-        x: 59
-        y: 109
-        width: 18
-        height: 27
+        x: 206
+        y: 135
+        width: 48
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -298,10 +271,10 @@ TextureImporter:
       name: Bad_1_3_5
       rect:
         serializedVersion: 2
-        x: 76
-        y: 113
-        width: 78
-        height: 8
+        x: 0
+        y: 86
+        width: 29
+        height: 29
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -320,10 +293,10 @@ TextureImporter:
       name: Bad_1_3_6
       rect:
         serializedVersion: 2
-        x: 153
-        y: 82
-        width: 89
-        height: 53
+        x: 76
+        y: 113
+        width: 85
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -342,10 +315,10 @@ TextureImporter:
       name: Bad_1_3_7
       rect:
         serializedVersion: 2
-        x: 0
-        y: 98
-        width: 29
-        height: 13
+        x: 216
+        y: 100
+        width: 24
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -364,10 +337,10 @@ TextureImporter:
       name: Bad_1_3_8
       rect:
         serializedVersion: 2
-        x: 0
-        y: 78
-        width: 15
-        height: 20
+        x: 31
+        y: 89
+        width: 29
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -386,10 +359,10 @@ TextureImporter:
       name: Bad_1_3_9
       rect:
         serializedVersion: 2
-        x: 5
-        y: 93
-        width: 6
-        height: 7
+        x: 181
+        y: 64
+        width: 61
+        height: 38
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -408,10 +381,10 @@ TextureImporter:
       name: Bad_1_3_10
       rect:
         serializedVersion: 2
-        x: 31
-        y: 89
-        width: 29
-        height: 18
+        x: 207
+        y: 91
+        width: 47
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -430,10 +403,10 @@ TextureImporter:
       name: Bad_1_3_11
       rect:
         serializedVersion: 2
-        x: 181
-        y: 58
-        width: 38
-        height: 44
+        x: 0
+        y: 54
+        width: 59
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -452,10 +425,10 @@ TextureImporter:
       name: Bad_1_3_12
       rect:
         serializedVersion: 2
-        x: 213
-        y: 88
-        width: 10
-        height: 14
+        x: 202
+        y: 70
+        width: 52
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -474,10 +447,10 @@ TextureImporter:
       name: Bad_1_3_13
       rect:
         serializedVersion: 2
-        x: 219
-        y: 88
-        width: 35
-        height: 18
+        x: 58
+        y: 44
+        width: 19
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -496,10 +469,10 @@ TextureImporter:
       name: Bad_1_3_14
       rect:
         serializedVersion: 2
-        x: 9
-        y: 59
-        width: 50
-        height: 31
+        x: 74
+        y: 0
+        width: 104
+        height: 61
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -518,10 +491,10 @@ TextureImporter:
       name: Bad_1_3_15
       rect:
         serializedVersion: 2
-        x: 206
-        y: 83
-        width: 17
-        height: 11
+        x: 163
+        y: 27
+        width: 91
+        height: 38
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -532,204 +505,6 @@ TextureImporter:
       bones: []
       spriteID: 51c81cf46ff0b53a0800000000000000
       internalID: -6675724472072172523
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bad_1_3_16
-      rect:
-        serializedVersion: 2
-        x: 227
-        y: 74
-        width: 27
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 014037ed7c5550800800000000000000
-      internalID: 577962444105909264
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bad_1_3_17
-      rect:
-        serializedVersion: 2
-        x: 58
-        y: 44
-        width: 19
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 488b8beec25ce4b20800000000000000
-      internalID: 3120648388588648580
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bad_1_3_18
-      rect:
-        serializedVersion: 2
-        x: 216
-        y: 64
-        width: 24
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 752a93bfe3141f9e0800000000000000
-      internalID: -1589417454726438313
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bad_1_3_19
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 41
-        width: 57
-        height: 22
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f1760e874e857b740800000000000000
-      internalID: 5167696835734693663
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bad_1_3_20
-      rect:
-        serializedVersion: 2
-        x: 3
-        y: 56
-        width: 12
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8e10b6df70120bae0800000000000000
-      internalID: -1535691154733202968
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bad_1_3_21
-      rect:
-        serializedVersion: 2
-        x: 74
-        y: 0
-        width: 104
-        height: 61
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bf97153e5d008b360800000000000000
-      internalID: 7185494124111428091
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bad_1_3_22
-      rect:
-        serializedVersion: 2
-        x: 163
-        y: 33
-        width: 80
-        height: 23
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5b0de5645f259aeb0800000000000000
-      internalID: -4708140722038058827
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bad_1_3_23
-      rect:
-        serializedVersion: 2
-        x: 184
-        y: 26
-        width: 13
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 217d34150ce32a8c0800000000000000
-      internalID: -3989557324178794734
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bad_1_3_24
-      rect:
-        serializedVersion: 2
-        x: 198
-        y: 26
-        width: 56
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 51767ddc0fa9b4c80800000000000000
-      internalID: -8337399926110066923
       vertices: []
       indices: 
       edges: []
@@ -756,16 +531,7 @@ TextureImporter:
       Bad_1_3_13: 5333582330901145499
       Bad_1_3_14: -8121897860554713956
       Bad_1_3_15: -6675724472072172523
-      Bad_1_3_16: 577962444105909264
-      Bad_1_3_17: 3120648388588648580
-      Bad_1_3_18: -1589417454726438313
-      Bad_1_3_19: 5167696835734693663
       Bad_1_3_2: -6218412978869798959
-      Bad_1_3_20: -1535691154733202968
-      Bad_1_3_21: 7185494124111428091
-      Bad_1_3_22: -4708140722038058827
-      Bad_1_3_23: -3989557324178794734
-      Bad_1_3_24: -8337399926110066923
       Bad_1_3_3: -7432665978726309671
       Bad_1_3_4: 7497128871037216896
       Bad_1_3_5: -7924675727184960923

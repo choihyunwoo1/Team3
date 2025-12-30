@@ -17,13 +17,10 @@ namespace Team3
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            Debug.Log("TRIGGER HIT");
-
             if (triggered) return;
             if (!other.CompareTag("Player")) return;
 
             triggered = true;
-            Debug.Log("PLAYER CONFIRMED");
 
             StartCoroutine(FreezeSequence());
 
@@ -33,8 +30,6 @@ namespace Team3
 
         private IEnumerator FreezeSequence()
         {
-            Debug.Log("FREEZE START");
-
             // 🔒 Player Freeze
             Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
             if (playerRb != null)
