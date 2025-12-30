@@ -40,8 +40,8 @@ namespace Choi
         public void Setup(Enemy_Main enemy)
         {
             owner = enemy;
-            // Enemy 본체나 자식에 있는 애니메이터를 가져옵니다.
-            //animator = GetComponentInChildren<Animator>();
+            // punchVisual이나 자식에 있는 애니메이터를 가져옵니다.
+            animator = punchVisual.GetComponentInChildren<Animator>(true);
         }
 
         // 2. 능력 시작: 외형을 바꾸고 타이머 초기화
@@ -49,27 +49,17 @@ namespace Choi
         {
             //혹시 진행되는 코루틴들 멈추게 하기
             StopAllCoroutines();
+
             //펀치 코루틴 시작
             StartCoroutine(PunchSequenceRoutine());
 
-            /*if (punchVisual != null)
-            {
-                punchVisual.SetActive(true);                
-            }
-
-            if (punchPoint != null)
-            {
-                punchPoint.gameObject.SetActive(true);
-            }
-
-            SetRandomPunchTimer();*/
+            owner.speed *= 0.5f;
         }
 
         // 3. 실행: Enemy의 Update에서 매 프레임 호출됨
         public void OnTick()
         {
             UpdatePunchPointPosition();
-            //HandlePunchCycle();
         }
 
         // 4. 능력 종료: 외형을 끄고 상태 정리
@@ -79,8 +69,7 @@ namespace Choi
             if (punchPoint != null) punchPoint.gameObject.SetActive(false);
 
             StopAllCoroutines();
-            // 종료 시 다시 손 모양으로 복구
-            //if (animator != null) animator.SetBool("isPunchMode", false);
+            owner.speed *= 2f;
         }
 
         private IEnumerator PunchSequenceRoutine()
@@ -88,10 +77,10 @@ namespace Choi
             while (true)
             {
                 // 1. [추격 단계] 애니메이션을 '손' 상태로
-                //animator.SetBool("isPunchMode", false);
                 if (punchVisual != null)
                 {
                     punchVisual.SetActive(true);
+                    animator.SetBool("IsAttack", false);
                 }
                 if (punchPoint != null)
                 {
@@ -102,8 +91,16 @@ namespace Choi
                 yield return new WaitForSeconds(chasingTime);
 
                 // 2. [공격 준비 단계] 애니메이션을 '주먹' 상태로
-                //animator.SetBool("isPunchMode", true);
-                yield return new WaitForSeconds(0.7f); // 변신 후 딜레이
+                if (animator != null)
+                {
+                    // 여기서 다시 한번 오브젝트가 켜져 있는지 확인
+                    if (!punchVisual.activeSelf) punchVisual.SetActive(true);
+
+                    animator.SetBool("IsAttack", true);
+                }
+
+                yield return new WaitForSeconds(1.75f); // 변신 후 딜레이
+
 
                 // 3. [연속 발사 단계]
                 int shootCount = Random.Range(minPunchCount, maxPunchCount + 1);
@@ -127,23 +124,12 @@ namespace Choi
                 if (punchPoint != null) punchPoint.gameObject.SetActive(false);
             }
         }
-
         private void UpdatePunchPointPosition()
         {
             if (owner.player == null || punchPoint == null) return;
 
             float targetX = Mathf.Lerp(punchPoint.position.x, owner.player.position.x + offSet, Time.deltaTime * punchFollowSmoothness);
             punchPoint.position = new Vector3(targetX, punchHeight, 0f);
-        }
-
-        private void HandlePunchCycle()
-        {
-            punchTimer -= Time.deltaTime;
-            if (punchTimer <= 0f)
-            {
-                ExecutePunch();
-                SetRandomPunchTimer();
-            }
         }
 
         private void ExecutePunch()
@@ -153,8 +139,6 @@ namespace Choi
                 Instantiate(punchPrefab, punchPoint.position, Quaternion.identity);
             }
         }
-
-        private void SetRandomPunchTimer() => punchTimer = Random.Range(minWaitTime, maxWaitTime);
         #endregion
     }
 }
