@@ -181,9 +181,11 @@ namespace JS
             float offsetY = Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
             float yTarget = Mathf.Lerp(transform.position.y, player.position.y, 0.15f) + offsetY;
             float xTarget = Mathf.Lerp(transform.position.x, player.position.x, speed * Time.deltaTime);
+            //float xTarget = player.position.x;
 
             Vector3 target = new Vector3(xTarget, yTarget, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, target, speed * Time.deltaTime);
+
         }
 
         private void MoveToWaypoint()
