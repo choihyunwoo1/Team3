@@ -1,41 +1,36 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Choi
-{
+{ 
     public class CutsceneManager : MonoBehaviour
     {
         public static CutsceneManager Instance;
 
-        // 기존 DeathCutscene 전용 이벤트
-        public UnityEvent<DeathCause> OnCutsceneFinished = new UnityEvent<DeathCause>();
+        #region Variables
+        [SerializeField] private GameManager gameManager;
 
-        [System.Serializable]
-        public class DeathCutsceneData
-        {
-            public DeathCause cause;
-            public GameObject cutsceneObj;
-            public float duration = 2.5f;
-        }
+        [Header("Death Cutscenes")]
+        [SerializeField] private GameObject enemyCutscene;
+        [SerializeField] private GameObject fallCutscene;
+        [SerializeField] private GameObject obstacleCutscene;
 
-        // NEW ------------------------------
-        [System.Serializable]
-        public class FinishCutsceneData
-        {
-            public GameObject cutsceneObj;
-            public float duration = 2.0f;
-        }
-        // ----------------------------------
+        [Header("Ending Cutscenes (총 8종)")]
+        [SerializeField] private GameObject zeroItemEnding;
+        [SerializeField] private GameObject oneToThreeEnding;
+        [SerializeField] private GameObject allFiveEnding;
+        [SerializeField] private GameObject missingAEnding;
+        [SerializeField] private GameObject missingBEnding;
+        [SerializeField] private GameObject missingCEnding;
+        [SerializeField] private GameObject missingDEnding;
+        [SerializeField] private GameObject missingEEnding;
 
-        [SerializeField] private List<DeathCutsceneData> cutsceneList = new List<DeathCutsceneData>();
-        private Dictionary<DeathCause, DeathCutsceneData> cutsceneDict;
-
-        [Header("Finish Cutscene")]
-        [SerializeField] private FinishCutsceneData finishCutscene;  // NEW
+        // 컷씬 종료 이벤트
+        public UnityEvent<string> OnCutsceneEndEvent;
 
         private bool isPlaying = false;
+        #endregion
 
         private void Awake()
         {
@@ -46,91 +41,117 @@ namespace Choi
             }
             Instance = this;
 
-            // DeathCutscene 초기화
-            cutsceneDict = new Dictionary<DeathCause, DeathCutsceneData>();
-            foreach (var data in cutsceneList)
-            {
-                if (!cutsceneDict.ContainsKey(data.cause))
-                    cutsceneDict.Add(data.cause, data);
-            }
+            if (OnCutsceneEndEvent == null)
+                OnCutsceneEndEvent = new UnityEvent<string>();
         }
 
-        // -------------------------
-        // 기존 Death 컷씬 재생
-        // -------------------------
+        // ============================================================
+        // 1) DEATH CUTSCENE
+        // ============================================================
         public void PlayDeathCutscene(DeathCause cause)
         {
-            if (isPlaying)
-                return;
+            if (isPlaying) return;
 
-            GameManager gm = FindObjectOfType<GameManager>();
-            gm?.RequestGameOver(cause);
+            GameObject target = null;
 
-            if (cutsceneDict.TryGetValue(cause, out var data))
+            switch (cause)
             {
-                StartCoroutine(PlayDeath(data.cutsceneObj, data.duration, cause));
+                case DeathCause.Enemy:
+                    target = enemyCutscene;
+                    break;
+
+                case DeathCause.Fall:
+                    target = fallCutscene;
+                    break;
+
+                case DeathCause.Obstacle:
+                    target = obstacleCutscene;
+                    break;
             }
+
+            StartCoroutine(PlayCutscene(target, cause.ToString(), GameState.GameOverCutscene));
         }
 
-        private IEnumerator PlayDeath(GameObject obj, float duration, DeathCause cause)
+
+        // ============================================================
+        // 2) ENDING CUTSCENE (8종)
+        // ============================================================
+        public void PlayEndingCutscene(EndingType type)
+        {
+            if (isPlaying) return;
+
+            GameObject target = type switch
+            {
+                EndingType.ZeroItem => zeroItemEnding,
+                EndingType.OneToThree => oneToThreeEnding,
+                EndingType.AllFive => allFiveEnding,
+                EndingType.MissingA => missingAEnding,
+                EndingType.MissingB => missingBEnding,
+                EndingType.MissingC => missingCEnding,
+                EndingType.MissingD => missingDEnding,
+                EndingType.MissingE => missingEEnding,
+                _ => null
+            };
+
+            if (target == null)
+            {
+                Debug.LogWarning($"Ending Cutscene not found for type: {type}");
+                return;
+            }
+
+            StartCoroutine(PlayCutscene(target, type.ToString(), GameState.StageClearCutscene));
+        }
+
+        // ============================================================
+        // 공통 컷씬 플레이어
+        // ============================================================
+        private IEnumerator PlayCutscene(GameObject cutsceneObj, string cutsceneName, GameState duringState)
         {
             isPlaying = true;
-            obj.SetActive(true);
 
-            // Animator 강제 초기화
-            Animator anim = obj.GetComponentInChildren<Animator>();
+            cutsceneObj.SetActive(true);
+            gameManager.SetState(duringState);
+
+            Animator anim = cutsceneObj.GetComponentInChildren<Animator>();
+            float animLength = 0f;
+
             if (anim != null)
             {
                 anim.Rebind();
                 anim.Update(0f);
+
+                // 첫 번째 스테이트의 길이 가져오기
+                AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
+                animLength = info.length;
+
                 anim.Play(0);
             }
 
-            yield return new WaitForSecondsRealtime(duration);
+            // 애니메이션 길이 기다림
+            if (animLength > 0f)
+                yield return new WaitForSecondsRealtime(animLength);
+            else
+                yield return new WaitForSecondsRealtime(2f); // fallback
 
-            obj.SetActive(false);
-            isPlaying = false;
+            // 컷씬 강제 종료
+            EndCutscene();
 
-            GameManager gm = FindObjectOfType<GameManager>();
-            gm?.NotifyGameOverCutsceneFinished();
+            // ---------------- 종료 처리 ----------------
+            cutsceneObj.SetActive(false);
 
-            OnCutsceneFinished?.Invoke(cause);
+            if (duringState == GameState.GameOverCutscene)
+                gameManager.SetState(GameState.GameOver);
+            else if (duringState == GameState.StageClearCutscene)
+                gameManager.SetState(GameState.StageClear);
+
+            OnCutsceneEndEvent.Invoke(cutsceneName);
         }
 
-        // -------------------------
-        // NEW: Finish 컷씬 재생
-        // -------------------------
-        public void PlayFinishCutscene()
+
+        // 외부에서 호출되는 컷씬 종료 신호
+        public void EndCutscene()
         {
-            if (isPlaying)
-                return;
-
-            StartCoroutine(PlayFinish());
-        }
-
-        private IEnumerator PlayFinish()
-        {
-            isPlaying = true;
-
-            GameObject obj = finishCutscene.cutsceneObj;
-            obj.SetActive(true);
-
-            Animator anim = obj.GetComponentInChildren<Animator>();
-            if (anim != null)
-            {
-                anim.Rebind();
-                anim.Update(0f);
-                anim.Play(0);
-            }
-
-            yield return new WaitForSecondsRealtime(finishCutscene.duration);
-
-            obj.SetActive(false);
             isPlaying = false;
-
-            // GameManager에 Finish 종료 알림
-            GameManager gm = FindObjectOfType<GameManager>();
-            gm?.NotifyFinishCutsceneFinished();
         }
     }
 }

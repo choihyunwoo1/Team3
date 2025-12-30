@@ -9,7 +9,6 @@ namespace Choi
         None,
         SpeedUp,
         ScaleUp,
-        LaserBeam,
         Red,
         Blue,
         Green,
@@ -91,7 +90,7 @@ namespace Choi
             Player playerComponent = other.GetComponent<Player>();
             if (playerComponent != null)
             {
-                playerComponent.Die(DeathCause.EnemyA);
+                playerComponent.Die(DeathCause.Enemy);
                 gameObject.SetActive(false);
             }
         }

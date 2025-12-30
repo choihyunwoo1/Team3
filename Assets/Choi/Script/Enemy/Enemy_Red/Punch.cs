@@ -39,7 +39,7 @@ namespace Choi
             Player player = other.GetComponent<Player>();
             if (player != null)
             {
-                player.Die(DeathCause.EnemyA);
+                player.Die(DeathCause.Enemy);
             }
             Destroy(gameObject); // 충돌 후 소멸
         }

@@ -65,14 +65,6 @@ namespace Choi
             }
 
         }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (!collision.collider.CompareTag("Obstacle"))
-                return;
-
-            Die(DeathCause.Trap);
-        }
         #endregion
 
         #region Custom Method

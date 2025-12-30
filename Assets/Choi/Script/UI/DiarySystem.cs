@@ -37,15 +37,15 @@ namespace Choi
 
         private void OnEnable()
         {
-            if (CutsceneManager.Instance != null)
-                CutsceneManager.Instance.OnCutsceneFinished.AddListener(GenerateDiaryEntry);
+           // if (CutsceneManager.Instance != null)
+          //      CutsceneManager.Instance.OnCutsceneFinished.AddListener(GenerateDiaryEntry);
         }
 
 
         private void OnDisable()
         {
-            if (CutsceneManager.Instance != null)
-                CutsceneManager.Instance.OnCutsceneFinished.RemoveListener(GenerateDiaryEntry);
+            //if (CutsceneManager.Instance != null)
+           //     CutsceneManager.Instance.OnCutsceneFinished.RemoveListener(GenerateDiaryEntry);
         }
 
 
@@ -56,9 +56,9 @@ namespace Choi
 
             string entry = cause switch
             {
-                DeathCause.EnemyA => "누군가가 나를 보고 있었다...",
+                DeathCause.Enemy => "누군가가 나를 보고 있었다...",
                 DeathCause.Fall => "깊은 어둠 속으로 떨어졌다...",
-                DeathCause.Trap => "날카로운 금속이 내 몸을 치었다...",
+                DeathCause.Obstacle => "날카로운 금속이 내 몸을 치었다...",
             };
 
             diaryData.Add(entryCount, entry);
