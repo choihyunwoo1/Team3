@@ -69,7 +69,7 @@ namespace JS
                 else if (ability is SlimeAbility) abilityMap[EnemyBuffType.Blue] = ability;
                 else if (ability is LaughAbility) abilityMap[EnemyBuffType.Green] = ability;
                 else if (ability is CloneAbility) abilityMap[EnemyBuffType.Yellow] = ability;
-                else if (ability is EyeBounceAbility) abilityMap[EnemyBuffType.Purple] = ability;
+                else if (ability is EyeShootAbility) abilityMap[EnemyBuffType.Purple] = ability;
                 //else if (ability is LaserAbility) abilityMap[EnemyBuffType.LaserBeam] = ability;
                 // 새로운 능력이 추가될 때마다 여기에 등록 로직 추가
             }
