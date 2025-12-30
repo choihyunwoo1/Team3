@@ -333,7 +333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &181181058
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1744,6 +1744,11 @@ MonoBehaviour:
   loadToScene: PlayScene
   diaryUI: {fileID: 601244696}
   optionUI: {fileID: 0}
+  global: {fileID: 0}
+  effect: {fileID: 0}
+  bg: {fileID: 0}
+  resetUI: {fileID: 0}
+  vibrateUI: {fileID: 0}
 --- !u!1 &1115494627
 GameObject:
   m_ObjectHideFlags: 0
