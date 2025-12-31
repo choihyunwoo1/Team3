@@ -12,6 +12,27 @@ namespace Team3
 
         private bool isTeleporting = false;
 
+        //흔들림 - 위아래
+        [SerializeField] private float bobingAmount = 1f;    //흔들림 량
+        [SerializeField] private float verticalBobFrequency = 1f;    //흔들림 속도
+
+        //회전
+        [SerializeField] private float rotateSpeed = 360f;
+
+        private Vector3 localStartPos;
+
+        protected void Start()
+        {
+            localStartPos = transform.localPosition;
+        }
+
+        protected void Update()
+        {
+            float bob = Mathf.Sin(Time.time * verticalBobFrequency) * bobingAmount;
+            transform.localPosition = localStartPos + Vector3.up * bob;
+
+            transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime, Space.Self);
+        }
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (isTeleporting) return;

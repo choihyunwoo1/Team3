@@ -12,7 +12,7 @@ namespace Choi
         private int jumpCount;
 
         [Header("이동 설정")]
-        [SerializeField] private float moveSpeed = 5f;
+        [SerializeField] public float moveSpeed = 5f;
 
         [Header("Wall Check")]
         [SerializeField] private GameObject wallCheckLeft;
