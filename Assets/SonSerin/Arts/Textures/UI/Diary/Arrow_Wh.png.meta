@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 771a2bc86bf0b8844a2edbdcacbe7eac
+guid: cc00c5004d7e8934ca92bf969696729b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8669223567042297493
-    second: BookMarker_2_0
+      213: 712514908125440818
+    second: Arrow_Wh_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BookMarker_2_0
+      name: Arrow_Wh_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 24
-        height: 85
+        width: 185
+        height: 331
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b61cff7e81bb0b780800000000000000
-      internalID: -8669223567042297493
+      spriteID: 23bacfba88c53e900800000000000000
+      internalID: 712514908125440818
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BookMarker_2_0: -8669223567042297493
+      Arrow_Wh_0: 712514908125440818
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
