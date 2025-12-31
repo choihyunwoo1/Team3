@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ae87b49263e21e249858d34e5aff8557
+guid: 771a2bc86bf0b8844a2edbdcacbe7eac
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6899527831451061053
-    second: GameOver_0
+      213: -8669223567042297493
+    second: BookMarker_2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GameOver_0
+      name: BookMarker_2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 800
-        height: 600
+        width: 24
+        height: 85
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3c430781ef3ff30a0800000000000000
-      internalID: -6899527831451061053
+      spriteID: b61cff7e81bb0b780800000000000000
+      internalID: -8669223567042297493
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      GameOver_0: -6899527831451061053
+      BookMarker_2_0: -8669223567042297493
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

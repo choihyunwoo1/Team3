@@ -9,7 +9,6 @@ namespace Choi
         None,
         SpeedUp,
         ScaleUp,
-        LaserBeam,
         Red,
         Blue,
         Green,
@@ -41,7 +40,7 @@ namespace Choi
         private EnemyMoveState moveState = EnemyMoveState.Chasing;
         private Transform waypointTarget;
 
-        // 🔥 추가: 정지 상태 플래그
+        // 추가: 정지 상태 플래그
         private bool isFrozen = false;
         #endregion
 
@@ -77,7 +76,7 @@ namespace Choi
 
         private void Update()
         {
-            // 🔥 핵심: 정지 상태면 아무 것도 하지 않음
+            // 핵심: 정지 상태면 아무 것도 하지 않음
             if (isFrozen) return;
             if (gameManager.State != GameState.Playing) return;
 
@@ -91,7 +90,7 @@ namespace Choi
             Player playerComponent = other.GetComponent<Player>();
             if (playerComponent != null)
             {
-                playerComponent.Die(DeathCause.EnemyA);
+                playerComponent.Die(DeathCause.Enemy);
                 gameObject.SetActive(false);
             }
         }
@@ -210,7 +209,6 @@ namespace Choi
                 moveState = EnemyMoveState.Chasing;
             }
         }
-
 
         private void CatchUpIfTooFar()
         {

@@ -12,12 +12,24 @@ namespace Choi
         public event Action<GameState> OnStateChanged;
         public event Action<DeathCause> OnGameOver;
         [SerializeField] private Enemy_Main enemy;
+
+        [SerializeField] private DiarySystem diarySystem;
+        [SerializeField] private CutsceneManager cutsceneManager;
+
         #endregion
 
         #region Unity Event Method
+        private void Awake()
+        {
+            diarySystem = DiarySystem.Instance;
+        }
+
         private void Start()
         {
             SetState(GameState.Ready);
+
+            // 컷씬 종료 이벤트 수신 → 다이어리 해금 처리
+            cutsceneManager.OnCutsceneEndEvent.AddListener(OnCutsceneFinished);
         }
 
         private void Update()
@@ -44,6 +56,12 @@ namespace Choi
                     if (Input.GetKeyDown(KeyCode.Escape))
                         SetState(GameState.Playing);
                     break;
+            }
+
+            if (Input.GetKeyDown(KeyCode.P)) 
+            {
+                DiarySystem.Instance.ResetDiary();
+                Debug.Log("Diary Reset!");
             }
         }
         #endregion
@@ -106,6 +124,11 @@ namespace Choi
         {
             enemy.ApplyBuff(type, value);
         }
+        private void OnCutsceneFinished(string cutsceneName)
+        {
+            diarySystem.UnlockCutscene(cutsceneName);
+        }
+
         #endregion
     }
 }

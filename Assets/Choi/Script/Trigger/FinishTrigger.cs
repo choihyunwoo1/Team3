@@ -17,13 +17,24 @@ namespace Choi
 
             triggered = true;
 
-            // 1) GameManager에 StageClear 요청
             GameManager gm = FindObjectOfType<GameManager>();
-            gm?.RequestStageClear();
 
-            // 2) Cutscene 재생
-            CutsceneManager.Instance.PlayFinishCutscene();
+            if (gm == null)
+            {
+                Debug.LogError("[FinishTrigger] GameManager not found in scene.");
+                return;
+            }
 
+            // 1. 상태 전환
+            gm.RequestStageClear();
+
+            // 2. 엔딩 타입 결정
+            EndingType result = ItemManager.Instance.GetEndingType();
+
+            // 3. 엔딩 컷씬 재생
+            CutsceneManager.Instance.PlayEndingCutscene(result);
+
+            // 4. 비활성화
             gameObject.SetActive(false);
         }
     }
