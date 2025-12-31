@@ -15,9 +15,6 @@ namespace Choi
 
         public GameObject diaryUI;
         public GameObject optionUI;
-        public MuteUI global;
-        public MuteUI effect;
-        public MuteUI bg;
         public ResetUI resetUI;
         public VibrateUI vibrateUI;
         #endregion
@@ -53,35 +50,6 @@ namespace Choi
         public void CloseOpitonButton()
         {
             optionUI.SetActive(false);
-        }
-        public void SetGlobalMute()
-        {
-            global.Set(true);
-        }
-
-        public void SetGlobalUnMute()
-        {
-            global.Set(false);
-        }
-
-        public void SetBGMute()
-        {
-            bg.Set(true);
-        }
-
-        public void SetBGUnMute()
-        {
-            bg.Set(false);
-        }
-
-        public void SetEffectMute()
-        {
-            effect.Set(true);
-        }
-
-        public void SetEffectUnMute()
-        {
-            effect.Set(false);
         }
         public void OnReset()
         {
