@@ -1,24 +1,32 @@
+using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 namespace Choi
 {
     public class DiaryUI : MonoBehaviour
     {
-        [SerializeField] private TMP_Text diaryTextField;
-        [SerializeField] private GameObject[] diaryPanels;
-
-        public void ShowPanelByCause(DeathCause cause)
+        [System.Serializable]
+        public class DiaryButton
         {
-            foreach (var panel in diaryPanels)
-                panel.SetActive(false);
-
-            diaryPanels[(int)cause].SetActive(true);
+            public string cutsceneKey;   
+            public GameObject buttonObj;
         }
 
-        public void DisplayEntry(string text)
+        [SerializeField]
+        private List<DiaryButton> diaryButtons;
+
+        private void OnEnable()
         {
-            diaryTextField.text = text;
+            Refresh();
+        }
+
+        public void Refresh()
+        {
+            foreach (var item in diaryButtons)
+            {
+                bool unlocked = DiarySystem.Instance.IsUnlocked(item.cutsceneKey);
+                item.buttonObj.SetActive(unlocked);
+            }
         }
     }
 }

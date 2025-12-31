@@ -6,7 +6,14 @@ namespace Choi
     {
         public static MaskUIManager Instance;
 
-        [Header("Mask UI Objects")]
+        [Header("IdleMask UI Objects")]
+        [SerializeField] private GameObject idleA;
+        [SerializeField] private GameObject idleB;
+        [SerializeField] private GameObject idleC;
+        [SerializeField] private GameObject idleD;
+        [SerializeField] private GameObject idleE;
+
+        [Header("ColorMask UI Objects")]
         [SerializeField] private GameObject maskA;
         [SerializeField] private GameObject maskB;
         [SerializeField] private GameObject maskC;
@@ -28,12 +35,26 @@ namespace Choi
             if (ItemManager.Instance == null)
                 return;
 
-            maskA.SetActive(ItemManager.Instance.hasA);
-            maskB.SetActive(ItemManager.Instance.hasB);
-            maskC.SetActive(ItemManager.Instance.hasC);
-            maskD.SetActive(ItemManager.Instance.hasD);
-            maskE.SetActive(ItemManager.Instance.hasE);
+            // Color Mask 업데이트
+            bool a = ItemManager.Instance.hasA;
+            bool b = ItemManager.Instance.hasB;
+            bool c = ItemManager.Instance.hasC;
+            bool d = ItemManager.Instance.hasD;
+            bool e = ItemManager.Instance.hasE;
+
+            maskA.SetActive(a);
+            maskB.SetActive(b);
+            maskC.SetActive(c);
+            maskD.SetActive(d);
+            maskE.SetActive(e);
+
+            idleA.SetActive(!a);
+            idleB.SetActive(!b);
+            idleC.SetActive(!c);
+            idleD.SetActive(!d);
+            idleE.SetActive(!e);
         }
+
         public void HideAll()
         {
             maskA.SetActive(false);
@@ -41,6 +62,14 @@ namespace Choi
             maskC.SetActive(false);
             maskD.SetActive(false);
             maskE.SetActive(false);
+
+            // Idle은 강제로 끄고 싶으면 끄기
+            idleA.SetActive(false);
+            idleB.SetActive(false);
+            idleC.SetActive(false);
+            idleD.SetActive(false);
+            idleE.SetActive(false);
         }
+
     }
 }

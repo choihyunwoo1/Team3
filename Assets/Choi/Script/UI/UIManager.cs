@@ -75,5 +75,17 @@ namespace Choi
         {
             gameManager.SetState(GameState.Playing);
         }
+
+        public void Pause()
+        {
+            if (gameManager.State == GameState.Playing)
+            {
+                gameManager.SetState(GameState.Paused);
+            }
+            else if (gameManager.State == GameState.Paused)
+            {
+                gameManager.SetState(GameState.Playing);
+            }
+        }
     }
 }
