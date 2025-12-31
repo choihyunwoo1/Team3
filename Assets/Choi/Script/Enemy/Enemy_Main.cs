@@ -65,7 +65,7 @@ namespace Choi
                 else if (ability is SlimeAbility) abilityMap[EnemyBuffType.Blue] = ability;
                 else if (ability is LaughAbility) abilityMap[EnemyBuffType.Green] = ability;
                 else if (ability is CloneAbility) abilityMap[EnemyBuffType.Yellow] = ability;
-                else if (ability is EyeBounceAbility) abilityMap[EnemyBuffType.Purple] = ability;
+                else if (ability is EyeShootAbility) abilityMap[EnemyBuffType.Purple] = ability;
             }
         }
 
