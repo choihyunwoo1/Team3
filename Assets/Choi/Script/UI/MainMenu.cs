@@ -11,6 +11,7 @@ namespace Choi
         #region Variables
         public SceneFader fader;
         public string loadToScene = "PlayScene";
+        public string miniGameScene = "MiniGame";
 
         public GameObject diaryUI;
         public GameObject optionUI;
@@ -65,6 +66,10 @@ namespace Choi
         public void OffVibrate()
         {
             vibrateUI.Set(false);
+        }
+        public void MiniGameButton()
+        {
+            SceneFader.FadeTo(miniGameScene);
         }
         #endregion
     }

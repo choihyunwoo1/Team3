@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 50403972}
   - component: {fileID: 50403971}
   - component: {fileID: 50403969}
+  - component: {fileID: 50403975}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -300,6 +301,25 @@ Transform:
   - {fileID: 2028352164}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &50403975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50403966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3db98066b4ce794c9601cd75d0c5c5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  jumpForce: 7
+  groundCheck: {fileID: 487938273}
+  groundCheckRadius: 0.2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &196870647
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,7 +468,7 @@ GameObject:
   - component: {fileID: 381451122}
   - component: {fileID: 381451121}
   - component: {fileID: 381451123}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
