@@ -22,6 +22,8 @@ namespace JS
         //마지막 장
         public GameObject lastPage;
 
+        //깜빡임 효과
+        public GameObject blinkEffect;
         #endregion
 
         #region Unity Event Method
@@ -54,7 +56,7 @@ namespace JS
         //스킵버튼 보이게
         IEnumerator ShowSkipButton()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
             skipButton.SetActive(true);
 
         }
@@ -68,8 +70,10 @@ namespace JS
 
         IEnumerator ExitIntro()
         {
-            //눈 깜빡임
+            yield return new WaitForSeconds(2f);
 
+            //눈 깜빡임
+            blinkEffect.SetActive(true);
 
             yield return new WaitForSeconds(1f);
 

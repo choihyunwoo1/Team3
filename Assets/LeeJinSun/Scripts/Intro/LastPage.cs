@@ -27,16 +27,16 @@ namespace JS
         #region Custom Method
         IEnumerator ShowTexts()
         {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.3f);
             yellowText.SetActive(true);
 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.3f);
             redText.SetActive(true);
 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.3f);
             purpleText.SetActive(true);
 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.3f);
             greenText.SetActive(true);
 
             yield return new WaitForSeconds(1f);
