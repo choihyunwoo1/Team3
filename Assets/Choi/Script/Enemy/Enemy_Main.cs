@@ -42,6 +42,7 @@ namespace Choi
 
         // 추가: 정지 상태 플래그
         private bool isFrozen = false;
+        public bool overrideMovement = false;
         #endregion
 
         #region Ability Management
@@ -79,6 +80,11 @@ namespace Choi
             // 핵심: 정지 상태면 아무 것도 하지 않음
             if (isFrozen) return;
             if (gameManager.State != GameState.Playing) return;
+
+            if (!overrideMovement)
+            {
+                HandleBaseMovement();
+            }
 
             HandleBaseMovement();
             currentAbility?.OnTick();
