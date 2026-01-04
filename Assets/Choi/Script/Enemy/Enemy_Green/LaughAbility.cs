@@ -142,13 +142,13 @@ namespace Choi
                     // 최대 4배까지 커지도록 제한
                     if (currentScale.x < 4f)
                     {
-                        Vector3 targetScale = currentScale * 1.2f;
+                        Vector3 targetScale = currentScale * 1.1f;
 
                         //뒤로 물러날 목표 위치 계산 (현재 x포지션에서 왼쪽으로 1만큼 이동)
                         Vector3 startPos = owner.transform.position;
                         Vector3 targetPos = new Vector3(startPos.x - 5f, startPos.y, startPos.z);
 
-                        float lerpTime = 0.5f;
+                        float lerpTime = 0.8f;
                         float elapsed = 0f;
 
                         while (elapsed < lerpTime)

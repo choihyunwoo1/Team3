@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9107352374221440999}
-  - component: {fileID: 1000674027045461030}
+  - component: {fileID: 3099356635959509027}
   m_Layer: 0
   m_Name: SceneFader
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 4768553716092213784}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1000674027045461030
+--- !u!114 &3099356635959509027
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 912129139599546260}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ffdc749ce338f84db91da24e3522348, type: 3}
+  m_Script: {fileID: 11500000, guid: f5aff03650289e94f8db78f61960c84e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   img: {fileID: 8529004343178022630}
@@ -58,15 +58,6 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0
-    - serializedVersion: 3
-      time: 0.70419663
-      value: 0.33570528
-      inSlope: 1.1083932
-      outSlope: 1.1083932
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 1
