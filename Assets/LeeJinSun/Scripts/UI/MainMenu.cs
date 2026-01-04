@@ -15,16 +15,13 @@ namespace JS
         #endregion
 
         #region Unity Event Method
-        private void Awake()
-        {
-            fader = GetComponent<SceneFader>();
-        }
+
         #endregion
 
         #region Custom Method
         public void OnPlayButton()
         {
-            fader.FadeTo(loadToScene);
+            SceneFader.FadeTo(loadToScene);
         }
 
         public void OnQuitButton()

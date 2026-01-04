@@ -54,8 +54,8 @@ namespace JS
                 float newY = Mathf.Lerp(transform.position.y, targetY, Time.deltaTime * yFollowSmooth);
 
                 // X축은 고정 (보통 플레이어 왼쪽 일정 거리)
-                /*float fixedX = owner.player.position.x - 8f;
-                transform.position = new Vector3(fixedX, newY, transform.position.z);*/
+                float fixedX = owner.player.position.x - 8f;
+                transform.position = new Vector3(fixedX, newY, transform.position.z);
             }
         }
 
@@ -72,7 +72,7 @@ namespace JS
 
                 // [중요] Lerp를 쓸 때는 시작 지점(startPos)을 반드시 고정해야 미끄러지지 않음
                 Vector3 startPos = transform.position;
-                Vector3 preparePos = startPos + Vector3.right * retreatDistance;
+                Vector3 preparePos = startPos + Vector3.left * retreatDistance;
 
                 float retreatDuration = 0.4f; // 물러나는 동작의 소요 시간
                 float t = 0;
@@ -93,7 +93,7 @@ namespace JS
 
                 // 4. 돌진 공격 (X축으로 길게 이동)
                 if (animator != null) animator.SetBool("IsBounce", true);
-                Vector3 dashTarget = transform.position + Vector3.left * 25f;
+                Vector3 dashTarget = transform.position + Vector3.right * 25f;
                 while (Vector3.Distance(transform.position, dashTarget) > 0.5f)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, dashTarget, dashSpeed * Time.deltaTime);
