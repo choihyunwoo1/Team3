@@ -7,6 +7,7 @@ TagManager:
   - Wall
   - Ground
   - Obstacle
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -50,14 +51,14 @@ TagManager:
   - name: Enemy
     uniqueID: 3312956931
     locked: 0
+  - name: Ground
+    uniqueID: 1796477531
+    locked: 0
   - name: Object
     uniqueID: 443197479
     locked: 0
   - name: Player
     uniqueID: 2724306233
-    locked: 0
-  - name: Ground
-    uniqueID: 1796477531
     locked: 0
   m_RenderingLayers:
   - Default

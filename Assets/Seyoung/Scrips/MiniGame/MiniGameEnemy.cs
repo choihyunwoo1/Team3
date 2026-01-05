@@ -4,15 +4,15 @@ namespace Team3
 {
     public class MiniGameEnemy : MonoBehaviour
     {
-        public int scorePerHit = 10; // 데미지 1회당 점수
+        // 데미지 1당 점수 배율
+        public int scorePerDamage = 1;
 
         public void TakeDamage(int damage)
         {
-
-            // ⭐ 점수 누적
             if (ScoreManager.Instance != null)
             {
-                ScoreManager.Instance.AddScore(scorePerHit);
+                int score = damage * scorePerDamage;
+                ScoreManager.Instance.AddScore(score);
             }
         }
     }

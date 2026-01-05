@@ -5,14 +5,14 @@ namespace Team3
 {
     public class AttackItem : MonoBehaviour
     {
-        //아이템 트리거에 닿으면 아이템을 먹고, 이 아이템을 가지고 데미지 트리거에 들어가야 데미지를 입음
-        private SpriteRenderer itemspriteRenderer;
+        private SpriteRenderer spriteRenderer;
 
-        public bool eatItem = false;
+        // 🔥 전역 상태
+        public static bool IsItemActive = false;
 
         private void Awake()
         {
-            itemspriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -20,20 +20,29 @@ namespace Team3
             if (!other.CompareTag("Player"))
                 return;
 
-            StartCoroutine(TrueItem());
+            if (IsItemActive)
+                return;
+
+            StartCoroutine(ItemEffect());
         }
 
-        private IEnumerator TrueItem()
+        private IEnumerator ItemEffect()
         {
-            itemspriteRenderer.enabled= false;
-            eatItem = true;
-            Debug.Log("아이템 먹음");
+            IsItemActive = true;
+            SetAllItemsVisible(false);
+
             yield return new WaitForSeconds(5f);
 
-            itemspriteRenderer.enabled = true;
-            Debug.Log("아이템 활성화");
+            IsItemActive = false;
+            SetAllItemsVisible(true);
+        }
 
+        private void SetAllItemsVisible(bool value)
+        {
+            foreach (var item in FindObjectsOfType<AttackItem>())
+            {
+                item.spriteRenderer.enabled = value;
+            }
         }
     }
-    
 }
