@@ -10,9 +10,9 @@ namespace Choi
         [Header("UI")]
         [SerializeField] private GameObject readyUI;
         [SerializeField] private GameObject pauseUI;
+        [SerializeField] private GameObject pauseButton;
         [SerializeField] private GameObject gameOverUI;
         [SerializeField] private GameObject stageClearUI;
-
         private void OnEnable()
         {
             gameManager.OnStateChanged += HandleState;
@@ -31,7 +31,8 @@ namespace Choi
             readyUI.SetActive(false);
             pauseUI.SetActive(false);
             gameOverUI.SetActive(false);
-            stageClearUI.SetActive(false); 
+            stageClearUI.SetActive(false);
+            pauseButton.SetActive(true);
 
             switch (state)
             {
@@ -47,6 +48,7 @@ namespace Choi
                     // 게임오버 직전에 마스크 UI 끄기
                     if (MaskUIManager.Instance != null)
                         MaskUIManager.Instance.HideAll();
+                    pauseButton.SetActive(false);
                     gameOverUI.SetActive(true);
                     break;
 
@@ -54,6 +56,7 @@ namespace Choi
                     // 게임오버 직전에 마스크 UI 끄기
                     if (MaskUIManager.Instance != null)
                         MaskUIManager.Instance.HideAll();
+                    pauseButton.SetActive(false);
                     stageClearUI.SetActive(true);
                     break;
             }

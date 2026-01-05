@@ -3693,7 +3693,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &601244697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6763,12 +6763,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fader: {fileID: 930534361}
-  loadToScene: PlayScene
+  loadToScene: Intro
   miniGameScene: MiniGame
   diaryUI: {fileID: 601244696}
   optionUI: {fileID: 1689009212}
-  resetUI: {fileID: 0}
-  vibrateUI: {fileID: 0}
+  resetUI: {fileID: 1132199673}
+  vibrateUI: {fileID: 34037299}
 --- !u!1 &1076218504
 GameObject:
   m_ObjectHideFlags: 0
@@ -8152,7 +8152,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 950}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1288567905
 MonoBehaviour:

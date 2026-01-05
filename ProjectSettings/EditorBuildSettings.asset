@@ -7,7 +7,10 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Choi/Scene/MainMenu.unity
-    guid: 21ce2fcfce6d51d42923f6206f1e4ef9
+    guid: e7b44d86cb2a5bc4f8558902eb11fa63
+  - enabled: 1
+    path: Assets/Choi/Scene/Intro.unity
+    guid: 0921cdeadbe92d946997efcd04322953
   - enabled: 1
     path: Assets/Choi/Scene/PlayScene.unity
     guid: d4f784a94e6db97488b87826fbd54ea4

@@ -10,7 +10,7 @@ namespace Choi
     {
         #region Variables
         public SceneFader fader;
-        public string loadToScene = "PlayScene";
+        public string loadToScene = "Intro";
         public string miniGameScene = "MiniGame";
 
         public GameObject diaryUI;
