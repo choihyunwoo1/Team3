@@ -51,7 +51,7 @@ namespace Choi
 
             //슬라임 코루틴 시작
             StartCoroutine(SlimeSpitRoutine());
-            owner.speed *= 1f;
+            owner.speed *= 0.5f;
             Debug.Log("SlimeAbility: 루틴 시작");
         }
 
