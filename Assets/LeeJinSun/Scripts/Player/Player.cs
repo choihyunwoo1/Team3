@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace JS
@@ -13,16 +14,23 @@ namespace JS
         [Header("이동 설정")]
         [SerializeField] public float moveSpeed = 5f;
 
+        [Header("Wall Check")]
+        [SerializeField] private GameObject wallCheckLeft;
+        [SerializeField] private GameObject wallCheckRight;
+
         private Rigidbody2D rb2D;
         private AudioSource audioSource;
 
         [SerializeField] private bool isFrontBlocked;
         [SerializeField] private bool isGrounded;
+        private bool isDead = false;
         private bool jumpPressed;
 
         [SerializeField] private GameManager gameManager;
         [SerializeField] private CutsceneManager cutsceneManager;
         [SerializeField] private int moveDirection = 1;
+
+        public event Action<DeathCause> OnPlayerDied;
         #endregion
 
         #region Unity Event Method
@@ -55,14 +63,7 @@ namespace JS
                 TryJump();
                 jumpPressed = false;
             }
-        }
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (!collision.collider.CompareTag("Obstacle"))
-                return;
-
-            Die(DeathCause.Trap);
         }
         #endregion
 
@@ -91,22 +92,40 @@ namespace JS
         }
         public void ReverseDirection()
         {
-            moveDirection = -1;
+            moveDirection *= -1;
+            UpdateWallCheck();
+            RecheckFrontBlocked();
         }
+        private void UpdateWallCheck()
+        {
+            if (moveDirection > 0)
+            {
+                wallCheckRight.SetActive(true);
+                wallCheckLeft.SetActive(false);
+            }
+            else
+            {
+                wallCheckRight.SetActive(false);
+                wallCheckLeft.SetActive(true);
+            }
+        }
+        private void RecheckFrontBlocked()
+        {
+            var activeCheck = moveDirection > 0 ? wallCheckRight : wallCheckLeft;
+            var hit = Physics2D.OverlapCircle(activeCheck.transform.position, 0.1f, LayerMask.GetMask("Wall"));
+
+            SetFrontBlocked(hit != null);
+        }
+
         public void Die(DeathCause cause)
         {
-            // 이미 게임 오버 프로세스가 진행 중인 경우 중복 호출 방지 (선택적)
-            if (gameManager.CurrentState != GameState.Playing)
+            if (isDead)
                 return;
 
-            // 물리 정지
-            rb2D.linearVelocity = Vector2.zero;
-            rb2D.bodyType = RigidbodyType2D.Kinematic;
+            isDead = true;
 
-            gameManager.RequestGameOver(cause);
-
-            // 입력 및 중복 처리 방지
-            enabled = false;
+            // 애니메이션, 사운드 등 필요하면 추가
+            //CutsceneManager.Instance.PlayDeathCutscene(cause);
         }
 
         public void SetGrounded(bool grounded)
@@ -126,6 +145,7 @@ namespace JS
         {
             isFrontBlocked = blocked;
         }
+     
         #endregion
     }
 }
