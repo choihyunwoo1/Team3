@@ -20,7 +20,11 @@ TagManager:
   - Ground
   - Celling
   - Obstacle
+<<<<<<< HEAD
   - Particle
+=======
+  - Camera
+>>>>>>> 3a9512fbc93a8f6554e9db181e6f4a7835586fcc
   - 
   - 
   - 
