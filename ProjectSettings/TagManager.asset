@@ -20,7 +20,7 @@ TagManager:
   - Ground
   - Celling
   - Obstacle
-  - 
+  - Particle
   - 
   - 
   - 
@@ -61,6 +61,9 @@ TagManager:
     locked: 0
   - name: Enemy
     uniqueID: 1054684821
+    locked: 0
+  - name: Particle
+    uniqueID: 1453679159
     locked: 0
   m_RenderingLayers:
   - Default
