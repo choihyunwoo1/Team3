@@ -1,56 +1,45 @@
-using Choi;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameOverUI : MonoBehaviour
+namespace Team3
 {
-    #region Variables
-
-    //메뉴씬
-    private string loadToScene = "MainMenu";
-    private string ReadyUI = "Ready";
-
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI bestScoreText;
-    public TextMeshProUGUI newText;
-
-    #endregion
-
-    #region Unity Event Method
-    private void OnEnable()
+    public class GameOverUI : MonoBehaviour
     {
-        //게임오버 UI 값 설정
-        scoreText.text = MiniGameManager.Score.ToString();
+        public TMP_Text scoreText;
+        public TMP_Text bestScoreText;
+        public GameObject newText;
 
-        //베스트 스코어
-        int bestScore = PlayerPrefs.GetInt("BestScore", 0);
-        //베스트 스코어와 현재 스코어 비교해서 베스트 스코어 갱신
-        if (MiniGameManager.Score > bestScore)
+        private string loadToScene = "MainMenu";
+
+
+        private void OnEnable()
         {
-            bestScore = MiniGameManager.Score;
-            //베스트 스코어 저장
-            PlayerPrefs.SetInt("BestScore", bestScore);
+            int finalScore = ScoreManager.Instance.GetScore();
+            scoreText.text = finalScore.ToString();
 
-            //UI
-            newText.gameObject.SetActive(true);
+            int bestScore = PlayerPrefs.GetInt("BestScore", 0);
+            if (finalScore > bestScore)
+            {
+                bestScore = finalScore;
+                PlayerPrefs.SetInt("BestScore", bestScore);
+
+                if (newText != null)
+                    newText.SetActive(true);
+            }
+            bestScoreText.text = bestScore.ToString();
         }
-        bestScoreText.text = bestScore.ToString();
+
+        public void Retry()
+        {
+            string nowScene = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(nowScene);
+        }
+
+        public void Menu()
+        {
+            SceneManager.LoadScene(loadToScene);
+
+        }
     }
-    #endregion
-
-    #region Custom Method
-    public void Retry()
-    {
-        string nowScene = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(nowScene);
-    }
-
-    public void Menu()
-    {
-        SceneManager.LoadScene(loadToScene);
-
-    }
-
-    #endregion
 }

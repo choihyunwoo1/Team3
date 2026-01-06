@@ -1,7 +1,8 @@
 using UnityEngine;
 
 namespace Team3
-{
+{ 
+
     public class Meteor : MonoBehaviour
     {
         private void OnCollisionEnter2D(Collision2D other)
@@ -13,6 +14,7 @@ namespace Team3
                 if (playerMove != null)
                 {
                     playerMove.Die(); // 안전하게 호출
+                    
                 }
                 else
                 {

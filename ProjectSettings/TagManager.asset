@@ -8,6 +8,8 @@ TagManager:
   - Ground
   - Obstacle
   - Item
+  - Tile
+  - Meteor
   layers:
   - Default
   - TransparentFX
@@ -17,9 +19,9 @@ TagManager:
   - UI
   - Object
   - Enemy
-  - 
-  - 
-  - 
+  - Meteor
+  - Tile
+  - ground
   - 
   - 
   - 

@@ -13,10 +13,8 @@ namespace Team3
 
         private void Awake()
         {
-            if (Instance == null)
-                Instance = this;
-            else
-                Destroy(gameObject);
+            if (Instance == null) Instance = this;
+            else Destroy(gameObject);
         }
 
         public void AddScore(int value)
@@ -27,7 +25,13 @@ namespace Team3
 
         private void UpdateUI()
         {
-            scoreText.text = totalScore.ToString();
+            if (scoreText != null)
+                scoreText.text = totalScore.ToString();
+        }
+
+        public int GetScore()
+        {
+            return totalScore;
         }
     }
 }

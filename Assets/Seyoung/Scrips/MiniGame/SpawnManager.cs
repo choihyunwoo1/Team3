@@ -16,6 +16,9 @@ namespace Team3
         //스폰 높이 랜덤 범위 설정
         private float MinspawnX = -1.5f;
         private float MaxspawnX = 4.5f;
+
+        public PlayerMove player;
+
         #endregion
 
         #region Unity Event Method
@@ -27,6 +30,9 @@ namespace Team3
         }
         private void Update()
         {
+            // 플레이어 죽었으면 스폰 중지
+            if (player.IsDead())
+                return;
 
             //1초에 하나씩 스폰
             countdown += Time.deltaTime;
@@ -45,8 +51,6 @@ namespace Team3
         #region Custom Method
         private void MeteorSpawn()
         {
-            Debug.Log("SpawnTry");
-
             float spawnX = this.transform.position.x + Random.Range(MinspawnX, MaxspawnX);
             Vector3 spawnPosition = new Vector3(spawnX, transform.position.y, transform.position.z);
             Instantiate(meteorPrefab, spawnPosition, Quaternion.identity);

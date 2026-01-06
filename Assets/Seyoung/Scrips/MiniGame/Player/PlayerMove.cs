@@ -48,8 +48,9 @@ namespace Team3
 
         private void Update()
         {
-            if (gameManager.State != GameState.Playing)
+            if (gameManager.State != GameState.Playing || isDead)
                 return;
+
 
             // 좌우 이동 입력 (A / D)
             moveInput = Input.GetAxisRaw("Horizontal");
@@ -65,8 +66,9 @@ namespace Team3
 
         private void FixedUpdate()
         {
-            if (gameManager.State != GameState.Playing)
+            if (gameManager.State != GameState.Playing || isDead)
                 return;
+
 
             MoveHorizontal();
 
@@ -142,6 +144,12 @@ namespace Team3
 
             isDead = true;
             gameOverUI.SetActive(true);
+
+            Freeze();
+
+            // 입력 플래그 초기화
+            jumpPressed = false;
+            moveInput = 0f;
         }
 
         public void SetGrounded(bool grounded)
@@ -174,7 +182,18 @@ namespace Team3
         {
             moveSpeed = 5f * multiplier;
         }
+        public bool IsDead()
+        {
+            return isDead;
+        }
 
+        public void Freeze()
+        {
+            // 이동/점프 완전 정지
+            rb2D.linearVelocity = Vector2.zero;      // 현재 속도 0
+            rb2D.angularVelocity = 0f;         // 회전 속도 0
+            rb2D.isKinematic = true;           // 물리 제어 끄기
+        }
         #endregion
     }
 }

@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 6790989141777301341}
   - component: {fileID: 3419877675195693936}
   - component: {fileID: -4592874721120833905}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Meteor
-  m_TagString: Untagged
+  m_TagString: Meteor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &193247469540250316
 Transform:
