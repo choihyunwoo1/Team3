@@ -1,51 +1,60 @@
 using System.Collections;
-using Team3;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
-namespace Tema3
+namespace Team3
 {
     public class Dynamite : MonoBehaviour
     {
+        [Header("Damage")]
         public int damage = 10;
         public float cooldown = 3f;
+        public float dropInterval = 0.25f;
+
+        [Header("References")]
         public MiniGameEnemy enemy;
         public GameObject particle;
 
-        private bool canDamage = true;
-
+        private bool isRunning;
         private SpriteRenderer spriteRenderer;
 
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+
+            if (particle != null)
+                particle.SetActive(false);
         }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!canDamage)
-                return;
+            if (isRunning) return;
+            if (!other.CompareTag("Player")) return;
 
-            if (!other.CompareTag("Player"))
-                return;
+            StartCoroutine(TriggerDamage());
+        }
 
+        private IEnumerator TriggerDamage()
+        {
+            isRunning = true;
+
+            // 시각 효과
+            spriteRenderer.enabled = false;
+            if (particle != null)
+                particle.SetActive(true);
+
+            // 데미지 1회
             if (enemy != null)
                 enemy.TakeDamage(damage);
 
-            StartCoroutine(DamageCooldown());
-        }
-
-        private IEnumerator DamageCooldown()
-        {
-            canDamage = false;
-            spriteRenderer.enabled = false;
-            particle.SetActive(true);
-
             yield return new WaitForSeconds(cooldown);
 
-            canDamage = true;
+            // 복구
             spriteRenderer.enabled = true;
-            particle.SetActive(false);
+            if (particle != null)
+                particle.SetActive(false);
 
+            isRunning = false;
         }
     }
+    
 }

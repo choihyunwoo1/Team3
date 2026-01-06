@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Choi
 {
+
     public enum EnemyBuffType
     {
         None,
@@ -229,5 +230,6 @@ namespace Choi
             transform.eulerAngles = new Vector3(0, newY, 0);
         }
         #endregion
+
     }
 }

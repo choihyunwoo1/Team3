@@ -7,51 +7,58 @@ namespace Team3
     {
         public int damage = 10;
         public float cooldown = 3f;
+        public float repeatInterval = 0.25f;
+
         public MiniGameEnemy enemy;
+        public Animator animator;
         public GameObject particle;
 
-        private Animator animator;
-        private bool canDamage = true;
-
-        private void Awake()
-        {
-            animator = GetComponent<Animator>();
-        }
+        private bool isRunning;
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!canDamage)
+            if (isRunning) return;
+            if (!other.CompareTag("Player")) return;
+
+            DamageItemState item = other.GetComponent<DamageItemState>();
+            DamageBuff buff = other.GetComponent<DamageBuff>();
+
+            // ❗ DamageItem 없으면 절대 작동 안 함
+            if (item == null || !item.HasItem)
                 return;
 
-            if (!other.CompareTag("Player"))
-                return;
+            int repeat = (buff != null && buff.HasBuff) ? 3 : 1;
 
-            // 🔥 전역 아이템 상태 체크
-            if (!AttackItem.IsItemActive)
-                return;
-
-            if (enemy != null)
-                enemy.TakeDamage(damage);
-
-            StartCoroutine(DamageCooldown());
+            StartCoroutine(Explode(other, repeat));
         }
 
-        private IEnumerator DamageCooldown()
+        private IEnumerator Explode(Collider2D player, int repeat)
         {
-            canDamage = false;
+            isRunning = true;
 
-            if (particle != null)
-                particle.SetActive(true);
+            for (int i = 0; i < repeat; i++)
+            {
+                if (animator != null)
+                    animator.SetTrigger("OnTrigger");
 
-            if (animator != null)
-                animator.SetTrigger("OnTrigger");
+                if (particle != null)
+                    particle.SetActive(true);
 
-            yield return new WaitForSeconds(cooldown);
+                if (enemy != null)
+                    enemy.TakeDamage(damage);
 
-            canDamage = true;
+                yield return new WaitForSeconds(repeatInterval);
+            }
 
             if (particle != null)
                 particle.SetActive(false);
+
+            // ⭐ 사용 후 무조건 소모
+            player.GetComponent<DamageItemState>()?.Consume();
+            player.GetComponent<DamageBuff>()?.Consume();
+
+            yield return new WaitForSeconds(cooldown);
+            isRunning = false;
         }
     }
 }

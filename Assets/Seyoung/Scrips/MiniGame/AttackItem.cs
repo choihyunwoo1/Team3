@@ -5,10 +5,9 @@ namespace Team3
 {
     public class AttackItem : MonoBehaviour
     {
+        [SerializeField] private float cooldown = 10f;
         private SpriteRenderer spriteRenderer;
-
-        // 🔥 전역 상태
-        public static bool IsItemActive = false;
+        private bool isActive;
 
         private void Awake()
         {
@@ -17,32 +16,25 @@ namespace Team3
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.CompareTag("Player"))
-                return;
+            if (isActive) return;
+            if (!other.CompareTag("Player")) return;
 
-            if (IsItemActive)
-                return;
+            DamageItemState state = other.GetComponent<DamageItemState>();
+            if (state == null) return;
 
-            StartCoroutine(ItemEffect());
+            state.Activate();
+            StartCoroutine(Cooldown());
         }
 
-        private IEnumerator ItemEffect()
+        private IEnumerator Cooldown()
         {
-            IsItemActive = true;
-            SetAllItemsVisible(false);
+            isActive = true;
+            spriteRenderer.enabled = false;
 
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(cooldown);
 
-            IsItemActive = false;
-            SetAllItemsVisible(true);
-        }
-
-        private void SetAllItemsVisible(bool value)
-        {
-            foreach (var item in FindObjectsOfType<AttackItem>())
-            {
-                item.spriteRenderer.enabled = value;
-            }
+            spriteRenderer.enabled = true;
+            isActive = false;
         }
     }
 }
