@@ -159,6 +159,20 @@ namespace Team3
         {
             isFrontBlocked = blocked;
         }
+        public float GetMoveSpeed()
+        {
+            return moveSpeed;
+        }
+
+        public void SetMoveSpeed(float value)
+        {
+            moveSpeed = value;
+        }
+        public void SetSpeedMultiplier(float multiplier)
+        {
+            moveSpeed = 5f * multiplier;
+        }
+
         #endregion
     }
 }
