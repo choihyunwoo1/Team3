@@ -1,4 +1,4 @@
-//The implementation is based on this article:http://rbarraza.com/html5-canvas-pageflip/
+﻿//The implementation is based on this article:http://rbarraza.com/html5-canvas-pageflip/
 //As the rbarraza.com website is not live anymore you can get an archived version from web archive 
 //or check an archived version that I uploaded on my website: https://dandarawy.com/html5-canvas-pageflip/
 
@@ -276,9 +276,7 @@ public class Book : MonoBehaviour {
     }
     public void DragRightPageToPoint(Vector3 point)
     {
-        // [수정] 마지막 페이지(6, 7페이지 세트)라면 더 이상 오른쪽으로 넘기지 못하게 방어
-        // 현재 페이지가 전체 개수 - 2보다 크거나 같으면 마지막 장입니다.
-        if (currentPage >= bookPages.Length - 2) return;
+        if (currentPage >= bookPages.Length) return;
         pageDragging = true;
         mode = FlipMode.RightToLeft;
         f = point;
@@ -313,10 +311,7 @@ public class Book : MonoBehaviour {
     }
     public void DragLeftPageToPoint(Vector3 point)
     {
-        // [수정] 마지막 페이지(6, 7페이지 세트)라면 더 이상 오른쪽으로 넘기지 못하게 방어
-        // 현재 페이지가 전체 개수 - 2보다 크거나 같으면 마지막 장입니다.
-        if (currentPage >= bookPages.Length - 2) return;
-
+        if (currentPage <= 0) return;
         pageDragging = true;
         mode = FlipMode.LeftToRight;
         f = point;
@@ -326,7 +321,7 @@ public class Book : MonoBehaviour {
 
         Right.gameObject.SetActive(true);
         Right.transform.position = LeftNext.transform.position;
-        Right.sprite = bookPages[currentPage -1];
+        Right.sprite = bookPages[currentPage - 1];
         Right.transform.eulerAngles = new Vector3(0, 0, 0);
         Right.transform.SetAsFirstSibling();
 
