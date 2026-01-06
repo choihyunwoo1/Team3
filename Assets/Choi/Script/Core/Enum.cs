@@ -8,7 +8,8 @@ namespace Choi
         GameOverCutscene,
         GameOver,
         StageClearCutscene,   
-        StageClear            
+        StageClear,
+        Die
     }
 
     public enum DeathCause

@@ -28,9 +28,11 @@ namespace Team3
         private bool isDead = false;
         private bool jumpPressed;
 
-        [SerializeField] private GameManager gameManager;
+        [SerializeField] private MiniGameManager gameManager;
         [SerializeField] private CutsceneManager cutsceneManager;
         [SerializeField] private int moveDirection = 1;
+
+        public GameObject gameOverUI;
 
         public event Action<DeathCause> OnPlayerDied;
         #endregion
@@ -133,13 +135,13 @@ namespace Team3
             SetFrontBlocked(hit != null);
         }
 
-        public void Die(DeathCause cause)
+        public void Die()
         {
             if (isDead)
                 return;
 
             isDead = true;
-            CutsceneManager.Instance.PlayDeathCutscene(cause);
+            gameOverUI.SetActive(true);
         }
 
         public void SetGrounded(bool grounded)

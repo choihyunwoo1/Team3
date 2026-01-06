@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Choi/Scene/PlayScene.unity
     guid: d4f784a94e6db97488b87826fbd54ea4
+  - enabled: 1
+    path: Assets/Seyoung/MiniGame.unity
+    guid: d34b0694afea45547a86386bad366c63
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

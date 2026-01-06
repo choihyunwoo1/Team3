@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Choi
 {
-    public class GameManager : MonoBehaviour, IGameStateProvider
+    public class MiniGameManager : MonoBehaviour, IGameStateProvider
     {
         #region Variables
         public GameState State { get; private set; } = GameState.Ready;
@@ -16,8 +16,36 @@ namespace Choi
         [SerializeField] private DiarySystem diarySystem;
         [SerializeField] private CutsceneManager cutsceneManager;
 
-        #endregion
+        private static bool isStart;
 
+        //게임 오버 체크
+        private static bool isDeath;
+
+        //게임 스코어
+        private static int score;
+
+        public static float spawnValue = 0f;
+
+        #endregion
+        #region Property
+        public static bool IsStart
+        {
+            get { return isStart; }
+            set { isStart = value; }
+        }
+
+        public static bool IsDeath
+        {
+            get { return isDeath; }
+            set { isDeath = value; }
+        }
+
+        public static int Score
+        {
+            get { return score; }
+            set { score = value; }
+        }
+        #endregion
         #region Unity Event Method
         private void Awake()
         {
@@ -26,6 +54,12 @@ namespace Choi
 
         private void Start()
         {
+            //초기화
+            IsStart = false;
+            isDeath = false;
+            Score = 0;
+            spawnValue = 0f;
+
             SetState(GameState.Ready);
 
             // 컷씬 종료 이벤트 수신 → 다이어리 해금 처리
