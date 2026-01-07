@@ -22,6 +22,8 @@ namespace Team3
 
         private Rigidbody2D rb2D;
         private AudioSource audioSource;
+        private float mobileMoveInput = 0f;
+
 
         [SerializeField] private bool isFrontBlocked;
         [SerializeField] private bool isGrounded;
@@ -53,12 +55,16 @@ namespace Team3
 
 
             // 좌우 이동 입력 (A / D)
-            moveInput = Input.GetAxisRaw("Horizontal");
+            moveInput = Input.GetAxisRaw("Horizontal") + MobileInput.Horizontal;
 
-            // 점프 입력 (W / Space / 마우스 클릭)
+            if (MobileInput.Jump)
+            {
+                jumpPressed = true;
+            }
+
+            // 점프 입력 (W / Space )
             if (Input.GetKeyDown(KeyCode.W) ||
-                Input.GetKeyDown(KeyCode.Space) ||
-                Input.GetMouseButtonDown(0))
+                Input.GetKeyDown(KeyCode.Space))
             {
                 jumpPressed = true;
             }
@@ -95,13 +101,20 @@ namespace Team3
 
         private void MoveHorizontal()
         {
-            rb2D.linearVelocity = new Vector2(moveInput * moveSpeed, rb2D.linearVelocity.y);
+            float finalInput = moveInput + mobileMoveInput;
+            finalInput = Mathf.Clamp(finalInput, -1f, 1f);
 
-            // 이동 방향 갱신
-            if (moveInput > 0)
+            rb2D.linearVelocity = new Vector2(
+                finalInput * moveSpeed,
+                rb2D.linearVelocity.y
+            );
+
+            // 방향 갱신도 finalInput 기준
+            if (finalInput > 0)
                 moveDirection = 1;
-            else if (moveInput < 0)
+            else if (finalInput < 0)
                 moveDirection = -1;
+
         }
 
         public void ReverseDirection()
@@ -194,6 +207,29 @@ namespace Team3
             rb2D.angularVelocity = 0f;         // 회전 속도 0
             rb2D.isKinematic = true;           // 물리 제어 끄기
         }
+        public void SetMoveInput(float value)
+        {
+            moveInput = value;
+        }
+
+        public void Jump()
+        {
+            if (gameManager.State != GameState.Playing || isDead)
+                return;
+
+            jumpPressed = true;
+        }
+        // 모바일 버튼용
+        public void MobileMove(float value)
+        {
+            mobileMoveInput = value;
+        }
+
+        public void MobileStop()
+        {
+            mobileMoveInput = 0f;
+        }
+
         #endregion
     }
 }

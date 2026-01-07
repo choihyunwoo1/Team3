@@ -38,12 +38,12 @@ namespace Team3
                     playerMove.Die();
 
                 SpawnImpactEffect();
-                Destroy(gameObject,2f);
+                Destroy(gameObject,1f);
             }
             else if (other.gameObject.CompareTag("Ground"))
             {
                 SpawnImpactEffect();
-                Destroy(gameObject, 2f);
+                Destroy(gameObject, 1f);
             }
         }
 
