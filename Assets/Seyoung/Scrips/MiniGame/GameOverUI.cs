@@ -9,6 +9,7 @@ namespace Team3
         public TMP_Text scoreText;
         public TMP_Text bestScoreText;
         public GameObject newText;
+        public GameObject puaseUI;
 
         private string loadToScene = "MainMenu";
 
@@ -39,6 +40,12 @@ namespace Team3
         public void Menu()
         {
             SceneManager.LoadScene(loadToScene);
+
+        }
+        public void Continue()
+        {
+            puaseUI.SetActive(false);
+            Time.timeScale = 1f; //게임 재생
 
         }
     }

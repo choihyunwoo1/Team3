@@ -6,8 +6,6 @@ namespace Team3
     {
         public GameObject pauseUI;
 
-        private bool pause = false;
-
         private void Start()
         {
             pauseUI.SetActive(false);
@@ -15,7 +13,8 @@ namespace Team3
         public void Pause()
         {
             pauseUI.SetActive(true);
-            pause = true;
+            Time.timeScale = 0f; // ⭐ 게임 정지
+
         }
     }
 }

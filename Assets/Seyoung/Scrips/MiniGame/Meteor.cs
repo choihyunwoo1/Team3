@@ -6,14 +6,18 @@ namespace Team3
     {
         [SerializeField] private float fallSpeed = 5f;
 
+        [Header("Impact Effect")]
+        [SerializeField] private GameObject impactEffectPrefab;
+        public Transform firePoint;
+
         private Rigidbody2D rb;
+
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
         }
 
-        // ⭐ SpawnManager에서 호출
         public void Init(float speed, float scale)
         {
             fallSpeed = speed;
@@ -33,12 +37,36 @@ namespace Team3
                 if (playerMove != null)
                     playerMove.Die();
 
-                Destroy(gameObject);
+                SpawnImpactEffect();
+                Destroy(gameObject,2f);
             }
             else if (other.gameObject.CompareTag("Ground"))
             {
-                Destroy(gameObject);
+                SpawnImpactEffect();
+                Destroy(gameObject, 2f);
             }
         }
+
+        // ⭐ 이펙트 생성 전용 메서드
+        private void SpawnImpactEffect()
+        {
+            if (impactEffectPrefab == null)
+                return;
+
+            // ⭐ firePoint가 있으면 거기서, 없으면 메테오 위치
+            Vector3 spawnPos = firePoint != null
+                ? firePoint.position
+                : transform.position;
+
+            GameObject effect = Instantiate(
+                impactEffectPrefab,
+                spawnPos,
+                Quaternion.identity
+            );
+
+            Destroy(effect, 2f);
+        }
+
     }
 }
+
