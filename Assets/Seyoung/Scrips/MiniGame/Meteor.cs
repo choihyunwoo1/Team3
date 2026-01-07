@@ -1,32 +1,42 @@
 using UnityEngine;
 
 namespace Team3
-{ 
-
+{
     public class Meteor : MonoBehaviour
     {
+        [SerializeField] private float fallSpeed = 5f;
+
+        private Rigidbody2D rb;
+
+        private void Awake()
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
+
+        // ⭐ SpawnManager에서 호출
+        public void Init(float speed, float scale)
+        {
+            fallSpeed = speed;
+            transform.localScale = Vector3.one * scale;
+        }
+
+        private void Start()
+        {
+            rb.linearVelocity = Vector2.down * fallSpeed;
+        }
+
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                // PlayerMove 스크립트 가져오기
                 PlayerMove playerMove = other.gameObject.GetComponent<PlayerMove>();
                 if (playerMove != null)
-                {
-                    playerMove.Die(); // 안전하게 호출
-                    
-                }
-                else
-                {
-                    Debug.LogWarning("PlayerMove 스크립트가 Player에 없음!");
-                }
+                    playerMove.Die();
 
-                // 운석 파괴
                 Destroy(gameObject);
             }
             else if (other.gameObject.CompareTag("Ground"))
             {
-                // 바닥에 닿으면 운석 파괴
                 Destroy(gameObject);
             }
         }
