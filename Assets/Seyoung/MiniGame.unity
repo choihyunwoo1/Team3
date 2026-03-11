@@ -2272,13 +2272,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
 <<<<<<< HEAD
-<<<<<<< HEAD
   m_SortingLayerID: 0
   m_SortingLayer: 0
-=======
-  m_SortingLayerID: -1717892679
-  m_SortingLayer: 1
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 =======
   m_SortingLayerID: -1717892679
   m_SortingLayer: 1
@@ -120113,9 +120108,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
-<<<<<<< HEAD
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
-=======
 >>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 --- !u!1 &639205737
 GameObject:
@@ -121075,11 +121067,7 @@ MonoBehaviour:
   Lens:
     FieldOfView: 34
 <<<<<<< HEAD
-<<<<<<< HEAD
     OrthographicSize: 5
-=======
-    OrthographicSize: 7
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 =======
     OrthographicSize: 7
 >>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
@@ -121110,11 +121098,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
 <<<<<<< HEAD
-<<<<<<< HEAD
   m_LocalPosition: {x: -0.72147465, y: -0.79491484, z: -18}
-=======
-  m_LocalPosition: {x: -1.751656, y: -0.83808076, z: -18}
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 =======
   m_LocalPosition: {x: -1.751656, y: -0.83808076, z: -18}
 >>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
@@ -124457,10 +124441,7 @@ SpriteRenderer:
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
-=======
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 --- !u!1 &1332719220
 GameObject:
   m_ObjectHideFlags: 0
@@ -124884,11 +124865,7 @@ Camera:
   field of view: 34
   orthographic: 1
 <<<<<<< HEAD
-<<<<<<< HEAD
   orthographic size: 5
-=======
-  orthographic size: 7
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 =======
   orthographic size: 7
 >>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
@@ -124917,11 +124894,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
 <<<<<<< HEAD
-<<<<<<< HEAD
   m_LocalPosition: {x: -0.72147477, y: -0.79491484, z: -18}
-=======
-  m_LocalPosition: {x: 6.2660527, y: -0.81408, z: -18}
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 =======
   m_LocalPosition: {x: 6.2660527, y: -0.81408, z: -18}
 >>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
@@ -125269,9 +125242,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
-<<<<<<< HEAD
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
-=======
 >>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 --- !u!1 &1463803619
 GameObject:
@@ -126212,11 +126182,8 @@ SpriteRenderer:
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 <<<<<<< HEAD
-<<<<<<< HEAD
 --- !u!1 &1629197730
 =======
-=======
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 --- !u!1 &1587004676
 >>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 GameObject:
@@ -131996,9 +131963,6 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
-=======
 >>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
   m_GameObject: {fileID: 1756634640}
   m_Enabled: 1
@@ -132036,13 +132000,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
 <<<<<<< HEAD
-<<<<<<< HEAD
   m_SortingLayerID: 0
   m_SortingLayer: 0
-=======
-  m_SortingLayerID: -1717892679
-  m_SortingLayer: 1
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 =======
   m_SortingLayerID: -1717892679
   m_SortingLayer: 1
@@ -133283,10 +133242,7 @@ SpriteRenderer:
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
-=======
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 --- !u!1 &1892987377
 GameObject:
   m_ObjectHideFlags: 0
@@ -133955,9 +133911,6 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
-=======
 >>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
   m_GameObject: {fileID: 1976372305}
   m_Enabled: 1
@@ -133995,13 +133948,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
 <<<<<<< HEAD
-<<<<<<< HEAD
   m_SortingLayerID: 0
   m_SortingLayer: 0
-=======
-  m_SortingLayerID: -1717892679
-  m_SortingLayer: 1
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 =======
   m_SortingLayerID: -1717892679
   m_SortingLayer: 1
@@ -134543,112 +134491,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2054603330
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
-=======
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2054603331}
-  - component: {fileID: 2054603333}
-  - component: {fileID: 2054603332}
-  m_Layer: 0
-  m_Name: Min2_0 (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2054603331
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2054603330}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.504028, y: -1.6367874, z: -1.5746443}
-  m_LocalScale: {x: 2.7505267, y: 2.6857984, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 999255008}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2054603332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2054603330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe2a700d82832214abbf7cd740063e02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  amplitude: {x: 0.15, y: 0.3}
-  speed: {x: 0.25, y: 0.5}
---- !u!212 &2054603333
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2054603330}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1717892679
-  m_SortingLayer: 1
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -5856759350171968775, guid: 87ae2bf0e78365f4fa42560e0dfbcae1, type: 3}
-  m_Color: {r: 0.39696437, g: 0.08050018, b: 0.6320754, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 7.35, y: 4.2}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!1 &2059602088
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135031,13 +134874,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
 <<<<<<< HEAD
-<<<<<<< HEAD
   m_SortingLayerID: 0
   m_SortingLayer: 0
-=======
-  m_SortingLayerID: -1717892679
-  m_SortingLayer: 1
->>>>>>> parent of bf202dd (세영 - 운석 아이템 텍스트 및 효과 수정 / 배경, 카메라 비율 수정)
 =======
   m_SortingLayerID: -1717892679
   m_SortingLayer: 1
